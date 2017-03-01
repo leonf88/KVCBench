@@ -11,7 +11,7 @@ FLINK_DIR="flink-$FLINK_VERSION"
 SPARK_DIR="spark-$SPARK_VERSION-bin-hadoop2.6"
 
 #Get one of the closet apache mirrors
-APACHE_MIRROR=$(curl 'https://www.apache.org/dyn/closer.cgi' |   grep -o '<strong>[^<]*</strong>' |   sed 's/<[^>]*>//g' |   head -1)
+APACHE_MIRROR=$(curl 'https://www.apache.org/dyn/closer.lua' |   grep -o '<strong>[^<]*</strong>' |   sed 's/<[^>]*>//g' |   head -1)
 
 fetch_untar_file() {
   local FILE="download-cache/$1"
@@ -38,8 +38,8 @@ fetch_untar_file() {
 }
 
 # Fetch Hadoop
-HADOOP_FILE="$HADOOP_DIR.tgz"
-fetch_untar_file "$HADOOP_FILE" "$APACHE_MIRROR/hadoop/hadoop-$HADOOP_VERSION/$HADOOP_FILE"
+HADOOP_FILE="$HADOOP_DIR.tar.gz"
+fetch_untar_file "$HADOOP_FILE" "$APACHE_MIRROR/hadoop/common/hadoop-$HADOOP_VERSION/$HADOOP_FILE"
 
 # Fetch Flink
 FLINK_FILE="$FLINK_DIR-bin-hadoop27-scala_${SCALA_BIN_VERSION}.tgz"
