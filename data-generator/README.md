@@ -26,5 +26,24 @@ We split the file to slices by
 
 ### K-Means
 
+K-Means data generator scripts usage:
+
+    Usage: kmeans_gen.py [options]
+
+    Options:
+      -h, --help            show this help message and exit
+      -w WORKER_SIZE, --worker=WORKER_SIZE
+                            number of worker process
+      -s FILE_SIZE, --filesize=FILE_SIZE
+                            each slice file size in mega-bytes
+      -n FILE_NUMBER, --filenum=FILE_NUMBER
+                            number of slice files
+      -d DIM, --dimension=DIM
+                            dimension for each record
+      -p DEST_PATH, --path=DEST_PATH
+                            destination path
+      --min=MIN_VALUE       maximum for each dimension
+      --max=MAX_VALUE       minimum for each dimension
+
 
 
