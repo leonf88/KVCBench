@@ -24,9 +24,8 @@
 
 package org.apache.spark.examples
 
-import common.IOCommon
 import org.apache.spark.SparkContext._
-import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.{IOCommon, SparkConf, SparkContext}
 
 /**
   * Computes the PageRank of URLs from an input file. Input file should
@@ -59,11 +58,14 @@ object SparkPageRank {
     var ranks = links.mapValues(v => 1.0)
 
     for (i <- 1 to iters) {
+      val startT = System.currentTimeMillis()
       val contribs = links.join(ranks).values.flatMap { case (urls, rank) =>
         val size = urls.size
         urls.map(url => (url, rank / size))
       }
       ranks = contribs.reduceByKey(_ + _).mapValues(0.15 + 0.85 * _)
+      val stopT = System.currentTimeMillis()
+      printf("Spark pagerank iteration %d costs %.2f sec.\n", i, (stopT - startT) / 1000.0f)
     }
 
     //    val output = ranks.collect()

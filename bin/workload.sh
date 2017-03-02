@@ -206,85 +206,71 @@ case $1 in
 
   new_kmeans "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
   ;;
+
 # Spark Jobs
   "30M_PR_SPK_5I")
-  S_DIR=/data/pagerank/30M
-  P_TAR=/pagerank/spark
+      S_DIR=/data/pagerank/30M
+      P_TAR=/output/pagerank/spark
 
-  do_pagerank $S_DIR $P_TAR "5"
+      do_pagerank $S_DIR $P_TAR "5"
   ;;
-
   "30M_PR_SPK_1I")
-  S_DIR=/data/pagerank/30M
-  P_TAR=/pagerank/spark
+      S_DIR=/data/pagerank/30M
+      P_TAR=/output/pagerank/spark
 
-  do_pagerank $S_DIR $P_TAR "1"
+      do_pagerank $S_DIR $P_TAR "1"
   ;;
-
-  "30M_PR_SPK_10I")
-  S_DIR=/data/pagerank/30M
-  P_TAR=/pagerank/spark
-
-  do_pagerank $S_DIR $P_TAR "10"
-  ;;
-
-  "10M_PR_SPK_10I")
-  S_DIR=/data/pagerank/10M
-  P_TAR=/pagerank/spark
-
-  do_pagerank $S_DIR $P_TAR "10"
-  ;;
-
-  "LiveJournal1_SPK")
-  S_DIR=/data/pagerank/soc-LiveJournal1
-  P_TAR=/pagerank/spark
-
-  do_pagerank $S_DIR $P_TAR "10"
-  ;;
-
-  "web-Google_SPK")
-  S_DIR=/data/pagerank/web-Google
-  P_TAR=/pagerank/spark
-
-  do_pagerank $S_DIR $P_TAR "10"
-  ;;
-
   "1M_PR_SPK_1I")
-  S_DIR=/data/pagerank/1M
-  P_TAR=/pagerank/spark
+      S_DIR=/data/pagerank/1M
+      P_TAR=/output/pagerank/spark
 
-  do_pagerank $S_DIR $P_TAR "1"
+      do_pagerank $S_DIR $P_TAR "1"
   ;;
+  "LiveJournal1_SPK")
+      S_DIR=/data/pagerank/soc-LiveJournal1
+      P_TAR=/output/pagerank/spark
 
+      do_pagerank $S_DIR $P_TAR "10"
+  ;;
+  "web-Google_SPK")
+      S_DIR=/data/pagerank/web-Google
+      P_TAR=/output/pagerank/spark
+
+      do_pagerank $S_DIR $P_TAR "10"
+  ;;
+  "com-friendster_SPK")
+      S_DIR=/data/pagerank/com-friendster
+      P_TAR=/output/pagerank/spark
+
+      do_pagerank $S_DIR $P_TAR "10"
+  ;;
   "1M_PR_SPK")
-  S_DIR=/data/pagerank/1M
-  P_TAR=/pagerank/spark
+      S_DIR=/data/pagerank/1M
+      P_TAR=/output/pagerank/spark
 
-  do_pagerank $S_DIR $P_TAR "10"
+      do_pagerank $S_DIR $P_TAR "10"
   ;;
-
   "10M_PR_SPK")
-  S_DIR=/data/pagerank/10M
-  P_TAR=/pagerank/spark
+      S_DIR=/data/pagerank/10M
+      P_TAR=/output/pagerank/spark
 
-  do_pagerank $S_DIR $P_TAR "10"
+      do_pagerank $S_DIR $P_TAR "10"
   ;;
-
   "30M_PR_SPK")
-  S_DIR=/data/pagerank/30M
-  P_TAR=/pagerank/spark
+      S_DIR=/data/pagerank/30M
+      P_TAR=/output/pagerank/spark
 
-  do_pagerank $S_DIR $P_TAR "10"
+      do_pagerank $S_DIR $P_TAR "10"
   ;;
   
   "1M_KM_SPK")
 
-  SOURCE_PATH=/kmeans/data/1M
-  CENTERS_PATH=/kmeans/data/centers/centers.100d.25p
-  K_CENTERS=25
-  ITER_NUM=10
+      SOURCE_PATH=/kmeans/data/1M
+      CENTERS_PATH=/kmeans/data/centers/centers.100d.25p
+      K_CENTERS=25
+      ITER_NUM=10
 
-  do_kmeans2 $SOURCE_PATH $CENTERS_PATH $K_CENTERS $ITER_NUM
+      do_kmeans2 $SOURCE_PATH $CENTERS_PATH $K_CENTERS $ITER_NUM
   ;;
   
   "10M_KM_SPK")

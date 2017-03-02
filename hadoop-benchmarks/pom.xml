@@ -27,5 +27,17 @@
             <artifactId>hadoop-common</artifactId>
             <version>${hadoop.mr2.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.mahout</groupId>
+            <artifactId>mahout-core</artifactId>
+            <!--<scope>system</scope>-->
+            <!--<systemPath>${project.basedir}/lib/mahout-core-0.9.jar</systemPath>-->
+            <version>0.12.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.mahout</groupId>
+            <artifactId>mahout-integration</artifactId>
+            <version>0.12.2</version>
+        </dependency>
     </dependencies>
 </project>

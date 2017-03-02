@@ -15,7 +15,7 @@ fi
 _do_spark_func()
 {
     # need set TARGET_PATH, SOURCE_PATH, JOB_NAME, HADOOP_HOME, LOG_NAME, REPORT_NAME
-#   del_data ${TARGET_PATH}
+    del_data ${TARGET_PATH}
     isSrcExist=`${HADOOP_HOME}/bin/hadoop fs -ls ${SOURCE_PATH}`
     if [ "$isSrcExist" = "" ]
     then
@@ -129,15 +129,25 @@ do_kmeans_spark()
 do_pagerank(){
 
 	SOURCE_PATH=$1
-	OUTPUT=$2
+	TARGET_PATH=$2
 	ITER_NUM=$3
 	JOB_NAME="Spark PageRank"
 
-	cmd="${SPARK_HOME}/bin/run-example org.apache.spark.examples.SparkPageRank2 \
-        ${SPARK_MASTER} \
+#	cmd="${SPARK_HOME}/bin/run-example org.apache.spark.examples.SparkPageRank \
+#        ${SPARK_MASTER} \
+#        ${HDFS_MASTER}/${SOURCE_PATH} \
+#        ${HDFS_MASTER}/${OUTPUT} \
+#        ${ITER_NUM}"
+
+    export SPARKBENCH_PROPERTIES_FILES=$_TESTDIR/conf/bench.conf
+    cmd="${SPARK_HOME}/bin/spark-submit \
+        --class org.apache.spark.examples.SparkPageRank \
+        --properties-file ${SPARK_PROP_CONF}
+        --master ${SPARK_MASTER} ${SPARK_BENCH_JAR} \
         ${HDFS_MASTER}/${SOURCE_PATH} \
-        ${ITER_NUM} ${HDFS_MASTER}/${OUTPUT}"
-	
+        ${HDFS_MASTER}/${TARGET_PATH} \
+        ${ITER_NUM}"
+
     _do_spark_func
 }
 
