@@ -29,12 +29,11 @@
         </description>
     </property>
 
-    <property>
-        <name>yarn.resourcemanager.scheduler.class</name>
-        <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler
-        </value>
-        <description>In case you do not want to use the default scheduler</description>
-    </property>
+    <!--<property>-->
+        <!--<name>yarn.resourcemanager.scheduler.class</name>-->
+        <!--<value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler</value>-->
+        <!--<description>In case you do not want to use the default scheduler</description>-->
+    <!--</property>-->
 
     <property>
         <name>yarn.resourcemanager.address</name>
@@ -54,6 +53,12 @@
         <name>yarn.nodemanager.address</name>
         <value>0.0.0.0:8034</value>
         <description>the nodemanagers bind to this port</description>
+    </property>
+
+    <property>
+        <name>yarn.resourcemanager.webapp.address</name>
+        <value>0.0.0.0:18088</value>
+        <description>The http address of the RM web application.</description>
     </property>
 
     <property>

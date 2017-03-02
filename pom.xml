@@ -22,7 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <hadoop.mr1.version>1.2.1</hadoop.mr1.version>
-        <hadoop.mr2.version>2.7.2</hadoop.mr2.version>
+        <hadoop.mr2.version>2.7.3</hadoop.mr2.version>
         <spark.version>1.6.2</spark.version>
         <flink.version>0.10.1</flink.version>
         <scala.binary.version>2.11</scala.binary.version>

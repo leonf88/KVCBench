@@ -10,9 +10,6 @@ HADOOP_DIR="hadoop-$HADOOP_VERSION"
 FLINK_DIR="flink-$FLINK_VERSION"
 SPARK_DIR="spark-$SPARK_VERSION-bin-hadoop2.6"
 
-#Get one of the closet apache mirrors
-APACHE_MIRROR=$(curl 'https://www.apache.org/dyn/closer.lua' |   grep -o '<strong>[^<]*</strong>' |   sed 's/<[^>]*>//g' |   head -1)
-
 fetch_untar_file() {
   local FILE="download-cache/$1"
   local URL=$2
@@ -37,15 +34,28 @@ fetch_untar_file() {
   tar -xzvf "$FILE"
 }
 
-# Fetch Hadoop
-HADOOP_FILE="$HADOOP_DIR.tar.gz"
-fetch_untar_file "$HADOOP_FILE" "$APACHE_MIRROR/hadoop/common/hadoop-$HADOOP_VERSION/$HADOOP_FILE"
+if [[ $# == 1 ]];
+then
+  #Get one of the closet apache mirrors
+  APACHE_MIRROR=$(curl 'https://www.apache.org/dyn/closer.lua' |   grep -o '<strong>[^<]*</strong>' |   sed 's/<[^>]*>//g' |   head -1)
 
-# Fetch Flink
-FLINK_FILE="$FLINK_DIR-bin-hadoop27-scala_${SCALA_BIN_VERSION}.tgz"
-fetch_untar_file "$FLINK_FILE" "$APACHE_MIRROR/flink/flink-$FLINK_VERSION/$FLINK_FILE"
+  # Fetch Hadoop
+  HADOOP_FILE="$HADOOP_DIR.tar.gz"
+  fetch_untar_file "$HADOOP_FILE" "$APACHE_MIRROR/hadoop/common/hadoop-$HADOOP_VERSION/$HADOOP_FILE"
 
-# Fetch Spark
-SPARK_FILE="$SPARK_DIR.tgz"
-fetch_untar_file "$SPARK_FILE" "$APACHE_MIRROR/spark/spark-$SPARK_VERSION/$SPARK_FILE"
+  # Fetch Flink
+  FLINK_FILE="$FLINK_DIR-bin-hadoop27-scala_${SCALA_BIN_VERSION}.tgz"
+  fetch_untar_file "$FLINK_FILE" "$APACHE_MIRROR/flink/flink-$FLINK_VERSION/$FLINK_FILE"
+
+  # Fetch Spark
+  SPARK_FILE="$SPARK_DIR.tgz"
+  fetch_untar_file "$SPARK_FILE" "$APACHE_MIRROR/spark/spark-$SPARK_VERSION/$SPARK_FILE"
+else
+  # use source file to create the environment variables
+  PATH=`pwd`/$HADOOP_DIR/bin:$PATH
+  PATH=`pwd`/$FLINK_DIR/bin:$PATH
+  PATH=`pwd`/$SPARK_DIR/bin:$PATH
+  export PATH
+  echo $PATH
+fi
 
