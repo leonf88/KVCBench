@@ -38,7 +38,7 @@ ldfunc()
   fi
 }
 
-CONFIG_FILE="conf/conf.sh"
+CONFIG_FILE="conf/config.sh"
 if [ -f "$CONFIG_FILE" ]; then
   source "$CONFIG_FILE"
 else

@@ -28,8 +28,8 @@ for n in `cat conf/slaves`;do
   cnt=$((cnt+1))
 done
 
-USER=nbtest
-GROUP=nbtest
+USER=lf
+GROUP=lf
 DSTAT_SLEEP=0
 
 # Some basic functions for job execution
@@ -64,6 +64,8 @@ do
 
   # Wait for idle
   sleep $DSTAT_SLEEP
+
+  echo "Start monitoring"
   # Iterate each stage.
   for STAGE in ${STAGES[@]}
   do
@@ -73,25 +75,26 @@ do
     do
       case $STAGE in
       "PERF")   
-      # Start perf
-      #ssh $USER@$HOST "nohup sudo perf record -F 100 -e cycles,instructions,branch-misses,cache-misses,stalled-cycles-frontend -a -o $TESTDIR/tmp/PERF_${job}_${HOST}.data" &> /dev/null &;;
-      ssh $USER@$HOST "nohup sudo perf record -F 100 -e cycles,instructions,branch-misses,cache-misses,stalled-cycles-frontend,L1-dcache-load-misses,L1-icache-load-misses,LLC-load-misses,dTLB-load-misses,iTLB-load-misses -a -o $TESTDIR/tmp/PERF_${job}_${HOST}.data" &> /dev/null &
+          # Start perf
+          #ssh $USER@$HOST "nohup sudo perf record -F 100 -e cycles,instructions,branch-misses,cache-misses,stalled-cycles-frontend -a -o $TESTDIR/tmp/PERF_${job}_${HOST}.data" &> /dev/null &;;
+          ssh $USER@$HOST "nohup sudo perf record -F 100 -e cycles,instructions,branch-misses,cache-misses,stalled-cycles-frontend,L1-dcache-load-misses,L1-icache-load-misses,LLC-load-misses,dTLB-load-misses,iTLB-load-misses -a -o $TESTDIR/tmp/PERF_${job}_${HOST}.data" &> /dev/null &
        ;;
       "DSTAT")
-      # Start dstat
-      ssh $USER@$HOST "nohup dstat --time --cpu --mem --disk --net --output $TESTDIR/tmp/DSTAT_${job}_${HOST}.csv > /dev/null" &> /dev/null &
+          # Start dstat
+          ssh $USER@$HOST "nohup dstat --time --cpu --mem --disk --net --output $TESTDIR/tmp/DSTAT_${job}_${HOST}.csv > /dev/null" &> /dev/null &
       ;;
       "ALL")
-      # Start dstat and perf
-      ssh $USER@$HOST "nohup dstat --time --cpu --mem --disk --net --output $TESTDIR/tmp/DSTAT_${job}_${HOST}.csv > /dev/null" &> /dev/null &
-      ssh $USER@$HOST "nohup sudo perf record -F 100 -e cycles,instructions,branch-misses,cache-misses,stalled-cycles-frontend,L1-dcache-load-misses,L1-icache-load-misses,LLC-load-misses,dTLB-load-misses,iTLB-load-misses,rAA24,r0149,r0185 -a -o $TESTDIR/tmp/PERF_${job}_${HOST}.data" &> /dev/null &
-      #ssh $USER@$HOST "nohup taskset -c 7 dstat --time --cpu --mem --disk --net -C 0,1,2,3,4,5,6 --output $TESTDIR/tmp/DSTAT_${job}_${HOST}.csv > /dev/null" &> /dev/null &
-      #ssh $USER@$HOST "nohup sudo perf record -F 100 -e cycles,instructions,branch-misses,cache-misses,stalled-cycles-frontend -a -o $TESTDIR/tmp/PERF_${job}_${HOST}.data" &> /dev/null &
-      #ssh $USER@$HOST "nohup sudo taskset -c 7 perf record -C 0,1,2,3,4,5,6 -F 100 -e cycles,instructions,branch-misses,cache-misses,stalled-cycles-frontend,L1-dcache-load-misses,L1-icache-load-misses,LLC-load-misses,dTLB-load-misses,iTLB-load-misses,rAA24,r0149,r0185 -a -o $TESTDIR/tmp/PERF_${job}_${HOST}.data" &> /dev/null &
+          # Start dstat and perf
+          ssh $USER@$HOST "nohup dstat --time --cpu --mem --disk --net --output $TESTDIR/tmp/DSTAT_${job}_${HOST}.csv > /dev/null" &> /dev/null &
+          ssh $USER@$HOST "nohup sudo perf record -F 100 -e cycles,instructions,branch-misses,cache-misses,stalled-cycles-frontend,L1-dcache-load-misses,L1-icache-load-misses,LLC-load-misses,dTLB-load-misses,iTLB-load-misses,rAA24,r0149,r0185 -a -o $TESTDIR/tmp/PERF_${job}_${HOST}.data" &> /dev/null &
+          #ssh $USER@$HOST "nohup taskset -c 7 dstat --time --cpu --mem --disk --net -C 0,1,2,3,4,5,6 --output $TESTDIR/tmp/DSTAT_${job}_${HOST}.csv > /dev/null" &> /dev/null &
+          #ssh $USER@$HOST "nohup sudo perf record -F 100 -e cycles,instructions,branch-misses,cache-misses,stalled-cycles-frontend -a -o $TESTDIR/tmp/PERF_${job}_${HOST}.data" &> /dev/null &
+          #ssh $USER@$HOST "nohup sudo taskset -c 7 perf record -C 0,1,2,3,4,5,6 -F 100 -e cycles,instructions,branch-misses,cache-misses,stalled-cycles-frontend,L1-dcache-load-misses,L1-icache-load-misses,LLC-load-misses,dTLB-load-misses,iTLB-load-misses,rAA24,r0149,r0185 -a -o $TESTDIR/tmp/PERF_${job}_${HOST}.data" &> /dev/null &
       ;;
       esac
     done;
 
+    echo "Start Running Job $JOB_NAME"
     # Start time
     t1=`date +%s`
   
@@ -102,19 +105,23 @@ do
     # End time
     t2=`date +%s`
 
+    echo "Stop monitoring"
     for HOST in ${NODES[@]}
     do
       case $STAGE in
       "PERF")   
-      # End perf
-      ssh $USER@$HOST "sudo killall perf -s INT";;
+          # End perf
+          ssh $USER@$HOST "sudo killall perf -s INT"
+       ;;
       "DSTAT")
-      # End dstat
-      ssh $USER@$HOST "sudo killall python -s INT";;
+          # End dstat
+          ssh $USER@$HOST "sudo killall python -s INT"
+       ;;
       "ALL")
-      # End dstat and perf
-      ssh $USER@$HOST "sudo killall perf -s INT"
-      ssh $USER@$HOST "sudo killall python -s INT";;
+          # End dstat and perf
+          ssh $USER@$HOST "sudo killall perf -s INT"
+          ssh $USER@$HOST "sudo killall python -s INT"
+      ;;
       esac
     done;
     # Print time
