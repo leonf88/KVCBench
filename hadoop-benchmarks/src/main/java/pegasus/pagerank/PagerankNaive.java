@@ -432,7 +432,7 @@ public class PagerankNaive extends Configured implements Tool {
             fs.rename(output_path, vector_path);
             long stopT = System.currentTimeMillis();
 
-            System.out.printf("Iteration %d costs %.2f sec.", i, (stopT - startT) / 1000.0f);
+            System.out.printf("PEGASUS pagerank iteration %d costs %.2f sec.", i, (stopT - startT) / 1000.0f);
         }
 
         if (i == niteration) {

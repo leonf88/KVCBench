@@ -154,32 +154,30 @@ do_kmeans_had()
 
     _do_hadoop_func
 }
-# Input: $1 is edges path. $2 is vector path, $3 is output path. $4 is number of nodes,5 is the maxium reds per node.
+# Input: $1 is edges path. $2 is vector path, $3 is output path, $4 is number of nodes, $5 is the maxium reds per node.
 do_pagerank_had()
-{ 
+{
+    # use pegasus to run pagerank
+
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
 
     SOURCE_PATH=${1}
-	TMP_PATH="pr_tempmv"
-	VEC_PATH=${2}
-	PRVEC_PATH="pr_vector"
-	del_data $PRVEC_PATH
-    copy_data $VEC_PATH $PRVEC_PATH
-    TARGET_PATH=${3}
-	let "I=2**${4}"
+    TARGET_PATH=${2}
+	NODES_NUMBER=${3}
+    REDS=$((${4} * ${HOSTS_NUM}))
 	MAX_ITERS=${5}
-    REDS=$((${6} * ${HOSTS_NUM}))
     JOB_NAME="pagerank"
 
-	del_data $TMP_PATH
-
     cmd="${HADOOP_HOME}/bin/hadoop jar \
-        ${HADOOP_BENCH_JAR} org.ict.pegasus.pagerank.PagerankNaive \
-        ${SOURCE_PATH} ${PRVEC_PATH} ${TMP_PATH} ${TARGET_PATH} $I $REDS ${MAX_ITERS} nosym new"
+        ${HADOOP_BENCH_JAR} pegasus.pagerank.PagerankNaive \
+        ${SOURCE_PATH} \
+        ${TARGET_PATH} \
+        ${NODES_NUMBER} \
+        ${REDS} \
+        ${MAX_ITERS} \
+        nosym new"
 
     _do_hadoop_func
-	del_data $TMP_PATH
-	del_data $PRVEC_PATH
 
 }
 
