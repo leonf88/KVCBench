@@ -42,7 +42,7 @@ check_log()
 del_data()
 {
     DEL_DIR=${1}
-    ${HADOOP_HOME}/bin/hadoop fs -rmr ${DEL_DIR}
+    ${HADOOP_HOME}/bin/hadoop fs -rm -r ${DEL_DIR}
 }
 copy_data()
 {
@@ -181,23 +181,26 @@ check_wc_result()
 
 clear_cache(){
     echo "clear cache"
-    for host in localhost `cat ${MPI_D_SLAVES}`;do
+    SLAVES_CONF="$_TESTDIR/conf/slaves"
+    for host in localhost `cat ${SLAVES_CONF}`;do
         ssh -t $host "sudo sync;sudo bash -c 'echo 3 > /proc/sys/vm/drop_caches'" &> /dev/null
     done
 }
 
 sync(){
-    for host in localhost `cat ${MPI_D_SLAVES}`;do
+    SLAVES_CONF="$_TESTDIR/conf/slaves"
+    for host in localhost `cat ${SLAVES_CONF}`;do
         ssh -t $host "sudo sync"
     done
 }
 
 start_dstat(){
     dname=$1
-    DSTAT_HOSTNAME_ATTANCH=`head -n1 $_TESTDIR/conf/slaves`
+    SLAVES_CONF="$_TESTDIR/conf/slaves"
+    DSTAT_HOSTNAME_ATTANCH=`head -n1 $SLAVES_CONF`
     DSTATA_LOG="$_TESTDIR/logs/${NB_DATE}"
     mkdir -p ${DSTATA_LOG}
-    for host in `cat ${MPI_D_SLAVES}`;do
+    for host in `cat ${SLAVES_CONF}`;do
         echo ssh ${host} "mkdir -p ${DSTATA_LOG}"
         ssh ${host} "mkdir -p ${DSTATA_LOG}"
     done
@@ -215,7 +218,7 @@ start_dstat(){
     dpid=$!
     dpid2=()
     cnt=0
-    for host in `cat ${MPI_D_SLAVES}`;do
+    for host in `cat ${SLAVES_CONF}`;do
         ssh -t ${host} "dstat --time --cpu --mem --disk --net --output ${dstat_logFile}_${host} > /dev/null" &
         dpid2[cnt]=$!
         cnt=$((cnt+1))
@@ -226,6 +229,7 @@ start_dstat(){
 }
 
 stop_dstat(){
+    SLAVES_CONF="$_TESTDIR/conf/slaves"
     if [ "$DSTAT_START_TAG" = "1" ]; then
         DSTAT_START_TAG=0
     else
@@ -234,7 +238,7 @@ stop_dstat(){
     sleep 60
     kill -9 $dpid ${dpid2[*]}
 
-    for host in `cat ${MPI_D_SLAVES}`;do
+    for host in `cat ${SLAVES_CONF}`;do
         for i in `ssh ${host} ps aux | grep dstat | awk '{print $2}'`;do
             ssh -t ${host} kill -9 $i;
         done
@@ -267,7 +271,8 @@ change_param(){
     lineNum=`sed -e "s/^#.*/#/" $MAPRED_FILE | grep -n $MAX_DATA_IN_MEM_PERCENT_KEY | awk -F":" '{print $1}'`
     sed -i "${lineNum}s/[0-9]\+\.[0-9]\+/$MAX_DATA_IN_MEM_PERCENT/" $MAPRED_FILE
 
-    for host in `cat ${MPI_D_SLAVES}`;do
+    SLAVES_CONF="$_TESTDIR/conf/slaves"
+    for host in `cat ${SLAVES_CONF}`;do
         echo "copy mapred to ${host}"
         scp -q ${MAPRED_FILE} ${host}:${MAPRED_FILE} 2>&1 >/dev/null
     done

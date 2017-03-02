@@ -141,26 +141,26 @@ do
   # Data process
   case $STAGE in 
   "PERF")
-  for file in `ls ${JOB_LOG_DIR}/PERF/*`
-  do
-    echo "${file}" >> ${JOB_LOG_DIR}/perf.log
-    perf report --stdio -i $file 2>/dev/null | grep -B 1 'Event count' >> ${JOB_LOG_DIR}/perf.log
-  done
+      for file in `ls ${JOB_LOG_DIR}/PERF/*`
+      do
+        echo "${file}" >> ${JOB_LOG_DIR}/perf.log
+        perf report --stdio -i $file 2>/dev/null | grep -B 1 'Event count' >> ${JOB_LOG_DIR}/perf.log
+      done
   ;;
   "DSTAT")
-  $TESTDIR/extDstat.py ${JOB_LOG_DIR}/DSTAT ${JOB_LOG_DIR}/dstat.log
+      python $TESTDIR/extDstat.py ${JOB_LOG_DIR}/DSTAT ${JOB_LOG_DIR}/dstat.log
   ;;
   "ALL")
-  mkdir ${JOB_LOG_DIR}/ALL/PERF -p
-  mv ${JOB_LOG_DIR}/ALL/PERF_* ${JOB_LOG_DIR}/ALL/PERF
-  mkdir ${JOB_LOG_DIR}/ALL/DSTAT -p
-  mv ${JOB_LOG_DIR}/ALL/DSTAT_* ${JOB_LOG_DIR}/ALL/DSTAT
-  for file in `ls ${JOB_LOG_DIR}/ALL/PERF/*`
-  do
-    echo "${file}" >> ${JOB_LOG_DIR}/perf.log
-    perf report --stdio -i $file 2>/dev/null | grep -B 1 'Event count' >> ${JOB_LOG_DIR}/perf.log
-  done
-  $TESTDIR/extDstat.py ${JOB_LOG_DIR}/ALL/DSTAT ${JOB_LOG_DIR}/dstat.log
+      mkdir ${JOB_LOG_DIR}/ALL/PERF -p
+      mv ${JOB_LOG_DIR}/ALL/PERF_* ${JOB_LOG_DIR}/ALL/PERF
+      mkdir ${JOB_LOG_DIR}/ALL/DSTAT -p
+      mv ${JOB_LOG_DIR}/ALL/DSTAT_* ${JOB_LOG_DIR}/ALL/DSTAT
+      for file in `ls ${JOB_LOG_DIR}/ALL/PERF/*`
+      do
+        echo "${file}" >> ${JOB_LOG_DIR}/perf.log
+        perf report --stdio -i $file 2>/dev/null | grep -B 1 'Event count' >> ${JOB_LOG_DIR}/perf.log
+      done
+      $TESTDIR/extDstat.py ${JOB_LOG_DIR}/ALL/DSTAT ${JOB_LOG_DIR}/dstat.log
   ;;
   esac
 

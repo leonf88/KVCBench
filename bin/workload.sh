@@ -27,59 +27,58 @@ case $1 in
   "30M_PR_HAD_1I")
       S_DIR=/data/pagerank/30M
       V_DIR=/data/pagerank/hadoop/30M/vec
-      H_TAR=/pagerank/hadoop
+      H_TAR=/output/pagerank/hadoop
       let "N=2**25"
 
-      do_pagerank_had $S_DIR $V_DIR $H_TAR $N 4 1
+      do_pagerank_had $S_DIR $H_TAR $N 4 1
   ;;
-
   "1M_PR_HAD_1I")
       S_DIR=/data/pagerank/1M
       V_DIR=/data/pagerank/hadoop/1M/vec
-      H_TAR=/pagerank/hadoop
+      H_TAR=/output/pagerank/hadoop
       let "N=2**20"
 
-      do_pagerank_had $S_DIR $V_DIR $H_TAR $N 4 1
+      do_pagerank_had $S_DIR $H_TAR $N 4 1
   ;;
   "web-Google_HAD")
       S_DIR=/data/pagerank/web-Google
       V_DIR=/data/pagerank/hadoop/web-Google/vec
-      H_TAR=/pagerank/hadoop
+      H_TAR=/output/pagerank/hadoop
       N=875713
 
-      do_pagerank_had $S_DIR $V_DIR $H_TAR $N 4 10
+      do_pagerank_had $S_DIR $H_TAR $N 4 10
   ;;
   "LiveJournal1_HAD")
       S_DIR=/data/pagerank/soc-LiveJournal1
       V_DIR=/data/pagerank/hadoop/soc-LiveJournal1/vec
-      H_TAR=/pagerank/hadoop
+      H_TAR=/output/pagerank/hadoop
       N=4847571
 
-      do_pagerank_had $S_DIR $V_DIR $H_TAR $N 4 10
+      do_pagerank_had $S_DIR $H_TAR $N 4 10
   ;;
   "com-friendster")
       S_DIR=/data/pagerank/com-friendster
       V_DIR=/data/pagerank/hadoop/com-friendster/vec
-      H_TAR=/pagerank/hadoop
+      H_TAR=/output/pagerank/hadoop
       N=65608366
 
-      do_pagerank_had $S_DIR $V_DIR $H_TAR $N 4 10
+      do_pagerank_had $S_DIR $H_TAR $N 4 10
   ;;
   "1M_PR_HAD")
       S_DIR=/data/pagerank/1M
       V_DIR=/data/pagerank/hadoop/1M/vec
-      H_TAR=/pagerank/hadoop
+      H_TAR=/output/pagerank/hadoop
       let "N=2**20"
 
-      do_pagerank_had $S_DIR $V_DIR $H_TAR $N 4 10
+      do_pagerank_had $S_DIR $H_TAR $N 4 10
   ;;
   "10M_PR_HAD")
       S_DIR=/data/pagerank/10M
       V_DIR=/data/pagerank/hadoop/10M/vec
-      H_TAR=/pagerank/hadoop
+      H_TAR=/output/pagerank/hadoop
       let "N=2**23"
 
-      do_pagerank_had $S_DIR $V_DIR $H_TAR $N 4 10
+      do_pagerank_had $S_DIR $H_TAR $N 4 10
   ;;
   "30M_PR_HAD")
       S_DIR=/data/pagerank/30M
@@ -289,46 +288,42 @@ case $1 in
   ;;
   
   "10M_KM_SPK")
+      SOURCE_PATH=/kmeans/data/10M
+      CENTERS_PATH=/kmeans/data/centers/centers.100d.25p
+      K_CENTERS=25
+      ITER_NUM=10
 
-  SOURCE_PATH=/kmeans/data/10M
-  CENTERS_PATH=/kmeans/data/centers/centers.100d.25p
-  K_CENTERS=25
-  ITER_NUM=10
-
-  do_kmeans2 $SOURCE_PATH $CENTERS_PATH $K_CENTERS $ITER_NUM
+      do_kmeans2 $SOURCE_PATH $CENTERS_PATH $K_CENTERS $ITER_NUM
   ;;
   
   "30M_KM_SPK")
+      SOURCE_PATH=/kmeans/data/30M
+      CENTERS_PATH=/kmeans/data/centers/centers.100d.25p
+      K_CENTERS=25
+      ITER_NUM=10
 
-  SOURCE_PATH=/kmeans/data/30M
-  CENTERS_PATH=/kmeans/data/centers/centers.100d.25p
-  K_CENTERS=25
-  ITER_NUM=10
-
-  do_kmeans2 $SOURCE_PATH $CENTERS_PATH $K_CENTERS $ITER_NUM
+      do_kmeans2 $SOURCE_PATH $CENTERS_PATH $K_CENTERS $ITER_NUM
   ;;
-  
+
   "KDD_KM_SPK")
+      SOURCE_PATH=/kmeans/data/data_kddcup04
+      CENTERS_PATH=/kmeans/data/centers/centers.kdd
+      K_CENTERS=25
+      ITER_NUM=10
 
-  SOURCE_PATH=/kmeans/data/data_kddcup04
-  CENTERS_PATH=/kmeans/data/centers/centers.kdd
-  K_CENTERS=25
-  ITER_NUM=10
-
-  do_kmeans2 $SOURCE_PATH $CENTERS_PATH $K_CENTERS $ITER_NUM
+      do_kmeans2 $SOURCE_PATH $CENTERS_PATH $K_CENTERS $ITER_NUM
   ;;
   "30M_PR_GRX")
+      SOURCE_PATH=/data/pagerank/30M
+      OUTPUT_PATH=/pagerank/spark
+      ITER_NUM=10
+      E_PART=28
 
-  SOURCE_PATH=/data/pagerank/30M
-  OUTPUT_PATH=/pagerank/spark
-  ITER_NUM=10
-  E_PART=28
-
-  do_pagerank_graphx ${SOURCE_PATH} ${OUTPUT_PATH} ${ITER_NUM} ${E_PART}
+      do_pagerank_graphx ${SOURCE_PATH} ${OUTPUT_PATH} ${ITER_NUM} ${E_PART}
   ;;
 
 # self-test
-
   *)
-  echo "Job undefined!";;
+    echo "Job undefined!"
+  ;;
 esac

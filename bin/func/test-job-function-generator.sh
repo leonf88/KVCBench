@@ -16,7 +16,7 @@ _create_date(){
     # need Set TARGET_PATH, MAPS_PER_HOSTS, MEGABYTES_PER_MAP, JOB_NAME before
     echo "Doing ${JOB_NAME} to HDFS ${TARGET_PATH}" | tee -a "$LOG_NAME"
 
-    ${HADOOP_HOME}/bin/hadoop fs -rmr ${TARGET_PATH}
+    ${HADOOP_HOME}/bin/hadoop fs -rm -r ${TARGET_PATH}
     i=3
     for((;i!=0;i--)){
         startLine=`wc -l ${LOG_NAME} | awk '{print $1}'`
@@ -28,16 +28,16 @@ _create_date(){
         then 
             break 
         fi
-        ${HADOOP_HOME}/bin/hadoop fs -rmr ${TARGET_PATH}
+        ${HADOOP_HOME}/bin/hadoop fs -rm -r ${TARGET_PATH}
         sleep 15
     }
     if [ "$had_stat" = "0" ]
     then
         echo "[OK] Hadoop ${JOB_NAME} `basename $TARGET_PATH`" | tee -a $REPORT_NAME
-        ${HADOOP_HOME}/bin/hadoop fs -rmr ${TARGET_PATH}/_*
+        ${HADOOP_HOME}/bin/hadoop fs -rm -r ${TARGET_PATH}/_*
     else
         echo "[FAIL] Hadoop ${JOB_NAME} `basename $TARGET_PATH`" | tee -a $REPORT_NAME
-        ${HADOOP_HOME}/bin/hadoop fs -rmr ${TARGET_PATH}
+        ${HADOOP_HOME}/bin/hadoop fs -rm -r ${TARGET_PATH}
     fi
 
     startLine=0

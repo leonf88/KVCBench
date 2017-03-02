@@ -154,6 +154,7 @@ do_kmeans_had()
 
     _do_hadoop_func
 }
+
 # Input: $1 is edges path. $2 is vector path, $3 is output path, $4 is number of nodes, $5 is the maxium reds per node.
 do_pagerank_had()
 {

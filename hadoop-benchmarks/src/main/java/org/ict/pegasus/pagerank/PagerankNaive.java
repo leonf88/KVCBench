@@ -32,8 +32,6 @@ public class PagerankNaive extends Configured implements Tool {
     protected Path tempmv_path = null;
     protected Path output_path = null;
     protected String local_output_path;
-    protected Path minmax_path = new Path("pr_minmax");
-    protected Path distr_path = new Path("pr_distr");
     protected int number_nodes = 0;
     protected int niteration = 1;
     protected double mixing_c = 0.8500000238418579D;

@@ -23,8 +23,6 @@ import java.util.Properties
 import org.apache.hadoop.io.compress.CompressionCodec
 import org.apache.hadoop.io.{NullWritable, Text}
 import org.apache.hadoop.mapred.SequenceFileOutputFormat
-import org.apache.spark.rdd.RDD
-import org.apache.spark.{SparkContext, SparkException}
 
 import scala.collection.JavaConversions._
 import scala.collection.mutable.HashMap

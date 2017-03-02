@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
+CUR_DIR=`dirname $0`
+CUR_DIR=`cd "$CUR_DIR"; pwd`
+
 export LOADED_CONFIG=true
+
+MPI_D_SLAVES=$CUR_DIR/slaves
 
 # mahout
 MAHOUT_HOME="/home/nbtest/develop/mahout-distribution-0.9"
