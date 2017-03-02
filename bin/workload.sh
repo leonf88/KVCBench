@@ -10,18 +10,18 @@ ldfunc
 
 case $1 in
   "test_mpid")
-  S_DIR=tiny
-  M_TAR=tiny-mpid
-  do_text_wc_mpid_local "${S_DIR}" "${M_TAR}-wc" "1"
-#  do_text_sort_mpid_local "${S_DIR}" "${M_TAR}-st" "1" "1"
-#  do_text_grep_mpid "${S_DIR}" "${M_TAR}-gp" "1" 
+      S_DIR=tiny
+      M_TAR=tiny-mpid
+      do_text_wc_mpid_local "${S_DIR}" "${M_TAR}-wc" "1"
+      # do_text_sort_mpid_local "${S_DIR}" "${M_TAR}-st" "1" "1"
+      # do_text_grep_mpid "${S_DIR}" "${M_TAR}-gp" "1"
   ;;
   "test_had")
-  S_DIR=tiny
-  H_TAR=tiny-had
-  do_text_sort_had "${S_DIR}" "${H_TAR}-st" "1"
-#  do_text_wc_had "${S_DIR}" "${H_TAR}-wc"
-#  do_text_grep_had "${S_DIR}" "${H_TAR}-gp" 
+      S_DIR=tiny
+      H_TAR=tiny-had
+      do_text_sort_had "${S_DIR}" "${H_TAR}-st" "1"
+      # do_text_wc_had "${S_DIR}" "${H_TAR}-wc"
+      # do_text_grep_had "${S_DIR}" "${H_TAR}-gp"
   ;;
 # Hadoop Jobs
   "30M_PR_HAD_1I")
