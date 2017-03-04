@@ -23,7 +23,8 @@ case $1 in
       # do_text_wc_had "${S_DIR}" "${H_TAR}-wc"
       # do_text_grep_had "${S_DIR}" "${H_TAR}-gp"
   ;;
-# Hadoop Jobs
+
+  # Hadoop PageRank Jobs
   "30M_PR_HAD_1I")
       S_DIR=/data/pagerank/30M
       V_DIR=/data/pagerank/hadoop/30M/vec
@@ -56,7 +57,7 @@ case $1 in
 
       do_pagerank_had $S_DIR $H_TAR $N 4 10
   ;;
-  "com-friendster")
+  "com-friendster_HAD")
       S_DIR=/data/pagerank/com-friendster
       V_DIR=/data/pagerank/hadoop/com-friendster/vec
       H_TAR=/output/pagerank/hadoop
@@ -88,6 +89,8 @@ case $1 in
 
       do_pagerank_had $S_DIR $H_TAR $N 4 10
   ;;
+
+  # Hadoop K-Means Jobs
   "KDD_KM_HAD")
       S_DIR=/kmeans/data/data_kddcup04
       H_TAR=/kmeans/hadoop
@@ -116,8 +119,29 @@ case $1 in
 
       do_kmeans_had $S_DIR $H_TAR $CENTERS_PATH 4 25 10 0.5
   ;;
+  "1M_KM_HAD_NEW")
+      S_DIR=/data/kmeans/1M/data
+      H_TAR=/data/kmeans/1M/cluster
+      OUTPUT_HDFS=/output/kmeans/hadoop/1M
 
-# DataMPI Jobs
+      do_kmeans_had $S_DIR $H_TAR $OUTPUT_HDFS 10 0.5
+  ;;
+  "10M_KM_HAD_NEW")
+      S_DIR=/data/kmeans/10M/data
+      H_TAR=/data/kmeans/10M/cluster
+      OUTPUT_HDFS=/output/kmeans/hadoop/10M
+
+      do_kmeans_had $S_DIR $H_TAR $OUTPUT_HDFS 10 0.5
+  ;;
+  "30M_KM_HAD_NEW")
+      S_DIR=/data/kmeans/30M/data
+      H_TAR=/data/kmeans/30M/cluster
+      OUTPUT_HDFS=/output/kmeans/hadoop/30M
+
+      do_kmeans_had $S_DIR $H_TAR $OUTPUT_HDFS 10 0.5
+  ;;
+
+  # DataMPI Jobs
   "Friendster_DM")
 
   S_DIR=/data/pagerank/com-friendster
@@ -299,14 +323,39 @@ case $1 in
 
       do_kmeans2 $SOURCE_PATH $CENTERS_PATH $K_CENTERS $ITER_NUM
   ;;
-  "30M_PR_GRX")
-      SOURCE_PATH=/data/pagerank/30M
-      OUTPUT_PATH=/pagerank/spark
-      ITER_NUM=10
-      E_PART=28
 
-      do_pagerank_graphx ${SOURCE_PATH} ${OUTPUT_PATH} ${ITER_NUM} ${E_PART}
+  "1M_KM_SPK_NEW")
+
+      SOURCE_PATH=/data/kmeans/1M/data
+      K_CENTERS=25
+      ITER_NUM=10
+
+      do_kmeans $SOURCE_PATH $K_CENTERS $ITER_NUM
   ;;
+  "10M_KM_SPK_NEW")
+
+      SOURCE_PATH=/data/kmeans/10M/data
+      K_CENTERS=25
+      ITER_NUM=10
+
+      do_kmeans $SOURCE_PATH $K_CENTERS $ITER_NUM
+  ;;
+  "30M_KM_SPK_NEW")
+
+      SOURCE_PATH=/data/kmeans/30M/data
+      K_CENTERS=25
+      ITER_NUM=10
+
+      do_kmeans $SOURCE_PATH $K_CENTERS $ITER_NUM
+  ;;
+#  "30M_PR_GRX")
+#      SOURCE_PATH=/data/pagerank/30M
+#      OUTPUT_PATH=/pagerank/spark
+#      ITER_NUM=10
+#      E_PART=28
+#
+#      do_pagerank_graphx ${SOURCE_PATH} ${OUTPUT_PATH} ${ITER_NUM} ${E_PART}
+#  ;;
 
 # self-test
   *)

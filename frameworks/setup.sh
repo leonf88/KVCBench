@@ -5,10 +5,12 @@ SCALA_SUB_VERSION=${SCALA_SUB_VERSION:-"8"}
 FLINK_VERSION=${FLINK_VERSION:-"1.1.2"}
 SPARK_VERSION=${SPARK_VERSION:-"1.6.2"}
 HADOOP_VERSION=${HADOOP_VERSION:-"2.7.3"}
+MAHOUT_VERSION=${MAHOUT_VERSION:-"0.12.2"}
 
 HADOOP_DIR="hadoop-$HADOOP_VERSION"
 FLINK_DIR="flink-$FLINK_VERSION"
 SPARK_DIR="spark-$SPARK_VERSION-bin-hadoop2.6"
+MAHOUT_DIR="apache-mahout-distribution-${MAHOUT_VERSION}"
 
 fetch_untar_file() {
   local FILE="download-cache/$1"
@@ -50,6 +52,10 @@ then
   # Fetch Spark
   SPARK_FILE="$SPARK_DIR.tgz"
   fetch_untar_file "$SPARK_FILE" "$APACHE_MIRROR/spark/spark-$SPARK_VERSION/$SPARK_FILE"
+
+  # Fetch Mahout
+  MAHOUT_FILE="$MAHOUT_DIR.tar.gz"
+  fetch_untar_file "$MAHOUT_FILE" "$APACHE_MIRROR/mahout/$MAHOUT_VERSION/$MAHOUT_FILE"
 else
   # use source file to create the environment variables
   PATH=`pwd`/$HADOOP_DIR/bin:$PATH

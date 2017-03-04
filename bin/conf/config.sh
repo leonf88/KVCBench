@@ -8,7 +8,7 @@ export LOADED_CONFIG=true
 MPI_D_SLAVES=$CUR_DIR/slaves
 
 # mahout
-MAHOUT_HOME="/home/nbtest/develop/mahout-distribution-0.9"
+MAHOUT_HOME="/home/lf/workplace/BenchScripts/frameworks/apache-mahout-distribution-0.12.2"
 
 # hadoop-1
 # HADOOP_HOME="/home/nbtest/develop/hadoop-1.2.1"
@@ -32,4 +32,5 @@ HDFS_MASTER="hdfs://172.22.1.21:9003"
 MAX_CORES=28
 EXEC_MEM=12g
 SPARK_BENCH_JAR="/home/lf/workplace/BenchScripts/spark-benchmarks/target/spark-benchmarks-1.0-SNAPSHOT.jar"
+SPARK_BENCH_JAR="/home/lf/workplace/BenchScripts/spark-benchmarks/target/spark-benchmarks-1.0-SNAPSHOT-jar-with-dependencies.jar"
 SPARK_PROP_CONF="/home/lf/workplace/BenchScripts/frameworks/spark-1.6.2-bin-hadoop2.6/conf/spark-defaults.conf"

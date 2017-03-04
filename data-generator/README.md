@@ -46,4 +46,23 @@ K-Means data generator scripts usage:
       --max=MAX_VALUE       minimum for each dimension
 
 
+Using autogen to generate KMeans data
 
+    INPUT_SAMPLE=/data/kmeans/1M/data
+    INPUT_CLUSTER=/data/kmeans/1M/cluster
+    NUM_OF_CLUSTERS=25
+    NUM_OF_SAMPLES=1000000
+    SAMPLES_PER_INPUTFILE=20000
+    DIMENSIONS=100
+    hadoop jar target/autogen-1.0-SNAPSHOT-jar-with-dependencies.jar org.apache.mahout.clustering.kmeans.GenKMeansDataset \
+        -D hadoop.job.history.user.location=${INPUT_SAMPLE} \
+        -sampleDir ${INPUT_SAMPLE} \
+        -clusterDir ${INPUT_CLUSTER} \
+        -numClusters ${NUM_OF_CLUSTERS} \
+        -numSamples ${NUM_OF_SAMPLES} \
+        -samplesPerFile ${SAMPLES_PER_INPUTFILE} \
+        -sampleDimension ${DIMENSIONS}
+
+P.S. the time will cost long, you can check the log on website to get the progress of the job like
+
+    http://lingcloud21:18088/cluster/container/container_1488591290688_0007_01_000001

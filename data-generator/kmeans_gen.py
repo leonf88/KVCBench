@@ -46,25 +46,25 @@ def gen_worker(p_id, file_number, file_size, store_path, dim, vmax, vmin):
 if __name__ == '__main__':
     parser = optparse.OptionParser()
     parser.add_option('-w', '--worker',
-                      action="store", dest="worker_size", help="number of worker process",
+                      action="store", dest="worker_size", help="number of worker process (default: 1)",
                       type='int', default=1)
     parser.add_option('-s', '--filesize',
-                      action="store", dest="file_size", help="each slice file size in mega-bytes",
+                      action="store", dest="file_size", help="each slice file size in mega-bytes (default: 234 [MB])",
                       type='int', default=234)
     parser.add_option('-n', '--filenum',
-                      action='store', dest="file_number", help="number of slice files",
+                      action='store', dest="file_number", help="number of slice files (default: 40)",
                       type='float', default=40.0)
     parser.add_option('-d', '--dimension',
-                      action='store', dest='dim', help="dimension for each record",
+                      action='store', dest='dim', help="dimension for each record (default: 100)",
                       type='int', default=100)
     parser.add_option('-p', '--path',
-                      action='store', dest='dest_path', help='destination path',
+                      action='store', dest='dest_path', help='destination path (default: .)',
                       type='string', default='.')
     parser.add_option('--min',
-                      action='store', dest='min_value', help="maximum for each dimension",
+                      action='store', dest='min_value', help="maximum for each dimension (default -80.0)",
                       type='float', default=-80.0)
     parser.add_option('--max',
-                      action='store', dest='max_value', help="minimum for each dimension",
+                      action='store', dest='max_value', help="minimum for each dimension (default 40.0)",
                       type='float', default=40)
 
     options, args = parser.parse_args()

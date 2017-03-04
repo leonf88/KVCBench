@@ -151,6 +151,26 @@ do_pagerank(){
     _do_spark_func
 }
 
+do_kmeans()
+{
+
+	SOURCE_PATH=$1
+	K_CENTERS=$2
+	MAX_ITERATION=$3
+
+	JOB_NAME="Spark Kmeans"
+
+    cmd="${SPARK_HOME}/bin/spark-submit \
+        --class org.apache.spark.examples.SparkKMeans \
+        --properties-file ${SPARK_PROP_CONF} \
+        --master ${SPARK_MASTER} ${SPARK_BENCH_JAR} \
+        --k $K_CENTERS \
+        --numIterations $MAX_ITERATION \
+        ${HDFS_MASTER}/${SOURCE_PATH}"
+
+    _do_spark_func
+}
+
 do_kmeans2(){
 
 	SOURCE_PATH=$1

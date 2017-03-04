@@ -135,22 +135,49 @@ do_text_grep_had()
     _do_hadoop_func
 }
 
+#do_kmeans_had()
+#{
+#    HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
+#
+#    SOURCE_PATH=${1}
+#    TARGET_PATH=${2}
+#    CENTERS_PATH=${3}
+#    REDS=$((${4} * ${HOSTS_NUM}))
+#    K=${5}
+#    ITER=${6}
+#    CONVERGEDIST=${7}
+#    JOB_NAME="kmeans"
+#
+#    cmd="$MAHOUT_HOME/bin/mahout hadoop jar $MAHOUT_EXAMPLE_JAR \
+#        org.ict.hadoop.kmeans.KmeansMahout \
+#        $SOURCE_PATH $TARGET_PATH $K $ITER $CONVERGEDIST $REDS $CENTERS_PATH"
+#
+#    _do_hadoop_func
+#}
+
 do_kmeans_had()
 {
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
 
-    SOURCE_PATH=${1}
-    TARGET_PATH=${2}
-    CENTERS_PATH=${3}
-    REDS=$((${4} * ${HOSTS_NUM}))
-    K=${5}
-    ITER=${6}
-    CONVERGEDIST=${7}
+    SOURCE_PATH=${1} # INPUT_SAMPLE
+    INPUT_CLUSTER=${2}
+    TARGET_PATH=${3}
+    MAX_ITERATION=${4}
+    CONVERGEDIST=${5}
     JOB_NAME="kmeans"
 
-    cmd="$MAHOUT_HOME/bin/mahout hadoop jar $MAHOUT_EXAMPLE_JAR \
-        org.ict.hadoop.kmeans.KmeansMahout \
-        $SOURCE_PATH $TARGET_PATH $K $ITER $CONVERGEDIST $REDS $CENTERS_PATH"
+    OPTION="-i ${SOURCE_PATH} \
+            -c ${INPUT_CLUSTER} \
+            -o ${TARGET_PATH} \
+            -x ${MAX_ITERATION} \
+            -dm org.apache.mahout.common.distance.EuclideanDistanceMeasure \
+            -ow \
+            -cd ${CONVERGEDIST} \
+            -xm mapreduce"
+
+            # use -cl to clustering
+
+    cmd="${MAHOUT_HOME}/bin/mahout kmeans ${OPTION}"
 
     _do_hadoop_func
 }
@@ -182,7 +209,7 @@ do_pagerank_had()
 
 }
 
-# 
+#
 do_seqfromdir_had()
 {
     INPUT=$1

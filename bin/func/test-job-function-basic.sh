@@ -42,7 +42,7 @@ check_log()
 del_data()
 {
     DEL_DIR=${1}
-    ${HADOOP_HOME}/bin/hadoop fs -rm -r ${DEL_DIR}
+    [ -n "$DEL_DIR" ] && ${HADOOP_HOME}/bin/hadoop fs -rm -r ${DEL_DIR}
 }
 copy_data()
 {

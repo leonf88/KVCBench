@@ -77,5 +77,5 @@ export SPARK_WORKER_INSTANCES=1
 export SPARK_WORKER_MEMORY=12g
 export SPARK_WORKER_CORES=4
 export SPARK_DAEMON_MEMORY=2g
-export SPARK_JAVA_OPTS="-verbose:gc -Dspark.local.dir=/mnt/lf_data/spark -Dspark.storage.memoryFraction=0.6 -Dspark.executor.memory=10g -DSPARK_MEM=2g"
+export SPARK_JAVA_OPTS="-verbose:gc -Dspark.local.dir=/mnt/lf_data/spark -Dspark.storage.memoryFraction=0.7 -Dspark.executor.memory=12g -DSPARK_MEM=2g"
 
