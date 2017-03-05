@@ -50,18 +50,22 @@ _do_hadoop_func()
     startLine=0
 }
 
-do_terasort_had()
+do_text_sort_had()
 {
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
 
     SOURCE_PATH=${1}
     TARGET_PATH=${2}
     REDS=$((${3} * ${HOSTS_NUM}))
-    JOB_NAME="terast"
-    
+	JOB_NAME="Hadoop Sort"
+
     cmd="${HADOOP_HOME}/bin/hadoop jar \
-        ${HADOOP_EXAMPLE_JAR} terasort \
-        -D mapred.reduce.tasks=${REDS} \
+        ${HADOOP_EXAMPLE_JAR} sort \
+         -r ${REDS} \
+        -outKey org.apache.hadoop.io.Text \
+        -outValue org.apache.hadoop.io.Text \
+        -inFormat org.apache.hadoop.mapreduce.lib.input.KeyValueTextInputFormat \
+        -outFormat org.apache.hadoop.mapreduce.lib.output.TextOutputFormat \
         ${SOURCE_PATH} ${TARGET_PATH}"
 
     _do_hadoop_func
@@ -75,7 +79,7 @@ do_text_wc_had()
     TARGET_PATH=${2}
     REDS=1
     JOB_NAME="Hadoop WordCount"
-    
+
     cmd="${HADOOP_HOME}/bin/hadoop jar \
         ${HADOOP_EXAMPLE_JAR} wordcount \
         ${SOURCE_PATH} ${TARGET_PATH}"
@@ -83,21 +87,18 @@ do_text_wc_had()
     _do_hadoop_func
 }
 
-do_text_sort_had()
+do_terasort_had()
 {
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
 
     SOURCE_PATH=${1}
     TARGET_PATH=${2}
     REDS=$((${3} * ${HOSTS_NUM}))
-	JOB_NAME="textst"
-
+    JOB_NAME="Hadoop TeraSort"
+    
     cmd="${HADOOP_HOME}/bin/hadoop jar \
-        ${HADOOP_EXAMPLE_JAR} org.apache.hadoop.examples.Sort -r ${REDS} \
-        -outKey org.apache.hadoop.io.Text \
-        -outValue org.apache.hadoop.io.Text \
-        -inFormat org.apache.hadoop.mapred.KeyValueTextInputFormat \
-        -outFormat org.apache.hadoop.mapred.TextOutputFormat \
+        ${HADOOP_EXAMPLE_JAR} terasort \
+        -D mapred.reduce.tasks=${REDS} \
         ${SOURCE_PATH} ${TARGET_PATH}"
 
     _do_hadoop_func

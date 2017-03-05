@@ -23,8 +23,14 @@ JOB_LIST=(
 #    "100G_TERA_SPK"
 
 #    "2G_WC_SPK"
+    "10G_WC_SPK"
+    "50G_WC_SPK"
+    "100G_WC_SPK"
 
-    "2G_ST_SPK"
+#    "2G_ST_SPK"
+    "10G_ST_SPK"
+    "50G_ST_SPK"
+    "100G_ST_SPK"
 )
 
 rm _job_list
@@ -32,11 +38,11 @@ for job in ${JOB_LIST[@]}; do
   echo $job >> _job_list
 done
 
-#del_data /output/tera
-#sleep 60
+del_data /output
+sleep 60
 
-export SPARKBENCH_PROPERTIES_FILES="$_TESTDIR/conf/bench-seq.conf"
-export SPARKBENCH_PROPERTIES_FILES="$_TESTDIR/conf/bench-txt.conf"
+export SPARKBENCH_PROPERTIES_FILES="$_TESTDIR/conf/bench-seq.conf" # for terasort
+export SPARKBENCH_PROPERTIES_FILES="$_TESTDIR/conf/bench-txt.conf" # for wc and st
 
 bash $SPARK_HOME/sbin/start-all.sh
 bash ./runtest-test.sh

@@ -55,7 +55,7 @@ object SparkPageRank {
         .text(s"input paths to examples")
         .required()
         .action((x, c) => c.copy(input = x))
-      opt[String]("<output>")
+      arg[String]("<output>")
         .text(s"output paths to examples")
         .required()
         .action((x, c) => c.copy(output = x))

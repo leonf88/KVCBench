@@ -19,8 +19,18 @@ JOB_LIST=(
 #    "60M_KM_HAD_NEW"
 
 #    "10G_TERA_HAD"
-    "50G_TERA_HAD"
+#    "50G_TERA_HAD"
 #    "100G_TERA_HAD"
+
+#    "2G_WC_HAD"
+    "10G_WC_HAD"
+    "50G_WC_HAD"
+    "100G_WC_HAD"
+
+#    "2G_ST_HAD"
+    "10G_ST_HAD"
+    "50G_ST_HAD"
+    "100G_ST_HAD"
 )
 
 rm _job_list
@@ -28,7 +38,7 @@ for job in ${JOB_LIST[@]}; do
   echo $job >> _job_list
 done
 
-del_data /output/tera
+del_data /output
 sleep 60
 
 bash $HADOOP_HOME/sbin/start-yarn.sh

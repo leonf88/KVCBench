@@ -66,22 +66,33 @@
             /home/lf/workplace/BenchScripts/spark-benchmarks/target/spark-benchmarks-1.0-SNAPSHOT-jar-with-dependencies.jar \
             hdfs://172.22.1.21:9003//data/terasort/2G-tera hdfs://172.22.1.21:9003//output/tera/2Gt
 
+* Sort
+
+        /home/lf/workplace/BenchScripts/frameworks/spark-1.6.2-bin-hadoop2.6/bin/spark-submit \
+            --class microbench.ScalaSort \
+            --properties-file /home/lf/workplace/BenchScripts/frameworks/spark-1.6.2-bin-hadoop2.6/conf/spark-defaults.conf \
+            --master spark://172.22.1.21:7077 \
+            /home/lf/workplace/BenchScripts/spark-benchmarks/target/spark-benchmarks-1.0-SNAPSHOT-jar-with-dependencies.jar \
+            --partitions 7 \
+            hdfs://172.22.1.21:9003//data/text/2G-text hdfs://172.22.1.21:9003//output/st/2G
+
 ## Flink Commands
 
 * TeraSort
 
         /home/lf/workplace/BenchScripts/frameworks/flink-1.1.2/bin/flink run \
             -c microbench.terasort.ScalaTeraSort \
-        	/home/lf/workplace/BenchScripts/flink-benchmarks/target/flink-benchmarks-1.0-SNAPSHOT.jar \
-        	--partitions 28 \
-        	hdfs://172.22.1.21:9003/data/terasort/2G-tera hdfs://172.22.1.21:9003/output/tera/2G
+            /home/lf/workplace/BenchScripts/flink-benchmarks/target/flink-benchmarks-1.0-SNAPSHOT.jar \
+            --partitions 28 \
+            hdfs://172.22.1.21:9003/data/terasort/2G-tera hdfs://172.22.1.21:9003/output/tera/2G
+
 * WordCount
 
         /home/lf/workplace/BenchScripts/frameworks/flink-1.1.2/bin/flink run \
-        -c microbench.ScalaWordCount \
-        /home/lf/workplace/BenchScripts/flink-benchmarks/target/flink-benchmarks-1.0-SNAPSHOT.jar \
-        --partitions 7 \
-        hdfs://172.22.1.21:9003//data/text/2G-text hdfs://172.22.1.21:9003//output/wc
+            -c microbench.ScalaWordCount \
+            /home/lf/workplace/BenchScripts/flink-benchmarks/target/flink-benchmarks-1.0-SNAPSHOT.jar \
+            --partitions 7 \
+            hdfs://172.22.1.21:9003//data/text/2G-text hdfs://172.22.1.21:9003//output/wc
 
 * Sort
 

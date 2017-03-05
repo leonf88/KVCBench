@@ -147,6 +147,7 @@ case $1 in
 
       do_kmeans_had $S_DIR $H_TAR $OUTPUT_HDFS 10 0.5
   ;;
+
   # Hadoop Terasort Jobs
   "2G_TERA_HAD")
       S_DIR=/data/terasort/2G-tera
@@ -171,6 +172,58 @@ case $1 in
       OUTPUT_HDFS=/output/tera/100G
 
       do_terasort_had $S_DIR $OUTPUT_HDFS 4
+  ;;
+
+  # Hadoop Sort Jobs
+  "2G_ST_HAD")
+      S_DIR=/data/text/2G-text
+      OUTPUT_HDFS=/output/st/2G
+
+      do_text_sort_had $S_DIR $OUTPUT_HDFS 1
+  ;;
+  "10G_ST_HAD")
+      S_DIR=/data/text/10G-text
+      OUTPUT_HDFS=/output/st/10G
+
+      do_text_sort_had $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "50G_ST_HAD")
+      S_DIR=/data/text/50G-text
+      OUTPUT_HDFS=/output/st/50G
+
+      do_text_sort_had $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "100G_ST_HAD")
+      S_DIR=/data/text/100G-text
+      OUTPUT_HDFS=/output/st/100G
+
+      do_text_sort_had $S_DIR $OUTPUT_HDFS 4
+  ;;
+
+  # Hadoop WordCount Jobs
+  "2G_WC_HAD")
+      S_DIR=/data/text/2G-text
+      OUTPUT_HDFS=/output/wc/2G
+
+      do_text_wc_had $S_DIR $OUTPUT_HDFS 1
+  ;;
+  "10G_WC_HAD")
+      S_DIR=/data/text/10G-text
+      OUTPUT_HDFS=/output/wc/10G
+
+      do_text_wc_had $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "50G_WC_HAD")
+      S_DIR=/data/text/50G-text
+      OUTPUT_HDFS=/output/wc/50G
+
+      do_text_wc_had $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "100G_WC_HAD")
+      S_DIR=/data/text/100G-text
+      OUTPUT_HDFS=/output/wc/100G
+
+      do_text_wc_had $S_DIR $OUTPUT_HDFS 4
   ;;
 
   # DataMPI Jobs
@@ -411,6 +464,24 @@ case $1 in
       OUTPUT_HDFS=/output/st/2G
 
       do_text_sort_spk $S_DIR $OUTPUT_HDFS 1
+  ;;
+  "10G_ST_SPK")
+      S_DIR=/data/text/10G-text
+      OUTPUT_HDFS=/output/st/10G
+
+      do_text_sort_spk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "50G_ST_SPK")
+      S_DIR=/data/text/50G-text
+      OUTPUT_HDFS=/output/st/50G
+
+      do_text_sort_spk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "100G_ST_SPK")
+      S_DIR=/data/text/100G-text
+      OUTPUT_HDFS=/output/st/100G
+
+      do_text_sort_spk $S_DIR $OUTPUT_HDFS 4
   ;;
 
   # Spark WordCount Jobs
