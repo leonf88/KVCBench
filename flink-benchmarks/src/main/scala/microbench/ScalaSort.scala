@@ -52,7 +52,7 @@ object ScalaSort {
     env.setParallelism(params.partitions)
 
     val counts = env.readTextFile(params.input).flatMap(new Tokenizer())
-      .sortPartition(0, Order.DESCENDING)
+      .sortPartition(0, Order.ASCENDING)
 
     counts.writeAsCsv(params.output, "\n", "\t")
     env.execute("Scala Sort Example")

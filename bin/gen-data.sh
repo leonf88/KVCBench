@@ -21,9 +21,13 @@ create_text(){
 }
 
 bash $HADOOP_HOME/sbin/start-yarn.sh
-create_text 10
-create_text 50
-create_text 100
-#create_tera 100
+#create_text 10
+create_text 20
+create_text 40
+create_text 80
+#create_tera 10
+create_tera 20
+create_tera 40
+create_tera 80
 
 bash $HADOOP_HOME/sbin/stop-yarn.sh

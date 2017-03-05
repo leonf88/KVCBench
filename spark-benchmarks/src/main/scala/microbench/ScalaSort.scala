@@ -17,16 +17,20 @@
 
 package microbench
 
+import org.apache.hadoop.io.{BytesWritable, Text}
+import org.apache.hadoop.mapreduce.lib.input.KeyValueTextInputFormat
+import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat
 import org.apache.spark._
-import org.apache.spark.rdd.RDD
 import scopt.OptionParser
-
-import scala.reflect.ClassTag
 
 
 object ScalaSort {
-  implicit def rddToHashedRDDFunctions[K: Ordering : ClassTag, V: ClassTag]
-  (rdd: RDD[(K, V)]) = new ConfigurableOrderedRDDFunctions[K, V, (K, V)](rdd)
+  //  implicit def rddToHashedRDDFunctions[K: Ordering : ClassTag, V: ClassTag]
+  //  (rdd: RDD[(K, V)]) = new ConfigurableOrderedRDDFunctions[K, V, (K, V)](rdd)
+
+  implicit def ArrayByteOrdering: Ordering[Array[Byte]] = Ordering.fromLessThan {
+    case (a, b) => (new BytesWritable(a).compareTo(new BytesWritable(b))) < 0
+  }
 
   case class Params(input: String = null,
                     output: String = null,
@@ -60,17 +64,18 @@ object ScalaSort {
   def run(params: Params) {
     val sparkConf = new SparkConf().setAppName("ScalaSort")
     val sc = new SparkContext(sparkConf)
-    val io = new IOCommon(sc)
 
-    //    val parallel = sc.getConf.getInt("spark.default.parallelism", sc.defaultParallelism)
-    //    val reducer = IOCommon.getProperty("hibench.default.shuffle.parallelism")
-    //      .getOrElse((parallel / 2).toString).toInt
+    val data = sc.newAPIHadoopFile[Text, Text, KeyValueTextInputFormat](params.input).map {
+      case (k, v) => (k.copyBytes, v.copyBytes)
+    }
 
-    val data = io.load[String](params.input).map((_, 1))
     val partitioner = new HashPartitioner(partitions = params.partitions)
-    val sorted = data.sortByKeyWithPartitioner(partitioner = partitioner).map(_._1)
+    val ordered_data = new ConfigurableOrderedRDDFunctions[Array[Byte], Array[Byte], (Array[Byte], Array[Byte])](data)
+    val sorted_data = ordered_data.sortByKeyWithPartitioner(partitioner = partitioner).map {
+      case (k, v) => (new Text(k), new Text(v))
+    }
 
-    io.save(params.output, sorted)
+    sorted_data.saveAsNewAPIHadoopFile(params.output, classOf[Text], classOf[Text], classOf[TextOutputFormat[Text, Text]])
     sc.stop()
   }
 }

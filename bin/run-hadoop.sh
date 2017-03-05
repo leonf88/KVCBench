@@ -18,19 +18,26 @@ JOB_LIST=(
 #    "30M_KM_HAD_NEW"
 #    "60M_KM_HAD_NEW"
 
+#    "2G_TERA_HAD"
 #    "10G_TERA_HAD"
-#    "50G_TERA_HAD"
-#    "100G_TERA_HAD"
+    "20G_TERA_HAD"
+    "40G_TERA_HAD"
+    "80G_TERA_HAD"
+#    "160G_TERA_HAD"
 
 #    "2G_WC_HAD"
-    "10G_WC_HAD"
-    "50G_WC_HAD"
-    "100G_WC_HAD"
+#    "10G_WC_HAD"
+    "20G_WC_HAD"
+    "40G_WC_HAD"
+    "80G_WC_HAD"
+#    "160G_WC_HAD"
 
 #    "2G_ST_HAD"
-    "10G_ST_HAD"
-    "50G_ST_HAD"
-    "100G_ST_HAD"
+#    "10G_ST_HAD"
+    "20G_ST_HAD"
+    "40G_ST_HAD"
+    "80G_ST_HAD"
+#    "160G_ST_HAD"
 )
 
 rm _job_list

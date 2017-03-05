@@ -19,18 +19,24 @@ JOB_LIST=(
 
 #    "2G_TERA_SPK"
 #    "10G_TERA_SPK"
-#    "50G_TERA_SPK"
-#    "100G_TERA_SPK"
+    "20G_TERA_SPK"
+    "40G_TERA_SPK"
+    "80G_TERA_SPK"
+#    "160G_TERA_SPK"
 
 #    "2G_WC_SPK"
-    "10G_WC_SPK"
-    "50G_WC_SPK"
-    "100G_WC_SPK"
+#    "10G_WC_SPK"
+    "20G_WC_SPK"
+    "40G_WC_SPK"
+    "80G_WC_SPK"
+#    "160G_WC_SPK"
 
 #    "2G_ST_SPK"
-    "10G_ST_SPK"
-    "50G_ST_SPK"
-    "100G_ST_SPK"
+#    "10G_ST_SPK"
+    "20G_ST_SPK"
+    "40G_ST_SPK"
+    "80G_ST_SPK"
+#    "160G_ST_SPK"
 )
 
 rm _job_list

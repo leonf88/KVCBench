@@ -1,0 +1,5 @@
+#"DataSet" Hadoop Spark DataMPI-Iter.
+KM-KDD04 371    49      28
+KM-1M    283    65      28
+KM-10M   784    282     109
+KM-30M   1837   687     296

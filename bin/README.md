@@ -1,5 +1,10 @@
-
 ## Hadoop Commands
+
+* TeraSort Validate
+
+        /home/lf/workplace/BenchScripts/frameworks/hadoop-2.7.3/bin/hadoop \
+            jar /home/lf/workplace/BenchScripts/frameworks/hadoop-2.7.3/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.3.jar \
+            teravalidate /output/tera/2G /output/tera/validate
 
 * PageRank
 

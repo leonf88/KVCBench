@@ -157,19 +157,31 @@ case $1 in
   ;;
   "10G_TERA_HAD")
       S_DIR=/data/terasort/10G-tera
-      OUTPUT_HDFS=/output/tera/10G
+      OUTPUT_HDFS=/output/hadoop/tera
 
       do_terasort_had $S_DIR $OUTPUT_HDFS 4
   ;;
-  "50G_TERA_HAD")
-      S_DIR=/data/terasort/50G-tera
-      OUTPUT_HDFS=/output/tera/50G
+  "20G_TERA_HAD")
+      S_DIR=/data/terasort/20G-tera
+      OUTPUT_HDFS=/output/hadoop/tera
 
       do_terasort_had $S_DIR $OUTPUT_HDFS 4
   ;;
-  "100G_TERA_HAD")
-      S_DIR=/data/terasort/100G-tera
-      OUTPUT_HDFS=/output/tera/100G
+  "40G_TERA_HAD")
+      S_DIR=/data/terasort/40G-tera
+      OUTPUT_HDFS=/output/hadoop/tera
+
+      do_terasort_had $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "80G_TERA_HAD")
+      S_DIR=/data/terasort/80G-tera
+      OUTPUT_HDFS=/output/hadoop/tera
+
+      do_terasort_had $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "160G_TERA_HAD")
+      S_DIR=/data/terasort/160G-tera
+      OUTPUT_HDFS=/output/hadoop/tera
 
       do_terasort_had $S_DIR $OUTPUT_HDFS 4
   ;;
@@ -177,25 +189,37 @@ case $1 in
   # Hadoop Sort Jobs
   "2G_ST_HAD")
       S_DIR=/data/text/2G-text
-      OUTPUT_HDFS=/output/st/2G
+      OUTPUT_HDFS=/output/st/hadoop/2G
 
       do_text_sort_had $S_DIR $OUTPUT_HDFS 1
   ;;
   "10G_ST_HAD")
       S_DIR=/data/text/10G-text
-      OUTPUT_HDFS=/output/st/10G
+      OUTPUT_HDFS=/output/hadoop/st
 
       do_text_sort_had $S_DIR $OUTPUT_HDFS 4
   ;;
-  "50G_ST_HAD")
-      S_DIR=/data/text/50G-text
-      OUTPUT_HDFS=/output/st/50G
+  "20G_ST_HAD")
+      S_DIR=/data/text/20G-text
+      OUTPUT_HDFS=/output/hadoop/st
 
       do_text_sort_had $S_DIR $OUTPUT_HDFS 4
   ;;
-  "100G_ST_HAD")
-      S_DIR=/data/text/100G-text
-      OUTPUT_HDFS=/output/st/100G
+  "40G_ST_HAD")
+      S_DIR=/data/text/40G-text
+      OUTPUT_HDFS=/output/hadoop/st
+
+      do_text_sort_had $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "80G_ST_HAD")
+      S_DIR=/data/text/80G-text
+      OUTPUT_HDFS=/output/hadoop/st
+
+      do_text_sort_had $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "160G_ST_HAD")
+      S_DIR=/data/text/160G-text
+      OUTPUT_HDFS=/output/hadoop/st
 
       do_text_sort_had $S_DIR $OUTPUT_HDFS 4
   ;;
@@ -209,19 +233,31 @@ case $1 in
   ;;
   "10G_WC_HAD")
       S_DIR=/data/text/10G-text
-      OUTPUT_HDFS=/output/wc/10G
+      OUTPUT_HDFS=/output/hadoop/wc
 
       do_text_wc_had $S_DIR $OUTPUT_HDFS 4
   ;;
-  "50G_WC_HAD")
-      S_DIR=/data/text/50G-text
-      OUTPUT_HDFS=/output/wc/50G
+  "20G_WC_HAD")
+      S_DIR=/data/text/20G-text
+      OUTPUT_HDFS=/output/hadoop/wc
 
       do_text_wc_had $S_DIR $OUTPUT_HDFS 4
   ;;
-  "100G_WC_HAD")
-      S_DIR=/data/text/100G-text
-      OUTPUT_HDFS=/output/wc/100G
+  "40G_WC_HAD")
+      S_DIR=/data/text/40G-text
+      OUTPUT_HDFS=/output/hadoop/wc
+
+      do_text_wc_had $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "80G_WC_HAD")
+      S_DIR=/data/text/80G-text
+      OUTPUT_HDFS=/output/hadoop/wc
+
+      do_text_wc_had $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "160G_WC_HAD")
+      S_DIR=/data/text/160G-text
+      OUTPUT_HDFS=/output/hadoop/wc
 
       do_text_wc_had $S_DIR $OUTPUT_HDFS 4
   ;;
@@ -441,19 +477,31 @@ case $1 in
   ;;
   "10G_TERA_SPK")
       S_DIR=/data/terasort/10G-tera
-      OUTPUT_HDFS=/output/tera/10G
+      OUTPUT_HDFS=/output/spark/tera
 
       do_terasort_spk $S_DIR $OUTPUT_HDFS 4
   ;;
-  "50G_TERA_SPK")
-      S_DIR=/data/terasort/50G-tera
-      OUTPUT_HDFS=/output/tera/50G
+  "20G_TERA_SPK")
+      S_DIR=/data/terasort/20G-tera
+      OUTPUT_HDFS=/output/spark/tera
 
       do_terasort_spk $S_DIR $OUTPUT_HDFS 4
   ;;
-  "100G_TERA_SPK")
-      S_DIR=/data/terasort/100G-tera
-      OUTPUT_HDFS=/output/tera/100G
+  "40G_TERA_SPK")
+      S_DIR=/data/terasort/40G-tera
+      OUTPUT_HDFS=/output/spark/tera
+
+      do_terasort_spk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "80G_TERA_SPK")
+      S_DIR=/data/terasort/80G-tera
+      OUTPUT_HDFS=/output/spark/tera
+
+      do_terasort_spk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "160G_TERA_SPK")
+      S_DIR=/data/terasort/160G-tera
+      OUTPUT_HDFS=/output/spark/tera
 
       do_terasort_spk $S_DIR $OUTPUT_HDFS 4
   ;;
@@ -461,25 +509,37 @@ case $1 in
   # Spark Sort Jobs
   "2G_ST_SPK")
       S_DIR=/data/text/2G-text
-      OUTPUT_HDFS=/output/st/2G
+      OUTPUT_HDFS=/output/st/spark/2G
 
       do_text_sort_spk $S_DIR $OUTPUT_HDFS 1
   ;;
   "10G_ST_SPK")
       S_DIR=/data/text/10G-text
-      OUTPUT_HDFS=/output/st/10G
+      OUTPUT_HDFS=/output/spark/st
 
       do_text_sort_spk $S_DIR $OUTPUT_HDFS 4
   ;;
-  "50G_ST_SPK")
-      S_DIR=/data/text/50G-text
-      OUTPUT_HDFS=/output/st/50G
+  "20G_ST_SPK")
+      S_DIR=/data/text/20G-text
+      OUTPUT_HDFS=/output/spark/st
 
       do_text_sort_spk $S_DIR $OUTPUT_HDFS 4
   ;;
-  "100G_ST_SPK")
-      S_DIR=/data/text/100G-text
-      OUTPUT_HDFS=/output/st/100G
+  "40G_ST_SPK")
+      S_DIR=/data/text/40G-text
+      OUTPUT_HDFS=/output/spark/st
+
+      do_text_sort_spk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "80G_ST_SPK")
+      S_DIR=/data/text/80G-text
+      OUTPUT_HDFS=/output/spark/st
+
+      do_text_sort_spk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "160G_ST_SPK")
+      S_DIR=/data/text/160G-text
+      OUTPUT_HDFS=/output/spark/st
 
       do_text_sort_spk $S_DIR $OUTPUT_HDFS 4
   ;;
@@ -492,20 +552,32 @@ case $1 in
       do_text_wc_spk $S_DIR $OUTPUT_HDFS
   ;;
   "10G_WC_SPK")
-      S_DIR=/data/text/2G-text
-      OUTPUT_HDFS=/output/wc
+      S_DIR=/data/text/10G-text
+      OUTPUT_HDFS=/output/spark/wc
 
       do_text_wc_spk $S_DIR $OUTPUT_HDFS
   ;;
-  "50G_WC_SPK")
-      S_DIR=/data/text/2G-text
-      OUTPUT_HDFS=/output/wc
+  "20G_WC_SPK")
+      S_DIR=/data/text/20G-text
+      OUTPUT_HDFS=/output/spark/wc
 
       do_text_wc_spk $S_DIR $OUTPUT_HDFS
   ;;
-  "100G_WC_SPK")
-      S_DIR=/data/text/2G-text
-      OUTPUT_HDFS=/output/wc
+  "40G_WC_SPK")
+      S_DIR=/data/text/40G-text
+      OUTPUT_HDFS=/output/spark/wc
+
+      do_text_wc_spk $S_DIR $OUTPUT_HDFS
+  ;;
+  "80G_WC_SPK")
+      S_DIR=/data/text/80G-text
+      OUTPUT_HDFS=/output/spark/wc
+
+      do_text_wc_spk $S_DIR $OUTPUT_HDFS
+  ;;
+  "160G_WC_SPK")
+      S_DIR=/data/text/160G-text
+      OUTPUT_HDFS=/output/spark/wc
 
       do_text_wc_spk $S_DIR $OUTPUT_HDFS
   ;;
@@ -519,19 +591,31 @@ case $1 in
   ;;
   "10G_TERA_FLK")
       S_DIR=/data/terasort/10G-tera
-      OUTPUT_HDFS=/output/tera/10G
+      OUTPUT_HDFS=/output/flink/tera
 
       do_terasort_flk $S_DIR $OUTPUT_HDFS 4
   ;;
-  "50G_TERA_FLK")
-      S_DIR=/data/terasort/50G-tera
-      OUTPUT_HDFS=/output/tera/50G
+  "20G_TERA_FLK")
+      S_DIR=/data/terasort/20G-tera
+      OUTPUT_HDFS=/output/flink/tera
 
       do_terasort_flk $S_DIR $OUTPUT_HDFS 4
   ;;
-  "100G_TERA_FLK")
-      S_DIR=/data/terasort/100G-tera
-      OUTPUT_HDFS=/output/tera/100G
+  "40G_TERA_FLK")
+      S_DIR=/data/terasort/40G-tera
+      OUTPUT_HDFS=/output/flink/tera
+
+      do_terasort_flk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "80G_TERA_FLK")
+      S_DIR=/data/terasort/80G-tera
+      OUTPUT_HDFS=/output/flink/tera
+
+      do_terasort_flk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "160G_TERA_FLK")
+      S_DIR=/data/terasort/160G-tera
+      OUTPUT_HDFS=/output/flink/tera
 
       do_terasort_flk $S_DIR $OUTPUT_HDFS 4
   ;;
@@ -545,19 +629,31 @@ case $1 in
   ;;
   "10G_WC_FLK")
       S_DIR=/data/text/10G-text
-      OUTPUT_HDFS=/output/wc/10G
+      OUTPUT_HDFS=/output/flink/wc
 
       do_text_wc_flk $S_DIR $OUTPUT_HDFS 4
   ;;
-  "50G_WC_FLK")
-      S_DIR=/data/text/50G-text
-      OUTPUT_HDFS=/output/wc/50G
+  "20G_WC_FLK")
+      S_DIR=/data/text/20G-text
+      OUTPUT_HDFS=/output/flink/wc
 
       do_text_wc_flk $S_DIR $OUTPUT_HDFS 4
   ;;
-  "100G_WC_FLK")
-      S_DIR=/data/text/100G-text
-      OUTPUT_HDFS=/output/wc/100G
+  "40G_WC_FLK")
+      S_DIR=/data/text/40G-text
+      OUTPUT_HDFS=/output/flink/wc
+
+      do_text_wc_flk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "80G_WC_FLK")
+      S_DIR=/data/text/80G-text
+      OUTPUT_HDFS=/output/flink/wc
+
+      do_text_wc_flk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "160G_WC_FLK")
+      S_DIR=/data/text/160G-text
+      OUTPUT_HDFS=/output/flink/wc
 
       do_text_wc_flk $S_DIR $OUTPUT_HDFS 4
   ;;
@@ -565,25 +661,37 @@ case $1 in
   # Flink Sort Jobs
   "2G_ST_FLK")
       S_DIR=/data/text/2G-text
-      OUTPUT_HDFS=/output/st
+      OUTPUT_HDFS=/output/st/flink/2G
 
       do_text_sort_flk $S_DIR $OUTPUT_HDFS 1
   ;;
   "10G_ST_FLK")
       S_DIR=/data/text/10G-text
-      OUTPUT_HDFS=/output/st/10G
+      OUTPUT_HDFS=/output/flink/st
 
       do_text_sort_flk $S_DIR $OUTPUT_HDFS 4
   ;;
-  "50G_ST_FLK")
-      S_DIR=/data/text/50G-text
-      OUTPUT_HDFS=/output/st/50G
+  "20G_ST_FLK")
+      S_DIR=/data/text/20G-text
+      OUTPUT_HDFS=/output/flink/st
 
       do_text_sort_flk $S_DIR $OUTPUT_HDFS 4
   ;;
-  "100G_ST_FLK")
-      S_DIR=/data/text/100G-text
-      OUTPUT_HDFS=/output/st/100G
+  "40G_ST_FLK")
+      S_DIR=/data/text/40G-text
+      OUTPUT_HDFS=/output/flink/st
+
+      do_text_sort_flk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "80G_ST_FLK")
+      S_DIR=/data/text/80G-text
+      OUTPUT_HDFS=/output/flink/st
+
+      do_text_sort_flk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "160G_ST_FLK")
+      S_DIR=/data/text/160G-text
+      OUTPUT_HDFS=/output/flink/st
 
       do_text_sort_flk $S_DIR $OUTPUT_HDFS 4
   ;;
