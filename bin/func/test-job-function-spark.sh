@@ -51,7 +51,7 @@ _do_spark_func()
     startLine=0
 }
 
-do_text_sort_spark()
+do_text_sort()
 {
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
 
@@ -67,7 +67,7 @@ do_text_sort_spark()
     _do_spark_func
 }
 
-do_text_wc_spark()
+do_text_wc()
 {
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
 
@@ -83,7 +83,7 @@ do_text_wc_spark()
     _do_spark_func
 }
 
-do_text_grep_spark()
+do_text_grep()
 {
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
 
@@ -103,41 +103,34 @@ do_text_grep_spark()
     _do_spark_func
 }
 
-do_kmeans_spark()
+do_terasort_spk()
 {
-    SOURCE_PATH=${1}
-	KCluster=${2}
-    ITER=${3}
-    JOB_NAME="kmeans"
+    HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
 
-    cmd="${SPARK_HOME}/bin/run-example org.apache.spark.mllib.clustering.KMeans \
-        ${SPARK_MASTER} \
+	SOURCE_PATH=$1
+	TARGET_PATH=$2
+	REDS=$((${3} * ${HOSTS_NUM}))
+	JOB_NAME="Spark Terasort"
+
+    export SPARKBENCH_PROPERTIES_FILES=$_TESTDIR/conf/bench.conf
+    cmd="${SPARK_HOME}/bin/spark-submit \
+        --class microbench.ScalaTeraSort \
+        --properties-file ${SPARK_PROP_CONF}
+        --master ${SPARK_MASTER} ${SPARK_BENCH_JAR} \
         ${HDFS_MASTER}/${SOURCE_PATH} \
-    	${KCluster} \
-    	${ITER} \
-        ${MAX_CORES} ${EXEC_MEM} 1"
-#   cmd="${SPARK_HOME}/bin/run-example org.apache.spark.examples.SparkKMeans \
-#       ${SPARK_MASTER} \
-#       ${HDFS_MASTER}/${SOURCE_PATH} \
-#   	${KCluster} \
-#   	${ITER} \
-#       ${MAX_CORES} ${EXEC_MEM}"
+        ${HDFS_MASTER}/${TARGET_PATH} \
+        ${REDS}"
 
     _do_spark_func
 }
 
-do_pagerank(){
+do_pagerank_spk()
+{
 
 	SOURCE_PATH=$1
 	TARGET_PATH=$2
 	ITER_NUM=$3
 	JOB_NAME="Spark PageRank"
-
-#	cmd="${SPARK_HOME}/bin/run-example org.apache.spark.examples.SparkPageRank \
-#        ${SPARK_MASTER} \
-#        ${HDFS_MASTER}/${SOURCE_PATH} \
-#        ${HDFS_MASTER}/${OUTPUT} \
-#        ${ITER_NUM}"
 
     export SPARKBENCH_PROPERTIES_FILES=$_TESTDIR/conf/bench.conf
     cmd="${SPARK_HOME}/bin/spark-submit \
@@ -151,7 +144,7 @@ do_pagerank(){
     _do_spark_func
 }
 
-do_kmeans()
+do_kmeans_spk()
 {
 
 	SOURCE_PATH=$1
@@ -171,26 +164,8 @@ do_kmeans()
     _do_spark_func
 }
 
-do_kmeans2(){
-
-	SOURCE_PATH=$1
-	CENTERS_PATH=$2
-	K_CENTERS=$3
-	ITER_NUM=$4
-
-	JOB_NAME="Spark Kmeans"
-
-	cmd="${SPARK_HOME}/bin/run-example org.apache.spark.examples.SparkKMeans2 \
-        ${SPARK_MASTER} \
-        ${HDFS_MASTER}/$SOURCE_PATH \
-        $K_CENTERS \
-        $ITER_NUM \
-        ${HDFS_MASTER}/$CENTERS_PATH"
-
-    _do_spark_func
-}
-
-do_pagerank_graphx(){
+do_pagerank_graphx()
+{
 
 	SOURCE_PATH=$1
 	OUTPUT_PATH=$2

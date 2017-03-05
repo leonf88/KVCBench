@@ -140,95 +140,117 @@ case $1 in
 
       do_kmeans_had $S_DIR $H_TAR $OUTPUT_HDFS 10 0.5
   ;;
+  "60M_KM_HAD_NEW")
+      S_DIR=/data/kmeans/60M/data
+      H_TAR=/data/kmeans/60M/cluster
+      OUTPUT_HDFS=/output/kmeans/hadoop/60M
+
+      do_kmeans_had $S_DIR $H_TAR $OUTPUT_HDFS 10 0.5
+  ;;
+  # Hadoop Terasort Jobs
+  "2G_TERA_HAD")
+      S_DIR=/data/terasort/2G-tera
+      OUTPUT_HDFS=/output/tera/2G
+
+      do_terasort_had $S_DIR $OUTPUT_HDFS 1
+  ;;
+  "10G_TERA_HAD")
+      S_DIR=/data/terasort/10G-tera
+      OUTPUT_HDFS=/output/tera/10G
+
+      do_terasort_had $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "50G_TERA_HAD")
+      S_DIR=/data/terasort/50G-tera
+      OUTPUT_HDFS=/output/tera/50G
+
+      do_terasort_had $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "100G_TERA_HAD")
+      S_DIR=/data/terasort/100G-tera
+      OUTPUT_HDFS=/output/tera/100G
+
+      do_terasort_had $S_DIR $OUTPUT_HDFS 4
+  ;;
 
   # DataMPI Jobs
   "Friendster_DM")
+      S_DIR=/data/pagerank/com-friendster
+      M_TAR=/pagerank/mpid
 
-  S_DIR=/data/pagerank/com-friendster
-  M_TAR=/pagerank/mpid
-
-  new_pagerank "${S_DIR}" "${M_TAR}" "2" "14" 
+      new_pagerank "${S_DIR}" "${M_TAR}" "2" "14"
   ;;
 
   "LiveJournal1_DM")
+      S_DIR=/data/pagerank/soc-LiveJournal1
+      M_TAR=/pagerank/mpid
 
-  S_DIR=/data/pagerank/soc-LiveJournal1
-  M_TAR=/pagerank/mpid
-
-  new_pagerank "${S_DIR}" "${M_TAR}" "10" "14"
+      new_pagerank "${S_DIR}" "${M_TAR}" "10" "14"
   ;;
 
   "web-Google_DM")
+      S_DIR=/data/pagerank/web-Google
+      M_TAR=/pagerank/mpid
 
-  S_DIR=/data/pagerank/web-Google
-  M_TAR=/pagerank/mpid
-
-  new_pagerank "${S_DIR}" "${M_TAR}" "10" "14" 
+      new_pagerank "${S_DIR}" "${M_TAR}" "10" "14"
   ;;
 
   "30M_PR_DM")
+      S_DIR=/data/pagerank/30M
+      M_TAR=/pagerank/mpid
 
-  S_DIR=/data/pagerank/30M
-  M_TAR=/pagerank/mpid
-
-  new_pagerank "${S_DIR}" "${M_TAR}" "10" "14" 
+      new_pagerank "${S_DIR}" "${M_TAR}" "10" "14"
   ;;
 
   "1M_PR_DM")
+      S_DIR=/data/pagerank/1M
+      M_TAR=/pagerank/mpid
 
-  S_DIR=/data/pagerank/1M
-  M_TAR=/pagerank/mpid
-
-  new_pagerank "${S_DIR}" "${M_TAR}" "10" "14" 
+      new_pagerank "${S_DIR}" "${M_TAR}" "10" "14"
   ;;
 
   "10M_PR_DM")
+      S_DIR=/data/pagerank/10M
+      M_TAR=/pagerank/mpid
 
-  S_DIR=/data/pagerank/10M
-  M_TAR=/pagerank/mpid
-
-  new_pagerank "${S_DIR}" "${M_TAR}" "10" "14" 
+      new_pagerank "${S_DIR}" "${M_TAR}" "10" "14"
   ;;
   "KM_10M_DM")
+      S_DIR=/kmeans/data/10M
+      CENTER_SOURCE=/kmeans/data/centers/centers.100d.25p
+      CENTER_NUMBER=25
+      VEC_DIMENSION=100
+      ITER_COUNT=10
 
-  S_DIR=/kmeans/data/10M
-  CENTER_SOURCE=/kmeans/data/centers/centers.100d.25p
-  CENTER_NUMBER=25
-  VEC_DIMENSION=100
-  ITER_COUNT=10
-
-  new_kmeans "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
+      new_kmeans "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
   ;;
   "KM_30M_DM")
+      S_DIR=/kmeans/data/30M
+      CENTER_SOURCE=/kmeans/data/centers/centers.100d.25p
+      CENTER_NUMBER=25
+      VEC_DIMENSION=100
+      ITER_COUNT=10
 
-  S_DIR=/kmeans/data/30M
-  CENTER_SOURCE=/kmeans/data/centers/centers.100d.25p
-  CENTER_NUMBER=25
-  VEC_DIMENSION=100
-  ITER_COUNT=10
-
-  new_kmeans "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
+      new_kmeans "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
   ;;
   "KM_1M_DM")
+      S_DIR=/kmeans/data/1M
+      CENTER_SOURCE=/kmeans/data/centers/centers.100d.25p
+      CENTER_NUMBER=25
+      VEC_DIMENSION=100
+      ITER_COUNT=10
 
-  S_DIR=/kmeans/data/1M
-  CENTER_SOURCE=/kmeans/data/centers/centers.100d.25p
-  CENTER_NUMBER=25
-  VEC_DIMENSION=100
-  ITER_COUNT=10
-
-  new_kmeans "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
+      new_kmeans "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
   ;;
 
   "KM_KDD_DM")
+      S_DIR=/kmeans/data/data_kddcup04
+      CENTER_SOURCE=/kmeans/data/centers/centers.kdd
+      CENTER_NUMBER=25
+      VEC_DIMENSION=74
+      ITER_COUNT=10
 
-  S_DIR=/kmeans/data/data_kddcup04
-  CENTER_SOURCE=/kmeans/data/centers/centers.kdd
-  CENTER_NUMBER=25
-  VEC_DIMENSION=74
-  ITER_COUNT=10
-
-  new_kmeans "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
+      new_kmeans "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
   ;;
 
 # Spark Jobs
@@ -236,55 +258,55 @@ case $1 in
       S_DIR=/data/pagerank/30M
       P_TAR=/output/pagerank/spark
 
-      do_pagerank $S_DIR $P_TAR "5"
+      do_pagerank_spk $S_DIR $P_TAR "5"
   ;;
   "30M_PR_SPK_1I")
       S_DIR=/data/pagerank/30M
       P_TAR=/output/pagerank/spark
 
-      do_pagerank $S_DIR $P_TAR "1"
+      do_pagerank_spk $S_DIR $P_TAR "1"
   ;;
   "1M_PR_SPK_1I")
       S_DIR=/data/pagerank/1M
       P_TAR=/output/pagerank/spark
 
-      do_pagerank $S_DIR $P_TAR "1"
+      do_pagerank_spk $S_DIR $P_TAR "1"
   ;;
   "LiveJournal1_SPK")
       S_DIR=/data/pagerank/soc-LiveJournal1
       P_TAR=/output/pagerank/spark
 
-      do_pagerank $S_DIR $P_TAR "10"
+      do_pagerank_spk $S_DIR $P_TAR "10"
   ;;
   "web-Google_SPK")
       S_DIR=/data/pagerank/web-Google
       P_TAR=/output/pagerank/spark
 
-      do_pagerank $S_DIR $P_TAR "10"
+      do_pagerank_spk $S_DIR $P_TAR "10"
   ;;
   "com-friendster_SPK")
       S_DIR=/data/pagerank/com-friendster
       P_TAR=/output/pagerank/spark
 
-      do_pagerank $S_DIR $P_TAR "10"
+      do_pagerank_spk $S_DIR $P_TAR "10"
   ;;
   "1M_PR_SPK")
       S_DIR=/data/pagerank/1M
       P_TAR=/output/pagerank/spark
 
-      do_pagerank $S_DIR $P_TAR "10"
+      do_pagerank_spk $S_DIR $P_TAR "10"
   ;;
   "10M_PR_SPK")
       S_DIR=/data/pagerank/10M
       P_TAR=/output/pagerank/spark
 
-      do_pagerank $S_DIR $P_TAR "10"
+      do_pagerank_spk $S_DIR $P_TAR "10"
   ;;
   "30M_PR_SPK")
       S_DIR=/data/pagerank/30M
       P_TAR=/output/pagerank/spark
 
-      do_pagerank $S_DIR $P_TAR "10"
+      do_pagerank_spk $S_DIR $P_TAR "10"
   ;;
   
   "1M_KM_SPK")
@@ -330,7 +352,7 @@ case $1 in
       K_CENTERS=25
       ITER_NUM=10
 
-      do_kmeans $SOURCE_PATH $K_CENTERS $ITER_NUM
+      do_kmeans_spk $SOURCE_PATH $K_CENTERS $ITER_NUM
   ;;
   "10M_KM_SPK_NEW")
 
@@ -338,7 +360,7 @@ case $1 in
       K_CENTERS=25
       ITER_NUM=10
 
-      do_kmeans $SOURCE_PATH $K_CENTERS $ITER_NUM
+      do_kmeans_spk $SOURCE_PATH $K_CENTERS $ITER_NUM
   ;;
   "30M_KM_SPK_NEW")
 
@@ -346,7 +368,15 @@ case $1 in
       K_CENTERS=25
       ITER_NUM=10
 
-      do_kmeans $SOURCE_PATH $K_CENTERS $ITER_NUM
+      do_kmeans_spk $SOURCE_PATH $K_CENTERS $ITER_NUM
+  ;;
+  "60M_KM_SPK_NEW")
+
+      SOURCE_PATH=/data/kmeans/60M/data
+      K_CENTERS=25
+      ITER_NUM=10
+
+      do_kmeans_spk $SOURCE_PATH $K_CENTERS $ITER_NUM
   ;;
 #  "30M_PR_GRX")
 #      SOURCE_PATH=/data/pagerank/30M
@@ -356,6 +386,57 @@ case $1 in
 #
 #      do_pagerank_graphx ${SOURCE_PATH} ${OUTPUT_PATH} ${ITER_NUM} ${E_PART}
 #  ;;
+  # Spark Terasort Jobs
+  "2G_TERA_SPK")
+      S_DIR=/data/terasort/2G-tera
+      OUTPUT_HDFS=/output/tera/2G
+
+      do_terasort_spk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "10G_TERA_SPK")
+      S_DIR=/data/terasort/10G-tera
+      OUTPUT_HDFS=/output/tera/10G
+
+      do_terasort_spk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "50G_TERA_SPK")
+      S_DIR=/data/terasort/50G-tera
+      OUTPUT_HDFS=/output/tera/50G
+
+      do_terasort_spk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "100G_TERA_SPK")
+      S_DIR=/data/terasort/100G-tera
+      OUTPUT_HDFS=/output/tera/100G
+
+      do_terasort_spk $S_DIR $OUTPUT_HDFS 4
+  ;;
+
+  # Flink Terasort Jobs
+  "2G_TERA_FLK")
+      S_DIR=/data/terasort/2G-tera
+      OUTPUT_HDFS=/output/tera/2G
+
+      do_terasort_flk $S_DIR $OUTPUT_HDFS 1
+  ;;
+  "10G_TERA_FLK")
+      S_DIR=/data/terasort/10G-tera
+      OUTPUT_HDFS=/output/tera/10G
+
+      do_terasort_flk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "50G_TERA_FLK")
+      S_DIR=/data/terasort/50G-tera
+      OUTPUT_HDFS=/output/tera/50G
+
+      do_terasort_flk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "100G_TERA_FLK")
+      S_DIR=/data/terasort/100G-tera
+      OUTPUT_HDFS=/output/tera/100G
+
+      do_terasort_flk $S_DIR $OUTPUT_HDFS 4
+  ;;
 
 # self-test
   *)

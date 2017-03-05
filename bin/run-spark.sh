@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 source conf/config.sh
+source basic.sh
+setpath
+ldfunc
 
 JOB_LIST=(
 #    "1M_PR_SPK"
@@ -12,13 +15,20 @@ JOB_LIST=(
 
 #    "1M_KM_SPK_NEW"
 #    "10M_KM_SPK_NEW"
-    "30M_KM_SPK_NEW"
+#    "30M_KM_SPK_NEW"
+
+#    "10G_TERA_SPK"
+    "50G_TERA_SPK"
+#    "100G_TERA_SPK"
 )
 
 rm _job_list
 for job in ${JOB_LIST[@]}; do
   echo $job >> _job_list
 done
+
+del_data /output/tera
+sleep 60
 
 bash $SPARK_HOME/sbin/start-all.sh
 bash ./runtest-test.sh

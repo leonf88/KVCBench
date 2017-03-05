@@ -50,7 +50,7 @@ _do_hadoop_func()
     startLine=0
 }
 
-do_tera_st_had()
+do_terasort_had()
 {
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
 
@@ -60,7 +60,7 @@ do_tera_st_had()
     JOB_NAME="terast"
     
     cmd="${HADOOP_HOME}/bin/hadoop jar \
-        ${HADOOP_EXAMPLE_JAR} org.apache.hadoop.examples.terasort.TeraSort \
+        ${HADOOP_EXAMPLE_JAR} terasort \
         -D mapred.reduce.tasks=${REDS} \
         ${SOURCE_PATH} ${TARGET_PATH}"
 

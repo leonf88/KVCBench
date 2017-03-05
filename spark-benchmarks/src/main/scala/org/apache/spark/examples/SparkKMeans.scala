@@ -130,6 +130,8 @@ object SparkKMeans {
 
     println("Final centers:")
     kPoints.foreach(println)
+
+    sc.stop()
   }
 }
 

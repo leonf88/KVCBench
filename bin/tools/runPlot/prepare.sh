@@ -39,6 +39,12 @@ do
         "SPK_NEW")
             cp $dir_path/$sub_path/dstat.log $data_path/spk.data
         ;;
+        "FLK")
+            cp $dir_path/$sub_path/dstat.log $data_path/flk.data
+        ;;
+        "FLK_NEW")
+            cp $dir_path/$sub_path/dstat.log $data_path/flk.data
+        ;;
         esac
     done
 done

@@ -1,0 +1,24 @@
+jobmanager.rpc.address: 172.22.1.21
+# The port where the JobManager's main actor system listens for messages.
+jobmanager.rpc.port: 6123
+# The heap size for the JobManager JVM
+jobmanager.heap.mb: 256
+# The heap size for the TaskManager JVM
+taskmanager.heap.mb: 12288
+# The number of task slots that each TaskManager offers. Each slot runs one parallel pipeline.
+taskmanager.numberOfTaskSlots: 8
+# Specify whether TaskManager memory should be allocated when starting up (true) or when
+# memory is required in the memory manager (false)
+taskmanager.memory.size: 12288
+
+taskmanager.memory.faction: 0.7
+
+taskmanager.memory.preallocate: false
+# The parallelism used for programs that did not specify and other parallelism.
+parallelism.default: 28
+
+jobmanager.web.port: 8081
+
+taskmanager.network.numberOfBuffers: 4096
+
+fs.hdfs.hadoopconf: /home/lf/workplace/BenchScripts/frameworks/hadoop-2.7.3/etc/hadoop

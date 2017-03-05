@@ -51,6 +51,11 @@
             <artifactId>mahout-math</artifactId>
             <version>${mahout.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-mapreduce-examples</artifactId>
+            <version>${hadoop.mr2.version}</version>
+        </dependency>
         <!--<dependency>-->
             <!--<groupId>com.github.fommil.netlib</groupId>-->
             <!--<artifactId>netlib-native_system-linux-x86_64</artifactId>-->

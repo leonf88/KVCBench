@@ -3,19 +3,46 @@
 
 * PageRank
 
+        /home/lf/workplace/BenchScripts/frameworks/hadoop-2.7.3/bin/hadoop \
+            jar /home/lf/workplace/BenchScripts/hadoop-benchmarks/target/hadoop-benchmarks-1.0-SNAPSHOT.jar \
+            pegasus.pagerank.PagerankNaive \
+            /data/pagerank/10M \
+            /output/pagerank/hadoop \
+            8388608 28 10 \
+            nosym new
+
 * K-Means
 
-    /home/lf/workplace/BenchScripts/frameworks/apache-mahout-distribution-0.12.2/bin/mahout kmeans \
-        -i /data/kmeans/10M/data \
-        -c /data/kmeans/10M/cluster \
-        -o /output/kmeans/hadoop/10M \
-        -x 10 \
-        -dm org.apache.mahout.common.distance.EuclideanDistanceMeasure \
-        -ow \
-        -cl \
-        -cd 0.5 \
-        -xm mapreduce
+        /home/lf/workplace/BenchScripts/frameworks/apache-mahout-distribution-0.12.2/bin/mahout kmeans \
+            -i /data/kmeans/10M/data \
+            -c /data/kmeans/10M/cluster \
+            -o /output/kmeans/hadoop/10M \
+            -x 10 \
+            -dm org.apache.mahout.common.distance.EuclideanDistanceMeasure \
+            -ow \
+            -cd 0.5 \
+            -xm mapreduce
 
 ## Start spark
 
-    sbin/start-all.sh
+* PageRank
+
+        /home/lf/workplace/BenchScripts/frameworks/spark-1.6.2-bin-hadoop2.6/bin/spark-submit \
+            --class org.apache.spark.examples.SparkPageRank \
+            --properties-file /home/lf/workplace/BenchScripts/frameworks/spark- 1.6.2-bin-hadoop2.6/conf/spark-defaults.conf \
+            --master spark://172.22.1.21:7077 \
+            /home/lf/workplace/BenchScripts/spark-benchmarks/target/spark-benchmarks-1.0-SNAPSHOT.jar \
+            hdfs://172.22.1.21:9003//data/pagerank/10M \
+            hdfs://172.22.1.21:9003//output/pagerank/spark \
+            10
+
+* K-Means
+
+        /home/lf/workplace/BenchScripts/frameworks/spark-1.6.2-bin-hadoop2.6/bin/spark-submit \
+            --class org.apache.spark.examples.SparkKMeans \
+            --properties-file /home/lf/workplace/BenchScripts/frameworks/spark-1.6.2-bin-hadoop2.6/conf/spark-defaults.conf \
+            --master spark://172.22.1.21:7077 \
+            /home/lf/workplace/BenchScripts/spark-benchmarks/target/spark-benchmarks-1.0-SNAPSHOT-jar-with-dependencies.jar \
+            --k 25 \
+            --numIterations 10 \
+            hdfs://172.22.1.21:9003//data/kmeans/10M/data

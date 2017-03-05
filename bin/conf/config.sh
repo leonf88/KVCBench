@@ -7,6 +7,8 @@ export LOADED_CONFIG=true
 
 MPI_D_SLAVES=$CUR_DIR/slaves
 
+HDFS_MASTER="hdfs://172.22.1.21:9003"
+
 # mahout
 MAHOUT_HOME="/home/lf/workplace/BenchScripts/frameworks/apache-mahout-distribution-0.12.2"
 
@@ -28,9 +30,15 @@ HADOOP_BENCH_JAR="/home/lf/workplace/BenchScripts/hadoop-benchmarks/target/hadoo
 # spark-1.6
 SPARK_HOME="/home/lf/workplace/BenchScripts/frameworks/spark-1.6.2-bin-hadoop2.6"
 SPARK_MASTER="spark://172.22.1.21:7077"
-HDFS_MASTER="hdfs://172.22.1.21:9003"
 MAX_CORES=28
 EXEC_MEM=12g
 SPARK_BENCH_JAR="/home/lf/workplace/BenchScripts/spark-benchmarks/target/spark-benchmarks-1.0-SNAPSHOT.jar"
 SPARK_BENCH_JAR="/home/lf/workplace/BenchScripts/spark-benchmarks/target/spark-benchmarks-1.0-SNAPSHOT-jar-with-dependencies.jar"
 SPARK_PROP_CONF="/home/lf/workplace/BenchScripts/frameworks/spark-1.6.2-bin-hadoop2.6/conf/spark-defaults.conf"
+
+# flink-1.1.2
+FLINK_HOME="/home/lf/workplace/BenchScripts/frameworks/flink-1.1.2"
+FLINK_BENCH_JAR="/home/lf/workplace/BenchScripts/flink-benchmarks/target/flink-benchmarks-1.0-SNAPSHOT.jar"
+
+
+

@@ -53,15 +53,11 @@ create_text_data()
     JOB_NAME="Text Generator"
 
     cmd="${HADOOP_HOME}/bin/hadoop jar \
-        ${HADOOP_HOME}/hadoop-examples-1.2.1.jar randomtextwriter \
-        -D test.randomtextwrite.total_bytes=$((${MAPS_PER_HOSTS} * ${MEGABYTES_PER_MAP} * 1024 * 1024 * ${HOSTS_NUM})) \
-        -D test.randomtextwrite.bytes_per_map=$((${MEGABYTES_PER_MAP} * 1024 * 1024)) \
-        -D test.randomtextwrite.min_words_key=1 \
-        -D test.randomtextwrite.max_words_key=10 \
-        -D test.randomtextwrite.min_words_value=0 \
-        -D test.randomtextwrite.max_words_value=200 \
+        ${HADOOP_EXAMPLE_JAR} randomtextwriter \
+        -D mapreduce.randomtextwriter.totalbytes=$((${MAPS_PER_HOSTS} * ${MEGABYTES_PER_MAP} * 1024 * 1024 * ${HOSTS_NUM})) \
+        -D mapreduce.randomtextwriter.bytespermap=$((${MEGABYTES_PER_MAP} * 1024 * 1024)) \
         -D mapred.output.compress=false \
-        -outFormat org.apache.hadoop.mapred.TextOutputFormat \
+        -outFormat org.apache.hadoop.mapreduce.lib.output.TextOutputFormat \
         ${TARGET_PATH}"
 
     _create_date
@@ -77,7 +73,7 @@ create_text_data2()
     JOB_NAME="Text Generator"
 
     cmd="${HADOOP_HOME}/bin/hadoop jar \
-        ${HADOOP_HOME}/hadoop-examples-1.2.1.jar randomtextwriter \
+        ${HADOOP_EXAMPLE_JAR} randomtextwriter \
         -D test.randomtextwrite.total_bytes=$((${MAPS_PER_HOSTS} * ${MEGABYTES_PER_MAP} * 1024 * 1024 * ${HOSTS_NUM})) \
         -D test.randomtextwrite.bytes_per_map=$((${MEGABYTES_PER_MAP} * 1024 * 1024)) \
         -D test.randomtextwrite.min_words_key=1 \
@@ -98,7 +94,7 @@ create_bytes_data()
     JOB_NAME="Bytes/Sequence Generator"
     
     cmd="${HADOOP_HOME}/bin/hadoop jar \
-        ${HADOOP_HOME}/hadoop-examples-1.2.1.jar randomwriter \
+        ${HADOOP_EXAMPLE_JAR} randomwriter \
         -D test.randomwriter.maps_per_host=${MAPS_PER_HOSTS} \
         -D test.randomwrite.bytes_per_map=$((${MEGABYTES_PER_MAP} * 1024 * 1024)) \
         -D mapred.output.compress=false \
@@ -115,7 +111,7 @@ create_compressed_bytes_data()
     JOB_NAME="Bytes/Sequence Generator"
     
     cmd="${HADOOP_HOME}/bin/hadoop jar \
-        ${HADOOP_HOME}/hadoop-examples-1.2.1.jar randomwriter \
+        ${HADOOP_EXAMPLE_JAR} randomwriter \
         -D test.randomwriter.maps_per_host=${MAPS_PER_HOSTS} \
         -D test.randomwrite.bytes_per_map=$((${MEGABYTES_PER_MAP} * 1024 * 1024)) \
         -D mapred.output.compress=true \
@@ -138,7 +134,7 @@ create_tera_data()
     echo "Create ${TARGET_PATH} Tera Data" | tee -a "$LOG_NAME"
 
     cmd="${HADOOP_HOME}/bin/hadoop jar \
-        ${HADOOP_HOME}/hadoop-examples-1.2.1.jar teragen \
+        ${HADOOP_EXAMPLE_JAR} teragen \
         -D mapred.map.tasks=$((${MAPS_PER_HOSTS} * ${HOSTS_NUM})) \
         ${LINES} ${TARGET_PATH}"
 
