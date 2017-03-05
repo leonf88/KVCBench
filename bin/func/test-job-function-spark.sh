@@ -51,39 +51,66 @@ _do_spark_func()
     startLine=0
 }
 
-do_text_sort()
+do_text_sort_spk()
 {
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
 
     SOURCE_PATH=${1}
     TARGET_PATH=${2}
-    JOB_NAME="textst"
+	PARALLELS=$((${3} * ${HOSTS_NUM}))
+    JOB_NAME="Spark Sort"
 
-    cmd="${SPARK_LAUNCH} scala.Sort \
-        $SPARK_MASTER \
+    cmd="${SPARK_HOME}/bin/spark-submit \
+        --class microbench.ScalaSort \
+        --properties-file ${SPARK_PROP_CONF} \
+        --master ${SPARK_MASTER} ${SPARK_BENCH_JAR} \
+        --partitions ${PARALLELS} \
         ${HDFS_MASTER}/${SOURCE_PATH} \
-        ${HDFS_MASTER}/${TARGET_PATH} ${MAX_CORES} ${EXEC_MEM}"
+        ${HDFS_MASTER}/${TARGET_PATH}"
 
     _do_spark_func
 }
 
-do_text_wc()
+do_text_wc_spk()
 {
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
 
     SOURCE_PATH=${1}
     TARGET_PATH=${2}
-    JOB_NAME="wordcount"
+    JOB_NAME="Spark WordCount"
 
-    cmd="${SPARK_LAUNCH} scala.WordCount \
-        $SPARK_MASTER \
+    cmd="${SPARK_HOME}/bin/spark-submit \
+        --class microbench.ScalaWordCount \
+        --properties-file ${SPARK_PROP_CONF} \
+        --master ${SPARK_MASTER} \
+        ${SPARK_BENCH_JAR} \
         ${HDFS_MASTER}/${SOURCE_PATH} \
-        ${HDFS_MASTER}/${TARGET_PATH} ${MAX_CORES} ${EXEC_MEM}"
+        ${HDFS_MASTER}/${TARGET_PATH}"
 
     _do_spark_func
 }
 
-do_text_grep()
+do_terasort_spk()
+{
+    HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
+
+	SOURCE_PATH=$1
+	TARGET_PATH=$2
+	REDS=$((${3} * ${HOSTS_NUM}))
+	JOB_NAME="Spark Terasort"
+
+    cmd="${SPARK_HOME}/bin/spark-submit \
+        --class microbench.ScalaTeraSort \
+        --properties-file ${SPARK_PROP_CONF} \
+        --master ${SPARK_MASTER} ${SPARK_BENCH_JAR} \
+        --partitions ${REDS} \
+        ${HDFS_MASTER}/${SOURCE_PATH} \
+        ${HDFS_MASTER}/${TARGET_PATH}"
+
+    _do_spark_func
+}
+
+do_text_grep_spk()
 {
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
 
@@ -103,27 +130,6 @@ do_text_grep()
     _do_spark_func
 }
 
-do_terasort_spk()
-{
-    HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
-
-	SOURCE_PATH=$1
-	TARGET_PATH=$2
-	REDS=$((${3} * ${HOSTS_NUM}))
-	JOB_NAME="Spark Terasort"
-
-    export SPARKBENCH_PROPERTIES_FILES=$_TESTDIR/conf/bench.conf
-    cmd="${SPARK_HOME}/bin/spark-submit \
-        --class microbench.ScalaTeraSort \
-        --properties-file ${SPARK_PROP_CONF}
-        --master ${SPARK_MASTER} ${SPARK_BENCH_JAR} \
-        ${HDFS_MASTER}/${SOURCE_PATH} \
-        ${HDFS_MASTER}/${TARGET_PATH} \
-        ${REDS}"
-
-    _do_spark_func
-}
-
 do_pagerank_spk()
 {
 
@@ -132,10 +138,9 @@ do_pagerank_spk()
 	ITER_NUM=$3
 	JOB_NAME="Spark PageRank"
 
-    export SPARKBENCH_PROPERTIES_FILES=$_TESTDIR/conf/bench.conf
     cmd="${SPARK_HOME}/bin/spark-submit \
         --class org.apache.spark.examples.SparkPageRank \
-        --properties-file ${SPARK_PROP_CONF}
+        --properties-file ${SPARK_PROP_CONF} \
         --master ${SPARK_MASTER} ${SPARK_BENCH_JAR} \
         ${HDFS_MASTER}/${SOURCE_PATH} \
         ${HDFS_MASTER}/${TARGET_PATH} \

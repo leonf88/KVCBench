@@ -74,11 +74,11 @@ do_text_wc_had()
     SOURCE_PATH=${1}
     TARGET_PATH=${2}
     REDS=1
-    JOB_NAME="textwc"
+    JOB_NAME="Hadoop WordCount"
     
     cmd="${HADOOP_HOME}/bin/hadoop jar \
-        ${HADOOP_EXAMPLE_JAR} org.apache.hadoop.examples.WordCount \
-        ${SOURCE_PATH} ${TARGET_PATH} $REDS"
+        ${HADOOP_EXAMPLE_JAR} wordcount \
+        ${SOURCE_PATH} ${TARGET_PATH}"
 
     _do_hadoop_func
 }

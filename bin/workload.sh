@@ -253,7 +253,7 @@ case $1 in
       new_kmeans "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
   ;;
 
-# Spark Jobs
+# Spark PageRank Jobs
   "30M_PR_SPK_5I")
       S_DIR=/data/pagerank/30M
       P_TAR=/output/pagerank/spark
@@ -309,8 +309,8 @@ case $1 in
       do_pagerank_spk $S_DIR $P_TAR "10"
   ;;
   
+   # Spark KMeans Jobs
   "1M_KM_SPK")
-
       SOURCE_PATH=/kmeans/data/1M
       CENTERS_PATH=/kmeans/data/centers/centers.100d.25p
       K_CENTERS=25
@@ -318,7 +318,6 @@ case $1 in
 
       do_kmeans2 $SOURCE_PATH $CENTERS_PATH $K_CENTERS $ITER_NUM
   ;;
-  
   "10M_KM_SPK")
       SOURCE_PATH=/kmeans/data/10M
       CENTERS_PATH=/kmeans/data/centers/centers.100d.25p
@@ -327,7 +326,6 @@ case $1 in
 
       do_kmeans2 $SOURCE_PATH $CENTERS_PATH $K_CENTERS $ITER_NUM
   ;;
-  
   "30M_KM_SPK")
       SOURCE_PATH=/kmeans/data/30M
       CENTERS_PATH=/kmeans/data/centers/centers.100d.25p
@@ -336,7 +334,6 @@ case $1 in
 
       do_kmeans2 $SOURCE_PATH $CENTERS_PATH $K_CENTERS $ITER_NUM
   ;;
-
   "KDD_KM_SPK")
       SOURCE_PATH=/kmeans/data/data_kddcup04
       CENTERS_PATH=/kmeans/data/centers/centers.kdd
@@ -345,9 +342,7 @@ case $1 in
 
       do_kmeans2 $SOURCE_PATH $CENTERS_PATH $K_CENTERS $ITER_NUM
   ;;
-
   "1M_KM_SPK_NEW")
-
       SOURCE_PATH=/data/kmeans/1M/data
       K_CENTERS=25
       ITER_NUM=10
@@ -355,7 +350,6 @@ case $1 in
       do_kmeans_spk $SOURCE_PATH $K_CENTERS $ITER_NUM
   ;;
   "10M_KM_SPK_NEW")
-
       SOURCE_PATH=/data/kmeans/10M/data
       K_CENTERS=25
       ITER_NUM=10
@@ -371,7 +365,6 @@ case $1 in
       do_kmeans_spk $SOURCE_PATH $K_CENTERS $ITER_NUM
   ;;
   "60M_KM_SPK_NEW")
-
       SOURCE_PATH=/data/kmeans/60M/data
       K_CENTERS=25
       ITER_NUM=10
@@ -391,7 +384,7 @@ case $1 in
       S_DIR=/data/terasort/2G-tera
       OUTPUT_HDFS=/output/tera/2G
 
-      do_terasort_spk $S_DIR $OUTPUT_HDFS 4
+      do_terasort_spk $S_DIR $OUTPUT_HDFS 1
   ;;
   "10G_TERA_SPK")
       S_DIR=/data/terasort/10G-tera
@@ -410,6 +403,40 @@ case $1 in
       OUTPUT_HDFS=/output/tera/100G
 
       do_terasort_spk $S_DIR $OUTPUT_HDFS 4
+  ;;
+
+  # Spark Sort Jobs
+  "2G_ST_SPK")
+      S_DIR=/data/text/2G-text
+      OUTPUT_HDFS=/output/st/2G
+
+      do_text_sort_spk $S_DIR $OUTPUT_HDFS 1
+  ;;
+
+  # Spark WordCount Jobs
+  "2G_WC_SPK")
+      S_DIR=/data/text/2G-text
+      OUTPUT_HDFS=/output/wc
+
+      do_text_wc_spk $S_DIR $OUTPUT_HDFS
+  ;;
+  "10G_WC_SPK")
+      S_DIR=/data/text/2G-text
+      OUTPUT_HDFS=/output/wc
+
+      do_text_wc_spk $S_DIR $OUTPUT_HDFS
+  ;;
+  "50G_WC_SPK")
+      S_DIR=/data/text/2G-text
+      OUTPUT_HDFS=/output/wc
+
+      do_text_wc_spk $S_DIR $OUTPUT_HDFS
+  ;;
+  "100G_WC_SPK")
+      S_DIR=/data/text/2G-text
+      OUTPUT_HDFS=/output/wc
+
+      do_text_wc_spk $S_DIR $OUTPUT_HDFS
   ;;
 
   # Flink Terasort Jobs
@@ -436,6 +463,58 @@ case $1 in
       OUTPUT_HDFS=/output/tera/100G
 
       do_terasort_flk $S_DIR $OUTPUT_HDFS 4
+  ;;
+
+  # Flink WordCount Jobs
+  "2G_WC_FLK")
+      S_DIR=/data/text/2G-text
+      OUTPUT_HDFS=/output/wc/2G
+
+      do_text_wc_flk $S_DIR $OUTPUT_HDFS 1
+  ;;
+  "10G_WC_FLK")
+      S_DIR=/data/text/10G-text
+      OUTPUT_HDFS=/output/wc/10G
+
+      do_text_wc_flk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "50G_WC_FLK")
+      S_DIR=/data/text/50G-text
+      OUTPUT_HDFS=/output/wc/50G
+
+      do_text_wc_flk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "100G_WC_FLK")
+      S_DIR=/data/text/100G-text
+      OUTPUT_HDFS=/output/wc/100G
+
+      do_text_wc_flk $S_DIR $OUTPUT_HDFS 4
+  ;;
+
+  # Flink Sort Jobs
+  "2G_ST_FLK")
+      S_DIR=/data/text/2G-text
+      OUTPUT_HDFS=/output/st
+
+      do_text_sort_flk $S_DIR $OUTPUT_HDFS 1
+  ;;
+  "10G_ST_FLK")
+      S_DIR=/data/text/10G-text
+      OUTPUT_HDFS=/output/st/10G
+
+      do_text_sort_flk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "50G_ST_FLK")
+      S_DIR=/data/text/50G-text
+      OUTPUT_HDFS=/output/st/50G
+
+      do_text_sort_flk $S_DIR $OUTPUT_HDFS 4
+  ;;
+  "100G_ST_FLK")
+      S_DIR=/data/text/100G-text
+      OUTPUT_HDFS=/output/st/100G
+
+      do_text_sort_flk $S_DIR $OUTPUT_HDFS 4
   ;;
 
 # self-test

@@ -51,47 +51,65 @@ _do_flink_func()
     startLine=0
 }
 
-do_text_sort()
+do_text_sort_flk()
 {
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
 
     SOURCE_PATH=${1}
     TARGET_PATH=${2}
-    JOB_NAME="textst"
+	PARALLELS=$((${3} * ${HOSTS_NUM}))
 
-    cmd="${flink_LAUNCH} scala.Sort \
-        $flink_MASTER \
-        ${HDFS_MASTER}/${SOURCE_PATH} \
-        ${HDFS_MASTER}/${TARGET_PATH} ${MAX_CORES} ${EXEC_MEM}"
+    JOB_NAME="Flink Sort"
 
-    _do_flink_func
-}
-
-do_text_wc()
-{
-    HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
-
-    SOURCE_PATH=${1}
-    TARGET_PATH=${2}
-    JOB_NAME="wordcount"
-
-    cmd="${flink_LAUNCH} scala.WordCount \
-        $flink_MASTER \
-        ${HDFS_MASTER}/${SOURCE_PATH} \
-        ${HDFS_MASTER}/${TARGET_PATH} ${MAX_CORES} ${EXEC_MEM}"
-    cmd="${FLINK_HOME}/bin/flink \
-        run \
-        -c microbench.WordCount \
+    cmd="${FLINK_HOME}/bin/flink run \
+        -c microbench.ScalaSort \
         ${FLINK_BENCH_JAR} \
-        ${HDFS_MASTER} \
-        ${SOURCE_PATH} \
-        ${TARGET_PATH} \
-        ${REDS}"
+        --partitions ${PARALLELS} \
+        ${HDFS_MASTER}/${SOURCE_PATH} \
+        ${HDFS_MASTER}/${TARGET_PATH}"
 
     _do_flink_func
 }
 
-do_text_grep()
+do_text_wc_flk()
+{
+    HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
+
+    SOURCE_PATH=${1}
+    TARGET_PATH=${2}
+	PARALLELS=$((${3} * ${HOSTS_NUM}))
+    JOB_NAME="Flink WordCount"
+
+    cmd="${FLINK_HOME}/bin/flink run \
+        -c microbench.ScalaWordCount \
+        ${FLINK_BENCH_JAR} \
+        --partitions ${PARALLELS} \
+        ${HDFS_MASTER}/${SOURCE_PATH} \
+        ${HDFS_MASTER}/${TARGET_PATH}"
+
+    _do_flink_func
+}
+
+do_terasort_flk()
+{
+    HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
+
+	SOURCE_PATH=$1
+	TARGET_PATH=$2
+	PARALLELS=$((${3} * ${HOSTS_NUM}))
+	JOB_NAME="Flink Terasort"
+
+    cmd="${FLINK_HOME}/bin/flink run \
+        -c microbench.terasort.ScalaTeraSort \
+        ${FLINK_BENCH_JAR} \
+        --partitions ${PARALLELS} \
+        ${HDFS_MASTER}/${SOURCE_PATH} \
+        ${HDFS_MASTER}/${TARGET_PATH}"
+
+    _do_flink_func
+}
+
+do_text_grep_flk()
 {
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
 
@@ -107,27 +125,6 @@ do_text_grep()
         ${HDFS_MASTER}/${TARGET_PATH} \
         ${REGEX} \
         ${GROUP} ${MAX_CORES} ${EXEC_MEM}"
-
-    _do_flink_func
-}
-
-do_terasort_flk()
-{
-    HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
-
-	SOURCE_PATH=$1
-	TARGET_PATH=$2
-	REDS=$((${3} * ${HOSTS_NUM}))
-	JOB_NAME="Flink Terasort"
-
-    cmd="${FLINK_HOME}/bin/flink \
-        run \
-        -c microbench.terasort.TeraSort \
-        ${FLINK_BENCH_JAR} \
-        ${HDFS_MASTER} \
-        ${SOURCE_PATH} \
-        ${TARGET_PATH} \
-        ${REDS}"
 
     _do_flink_func
 }

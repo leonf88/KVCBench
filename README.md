@@ -1,6 +1,14 @@
 # BenchScripts
 Benchmark scripts for DataMPI, Hadoop, Spark, Flink, etc.
 
+## Compile the Benchmarks
+
+    cd flink-benchmarks
+    mvn clean package assembly:single
+    
+    cd spark-benchmarks
+    mvn clean package assembly:single
+
 ## Exception
 
 ### 1. Compile Spark with scala 2.11

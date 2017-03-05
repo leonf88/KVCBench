@@ -26,6 +26,7 @@ package org.apache.spark.examples
 
 import org.apache.spark.SparkContext._
 import org.apache.spark.{IOCommon, SparkConf, SparkContext}
+import scopt.OptionParser
 
 /**
   * Computes the PageRank of URLs from an input file. Input file should
@@ -37,19 +38,42 @@ import org.apache.spark.{IOCommon, SparkConf, SparkContext}
   * where URL and their neighbors are separated by space(s).
   */
 object SparkPageRank {
-  def main(args: Array[String]) {
-    if (args.length < 2) {
-      System.err.println("Usage: SparkPageRank <input_file> <output_filename> [<iter>]")
-      System.exit(1)
+
+  case class Params(input: String = null,
+                    output: String = null,
+                    numIterations: Int = 10)
+
+  def main(args: Array[String]): Unit = {
+    val defaultParams = Params()
+
+    val parser = new OptionParser[Params]("SparkKPageRank") {
+      head("SparkKPageRank: an example PageRank app.")
+      opt[Int]("numIterations")
+        .text(s"number of iterations, default; ${defaultParams.numIterations}")
+        .action((x, c) => c.copy(numIterations = x))
+      arg[String]("<input>")
+        .text(s"input paths to examples")
+        .required()
+        .action((x, c) => c.copy(input = x))
+      opt[String]("<output>")
+        .text(s"output paths to examples")
+        .required()
+        .action((x, c) => c.copy(output = x))
     }
-    val sparkConf = new SparkConf().setAppName("ScalaPageRank")
-    val input_path = args(0)
-    val output_path = args(1)
-    val iters = if (args.length > 2) args(2).toInt else 10
+
+    parser.parse(args, defaultParams).map { params =>
+      run(params)
+    }.getOrElse {
+      sys.exit(1)
+    }
+  }
+
+  def run(params: Params) {
+    val sparkConf = new SparkConf().setAppName("SparkPageRank")
     val ctx = new SparkContext(sparkConf)
 
     //  Modified by Lv: accept last two values from HiBench generated PageRank data format
-    val lines = ctx.textFile(input_path, 1)
+    val lines = ctx.textFile(params.input, 1)
     val links = lines.map { s =>
       val elements = s.split("\\s+")
       val parts = elements.slice(elements.length - 2, elements.length)
@@ -57,7 +81,7 @@ object SparkPageRank {
     }.distinct().groupByKey().cache()
     var ranks = links.mapValues(v => 1.0)
 
-    for (i <- 1 to iters) {
+    for (i <- 1 to params.numIterations) {
       val startT = System.currentTimeMillis()
       val contribs = links.join(ranks).values.flatMap { case (urls, rank) =>
         val size = urls.size
@@ -65,13 +89,13 @@ object SparkPageRank {
       }
       ranks = contribs.reduceByKey(_ + _).mapValues(0.15 + 0.85 * _)
       val stopT = System.currentTimeMillis()
-      printf("Spark pagerank iteration %d costs %.2f sec.\n", i, (stopT - startT) / 1000.0f)
+      printf("Finished iteration %d costs %.2f sec.\n", i, (stopT - startT) / 1000.0f)
     }
 
     //    val output = ranks.collect()
     //    output.foreach(tup => println(tup._1 + " has rank: " + tup._2 + "."))
     val io = new IOCommon(ctx)
-    io.save(output_path, ranks)
+    io.save(params.output, ranks)
     //    ranks.saveAsTextFile(output_path)
 
     ctx.stop()

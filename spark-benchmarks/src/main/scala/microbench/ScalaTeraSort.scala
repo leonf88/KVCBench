@@ -21,6 +21,7 @@ import org.apache.hadoop.examples.terasort.{TeraInputFormat, TeraOutputFormat}
 import org.apache.hadoop.io.{BytesWritable, Text}
 import org.apache.spark._
 import org.apache.spark.rdd._
+import scopt.OptionParser
 
 import scala.reflect.ClassTag
 
@@ -32,33 +33,55 @@ object ScalaTeraSort {
     case (a, b) => (new BytesWritable(a).compareTo(new BytesWritable(b))) < 0
   }
 
-  def main(args: Array[String]) {
-    if (args.length != 3) {
-      System.err.println(
-        s"Usage: $ScalaTeraSort <INPUT_HDFS> <OUTPUT_HDFS> <PARALLELS>"
-      )
-      System.exit(1)
+  case class Params(input: String = null,
+                    output: String = null,
+                    partitions: Int = 1)
+
+  def main(args: Array[String]): Unit = {
+    val defaultParams = Params()
+
+    val parser = new OptionParser[Params]("ScalaTeraSort") {
+      head(s"$ScalaTeraSort: an example TeraSort app.")
+      opt[Int]("partitions")
+        .text(s"number of partitions, default; ${defaultParams.partitions}")
+        .action((x, c) => c.copy(partitions = x))
+      arg[String]("<input>")
+        .text(s"input paths to examples")
+        .required()
+        .action((x, c) => c.copy(input = x))
+      arg[String]("<output>")
+        .text(s"output paths to examples")
+        .required()
+        .action((x, c) => c.copy(output = x))
     }
+
+    parser.parse(args, defaultParams).map { params =>
+      run(params)
+    }.getOrElse {
+      sys.exit(1)
+    }
+  }
+
+  def run(params: Params) {
     val sparkConf = new SparkConf().setAppName("ScalaTeraSort")
     val sc = new SparkContext(sparkConf)
     val io = new IOCommon(sc)
 
     //    val file = io.load[String](args(0), Some("Text"))
-    val data = sc.newAPIHadoopFile[Text, Text, TeraInputFormat](args(0)).map {
+    val data = sc.newAPIHadoopFile[Text, Text, TeraInputFormat](params.input).map {
       case (k, v) => (k.copyBytes, v.copyBytes)
     }
     //    val parallel = sc.getConf.getInt("spark.default.parallelism", sc.defaultParallelism)
     //    val reducer = IOCommon.getProperty("hibench.default.shuffle.parallelism")
     //      .getOrElse((parallel / 2).toString).toInt
-    val parallel = args(2).toInt
 
-    val partitioner = new BaseRangePartitioner(partitions = parallel, rdd = data)
+    val partitioner = new BaseRangePartitioner(partitions = params.partitions, rdd = data)
     val ordered_data = new ConfigurableOrderedRDDFunctions[Array[Byte], Array[Byte], (Array[Byte], Array[Byte])](data)
     val sorted_data = ordered_data.sortByKeyWithPartitioner(partitioner = partitioner).map {
       case (k, v) => (new Text(k), new Text(v))
     }
 
-    sorted_data.saveAsNewAPIHadoopFile[TeraOutputFormat](args(1))
+    sorted_data.saveAsNewAPIHadoopFile[TeraOutputFormat](params.output)
     //io.save(args(1), sorted_data)
 
     sc.stop()

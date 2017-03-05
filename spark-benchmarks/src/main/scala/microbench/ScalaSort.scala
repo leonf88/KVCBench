@@ -19,34 +19,58 @@ package microbench
 
 import org.apache.spark._
 import org.apache.spark.rdd.RDD
+import scopt.OptionParser
 
 import scala.reflect.ClassTag
 
 
-object ScalaSort{
-  implicit def rddToHashedRDDFunctions[K : Ordering : ClassTag, V: ClassTag]
-         (rdd: RDD[(K, V)]) = new ConfigurableOrderedRDDFunctions[K, V, (K, V)](rdd)
+object ScalaSort {
+  implicit def rddToHashedRDDFunctions[K: Ordering : ClassTag, V: ClassTag]
+  (rdd: RDD[(K, V)]) = new ConfigurableOrderedRDDFunctions[K, V, (K, V)](rdd)
 
-  def main(args: Array[String]){
-    if (args.length != 2){
-      System.err.println(
-        s"Usage: $ScalaSort <INPUT_HDFS> <OUTPUT_HDFS>"
-      )
-      System.exit(1)
+  case class Params(input: String = null,
+                    output: String = null,
+                    partitions: Int = 1)
+
+  def main(args: Array[String]): Unit = {
+    val defaultParams = Params()
+
+    val parser = new OptionParser[Params]("ScalaSort") {
+      head(s"$ScalaSort: an example TeraSort app.")
+      opt[Int]("partitions")
+        .text(s"number of partitions, default; ${defaultParams.partitions}")
+        .action((x, c) => c.copy(partitions = x))
+      arg[String]("<input>")
+        .text(s"input paths to examples")
+        .required()
+        .action((x, c) => c.copy(input = x))
+      arg[String]("<output>")
+        .text(s"output paths to examples")
+        .required()
+        .action((x, c) => c.copy(output = x))
     }
+
+    parser.parse(args, defaultParams).map { params =>
+      run(params)
+    }.getOrElse {
+      sys.exit(1)
+    }
+  }
+
+  def run(params: Params) {
     val sparkConf = new SparkConf().setAppName("ScalaSort")
     val sc = new SparkContext(sparkConf)
-
-    val parallel = sc.getConf.getInt("spark.default.parallelism", sc.defaultParallelism)
-    val reducer  = IOCommon.getProperty("hibench.default.shuffle.parallelism")
-      .getOrElse((parallel / 2).toString).toInt
-
     val io = new IOCommon(sc)
-    val data = io.load[String](args(0)).map((_, 1))
-    val partitioner = new HashPartitioner(partitions = reducer)
+
+    //    val parallel = sc.getConf.getInt("spark.default.parallelism", sc.defaultParallelism)
+    //    val reducer = IOCommon.getProperty("hibench.default.shuffle.parallelism")
+    //      .getOrElse((parallel / 2).toString).toInt
+
+    val data = io.load[String](params.input).map((_, 1))
+    val partitioner = new HashPartitioner(partitions = params.partitions)
     val sorted = data.sortByKeyWithPartitioner(partitioner = partitioner).map(_._1)
 
-    io.save(args(1), sorted)
+    io.save(params.output, sorted)
     sc.stop()
   }
 }

@@ -32,10 +32,6 @@ import scopt.OptionParser
   */
 object SparkKMeans {
 
-  //  def parseVector(line: String): Vector[Double] = {
-  //    DenseVector(line.split(' ').map(_.toDouble))
-  //  }
-
   def showWarning() {
     System.err.println(
       """WARN: This is a naive implementation of KMeans Clustering and is given as an example!
@@ -66,8 +62,8 @@ object SparkKMeans {
   def main(args: Array[String]) {
     val defaultParams = Params()
 
-    val parser = new OptionParser[Params]("DenseKMeans") {
-      head("DenseKMeans: an example k-means app for dense data.")
+    val parser = new OptionParser[Params]("SparkKMeans") {
+      head("SparkKMeans: an example k-means app for dense data.")
       opt[Int]('k', "k")
         .required()
         .text(s"number of clusters, required")
@@ -125,7 +121,7 @@ object SparkKMeans {
         kPoints(newP._1) = newP._2
       }
       val t2 = System.currentTimeMillis()
-      printf("Finished iteration %d (delta = %.2f ) cost %.2f sec.\n", i, tempDist, (t2 - t1) / 1000.0f)
+      printf("Finished iteration %d costs %.2f sec, (delta = %.2f ).\n", i, tempDist, (t2 - t1) / 1000.0f)
     }
 
     println("Final centers:")
