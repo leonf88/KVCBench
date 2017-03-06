@@ -19,9 +19,9 @@
 package org.apache.spark.examples
 
 import breeze.linalg.{DenseVector, squaredDistance}
-import org.apache.hadoop.io.LongWritable
+import org.apache.hadoop.io.{LongWritable, NullWritable, Text}
 import org.apache.mahout.math.VectorWritable
-import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.{IOCommon, SparkConf, SparkContext}
 import scopt.OptionParser
 
 /**
@@ -38,6 +38,10 @@ object SparkKMeans {
         |Please use org.apache.spark.ml.clustering.KMeans
         |for more conventional use.
       """.stripMargin)
+  }
+
+  def parseVector(line: String): DenseVector[Double] = {
+    DenseVector(line.split(' ').map(_.toDouble))
   }
 
   case class Params(input: String = null,
@@ -88,12 +92,25 @@ object SparkKMeans {
     val conf = new SparkConf().setAppName(s"Spark Kmeans")
     val sc = new SparkContext(conf)
 
-    val data = sc.sequenceFile[LongWritable, VectorWritable](params.input)
-    val examples = data.map { case (k, v) =>
-      val vector: Array[Double] = new Array[Double](v.get().size)
-      for (i <- 0 until v.get().size) vector(i) = v.get().get(i)
-      DenseVector(vector)
-    }.cache()
+    val input_format = IOCommon.getProperty("sparkbench.inputformat").getOrElse("Text")
+    val examples = input_format match {
+      case "Text" =>
+        val data = sc.textFile(params.input)
+        data.map(line =>
+          DenseVector(line.split("\\W+").map(_.toDouble))
+        ).cache()
+
+      case "Sequence" =>
+        val data = sc.sequenceFile[LongWritable, VectorWritable](params.input)
+        data.map { case (k, v) =>
+          val vector: Array[Double] = new Array[Double](v.get().size)
+          for (i <- 0 until v.get().size) vector(i) = v.get().get(i)
+          DenseVector(vector)
+        }.cache()
+
+      case _ => throw new UnsupportedOperationException(s"Unknown inpout format: $input_format")
+    }
+
 
     val loadStartTime = System.currentTimeMillis()
 

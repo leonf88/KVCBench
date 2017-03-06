@@ -176,7 +176,8 @@ do_kmeans_had()
             -cd ${CONVERGEDIST} \
             -xm mapreduce"
 
-            # use -cl to clustering
+            # use -k to specify the cluster number, but will overwrite the ${INPUT_CLUSTER}
+            # use -cl to clustering the input data with the trained model
 
     cmd="${MAHOUT_HOME}/bin/mahout kmeans ${OPTION}"
 

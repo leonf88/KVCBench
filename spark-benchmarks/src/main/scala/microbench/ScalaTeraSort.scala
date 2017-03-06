@@ -65,7 +65,6 @@ object ScalaTeraSort {
   def run(params: Params) {
     val sparkConf = new SparkConf().setAppName("ScalaTeraSort")
     val sc = new SparkContext(sparkConf)
-    val io = new IOCommon(sc)
 
     //    val file = io.load[String](args(0), Some("Text"))
     val data = sc.newAPIHadoopFile[Text, Text, TeraInputFormat](params.input).map {

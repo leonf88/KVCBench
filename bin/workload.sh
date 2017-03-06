@@ -41,7 +41,7 @@ case $1 in
 
       do_pagerank_had $S_DIR $H_TAR $N 4 1
   ;;
-  "web-Google_HAD")
+  "web-Google_PR_HAD")
       S_DIR=/data/pagerank/web-Google
       V_DIR=/data/pagerank/hadoop/web-Google/vec
       H_TAR=/output/pagerank/hadoop
@@ -49,7 +49,7 @@ case $1 in
 
       do_pagerank_had $S_DIR $H_TAR $N 4 10
   ;;
-  "LiveJournal1_HAD")
+  "LiveJournal1_PR_HAD")
       S_DIR=/data/pagerank/soc-LiveJournal1
       V_DIR=/data/pagerank/hadoop/soc-LiveJournal1/vec
       H_TAR=/output/pagerank/hadoop
@@ -57,7 +57,7 @@ case $1 in
 
       do_pagerank_had $S_DIR $H_TAR $N 4 10
   ;;
-  "com-friendster_HAD")
+  "com-friendster_PR_HAD")
       S_DIR=/data/pagerank/com-friendster
       V_DIR=/data/pagerank/hadoop/com-friendster/vec
       H_TAR=/output/pagerank/hadoop
@@ -90,14 +90,7 @@ case $1 in
       do_pagerank_had $S_DIR $H_TAR $N 4 10
   ;;
 
-  # Hadoop K-Means Jobs
-  "KDD_KM_HAD")
-      S_DIR=/kmeans/data/data_kddcup04
-      H_TAR=/kmeans/hadoop
-      CENTERS_PATH=/kmeans/data/centers/kdd-biotrain/part-randomSeed
-
-      do_kmeans_had $S_DIR $H_TAR $CENTERS_PATH 4 25 10 0.5
-  ;;
+  # Hadoop KMeans Jobs
   "1M_KM_HAD")
       S_DIR=/kmeans/data/1M
       H_TAR=/kmeans/hadoop
@@ -118,6 +111,13 @@ case $1 in
       CENTERS_PATH=/kmeans/data/centers/self-generate/part-randomSeed
 
       do_kmeans_had $S_DIR $H_TAR $CENTERS_PATH 4 25 10 0.5
+  ;;
+  "KDD04_KM_HAD")
+      S_DIR=/data/kmeans/data_kddcup04/data
+      H_TAR=/data/kmeans/data_kddcup04/cluster
+      OUTPUT_HDFS=/output/kmeans/hadoop
+
+      do_kmeans_had $S_DIR $H_TAR $OUTPUT_HDFS 10 0.5
   ;;
   "1M_KM_HAD_NEW")
       S_DIR=/data/kmeans/1M/data
@@ -270,14 +270,14 @@ case $1 in
       new_pagerank "${S_DIR}" "${M_TAR}" "2" "14"
   ;;
 
-  "LiveJournal1_DM")
+  "LiveJournal1_PR_DM")
       S_DIR=/data/pagerank/soc-LiveJournal1
       M_TAR=/pagerank/mpid
 
       new_pagerank "${S_DIR}" "${M_TAR}" "10" "14"
   ;;
 
-  "web-Google_DM")
+  "web-Google_PR_DM")
       S_DIR=/data/pagerank/web-Google
       M_TAR=/pagerank/mpid
 
@@ -361,19 +361,19 @@ case $1 in
 
       do_pagerank_spk $S_DIR $P_TAR "1"
   ;;
-  "LiveJournal1_SPK")
+  "LiveJournal1_PR_SPK")
       S_DIR=/data/pagerank/soc-LiveJournal1
       P_TAR=/output/pagerank/spark
 
       do_pagerank_spk $S_DIR $P_TAR "10"
   ;;
-  "web-Google_SPK")
+  "web-Google_PR_SPK")
       S_DIR=/data/pagerank/web-Google
       P_TAR=/output/pagerank/spark
 
       do_pagerank_spk $S_DIR $P_TAR "10"
   ;;
-  "com-friendster_SPK")
+  "com-friendster_PR_SPK")
       S_DIR=/data/pagerank/com-friendster
       P_TAR=/output/pagerank/spark
 
@@ -423,13 +423,12 @@ case $1 in
 
       do_kmeans2 $SOURCE_PATH $CENTERS_PATH $K_CENTERS $ITER_NUM
   ;;
-  "KDD_KM_SPK")
-      SOURCE_PATH=/kmeans/data/data_kddcup04
-      CENTERS_PATH=/kmeans/data/centers/centers.kdd
+  "KDD04_KM_SPK")
+      SOURCE_PATH=/data/kmeans/data_kddcup04/data
       K_CENTERS=25
       ITER_NUM=10
 
-      do_kmeans2 $SOURCE_PATH $CENTERS_PATH $K_CENTERS $ITER_NUM
+      do_kmeans_spk $SOURCE_PATH $K_CENTERS $ITER_NUM
   ;;
   "1M_KM_SPK_NEW")
       SOURCE_PATH=/data/kmeans/1M/data

@@ -3,6 +3,9 @@ Benchmark scripts for DataMPI, Hadoop, Spark, Flink, etc.
 
 ## Compile the Benchmarks
 
+    cd hadoop-benchmarks
+    mvn clean package 
+    
     cd flink-benchmarks
     mvn clean package assembly:single
     

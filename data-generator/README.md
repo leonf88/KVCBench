@@ -52,6 +52,39 @@
 
 * Using autogen to generate KMeans data
 
+    Convert the data to CSV format
+
+        #!/usr/bin/env python
+
+        import sys
+
+        inf=open(sys.argv[1], "r")
+        outf=open(sys.argv[2], "w")
+
+        for line in inf.readlines():
+                d=line.split("\t")
+                outf.write(",".join(d[3:]))
+
+        inf.close()
+        outf.close()
+
+    Generate data from existing csv (dim with ',')
+
+        INPUT_SAMPLE=/data/kmeans/data_kddcup04/data
+        INPUT_CLUSTER=/data/kmeans/data_kddcup04/cluster
+        CSV_DATASET=/home/lf/workplace/BenchScripts/data-generator/data_kddcup04/bio_train.csv
+        SAMPLES_PER_INPUTFILE=20000
+        NUM_OF_CLUSTERS=25
+        hadoop jar target/autogen-1.0-SNAPSHOT-jar-with-dependencies.jar org.apache.mahout.clustering.kmeans.GenKMeansDataset \
+            -D hadoop.job.history.user.location=${INPUT_SAMPLE} \
+            -sampleDir ${INPUT_SAMPLE} \
+            -clusterDir ${INPUT_CLUSTER} \
+            -datasetFile ${CSV_DATASET} \
+            -samplesPerFile ${SAMPLES_PER_INPUTFILE} \
+            -numClusters ${NUM_OF_CLUSTERS}
+
+    Generate data randomly
+
         INPUT_SAMPLE=/data/kmeans/1M/data
         INPUT_CLUSTER=/data/kmeans/1M/cluster
         NUM_OF_CLUSTERS=25

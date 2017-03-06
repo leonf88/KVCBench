@@ -13,6 +13,7 @@ JOB_LIST=(
 #  "10M_PR_HAD"
 #  "30M_PR_HAD"
 
+    "KDD04_KM_HAD"
 #    "1M_KM_HAD_NEW"
 #    "10M_KM_HAD_NEW"
 #    "30M_KM_HAD_NEW"
@@ -20,23 +21,23 @@ JOB_LIST=(
 
 #    "2G_TERA_HAD"
 #    "10G_TERA_HAD"
-    "20G_TERA_HAD"
-    "40G_TERA_HAD"
-    "80G_TERA_HAD"
+#    "20G_TERA_HAD"
+#    "40G_TERA_HAD"
+#    "80G_TERA_HAD"
 #    "160G_TERA_HAD"
 
 #    "2G_WC_HAD"
 #    "10G_WC_HAD"
-    "20G_WC_HAD"
-    "40G_WC_HAD"
-    "80G_WC_HAD"
+#    "20G_WC_HAD"
+#    "40G_WC_HAD"
+#    "80G_WC_HAD"
 #    "160G_WC_HAD"
 
 #    "2G_ST_HAD"
 #    "10G_ST_HAD"
-    "20G_ST_HAD"
-    "40G_ST_HAD"
-    "80G_ST_HAD"
+#    "20G_ST_HAD"
+#    "40G_ST_HAD"
+#    "80G_ST_HAD"
 #    "160G_ST_HAD"
 )
 
@@ -46,7 +47,7 @@ for job in ${JOB_LIST[@]}; do
 done
 
 del_data /output
-sleep 60
+#sleep 60
 
 bash $HADOOP_HOME/sbin/start-yarn.sh
 bash ./runtest-test.sh

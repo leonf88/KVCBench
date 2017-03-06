@@ -18,6 +18,14 @@
 
 * K-Means
 
+    Prepare the Sequence File
+
+        /home/lf/workplace/BenchScripts/frameworks/apache-mahout-distribution-0.12.2/bin/mahout seqdirectory \
+            -i /data/kmeans/data_kddcup04/raw \
+            -o /data/kmeans/data_kddcup04/data
+
+    Run Clustering Algorithm
+
         /home/lf/workplace/BenchScripts/frameworks/apache-mahout-distribution-0.12.2/bin/mahout kmeans \
             -i /data/kmeans/10M/data \
             -c /data/kmeans/10M/cluster \
@@ -42,6 +50,10 @@
             hdfs://172.22.1.21:9003//output/pagerank/spark
 
 * K-Means
+
+        export SPARKBENCH_PROPERTIES_FILES=/home/lf/workplace/BenchScripts/bin/conf/bench-txt.conf
+        # or
+        export SPARKBENCH_PROPERTIES_FILES=/home/lf/workplace/BenchScripts/bin/conf/bench-seq.conf
 
         /home/lf/workplace/BenchScripts/frameworks/spark-1.6.2-bin-hadoop2.6/bin/spark-submit \
             --class org.apache.spark.examples.SparkKMeans \

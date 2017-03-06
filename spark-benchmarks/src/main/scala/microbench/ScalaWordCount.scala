@@ -43,6 +43,6 @@ object ScalaWordCount {
       .map(word => (word, 1))
       .reduceByKey(_ + _)
     io.save(params.output, counts)
-//    sc.stop()
+    sc.stop()
   }
 }
