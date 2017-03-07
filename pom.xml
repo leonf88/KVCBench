@@ -10,7 +10,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>iDataMPI-benchmarks</module>
+        <module>dm-benchmarks</module>
         <module>flink-benchmarks</module>
         <module>spark-benchmarks</module>
         <module>hadoop-benchmarks</module>
@@ -69,31 +69,31 @@
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-streaming-java</artifactId>
-                <version>${flink.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-connector-kafka</artifactId>
-                <version>${flink.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.spark</groupId>
-                <artifactId>spark-core_${scala.binary.version}</artifactId>
-                <version>${spark.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.spark</groupId>
-                <artifactId>spark-streaming_${scala.binary.version}</artifactId>
-                <version>${spark.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.spark</groupId>
-                <artifactId>spark-streaming-kafka_${scala.binary.version}</artifactId>
-                <version>${spark.version}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.apache.flink</groupId>-->
+                <!--<artifactId>flink-streaming-java</artifactId>-->
+                <!--<version>${flink.version}</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>org.apache.flink</groupId>-->
+                <!--<artifactId>flink-connector-kafka</artifactId>-->
+                <!--<version>${flink.version}</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>org.apache.spark</groupId>-->
+                <!--<artifactId>spark-core_${scala.binary.version}</artifactId>-->
+                <!--<version>${spark.version}</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>org.apache.spark</groupId>-->
+                <!--<artifactId>spark-streaming_${scala.binary.version}</artifactId>-->
+                <!--<version>${spark.version}</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>org.apache.spark</groupId>-->
+                <!--<artifactId>spark-streaming-kafka_${scala.binary.version}</artifactId>-->
+                <!--<version>${spark.version}</version>-->
+            <!--</dependency>-->
             <dependency>
                 <groupId>org.scala-lang</groupId>
                 <artifactId>scala-library</artifactId>

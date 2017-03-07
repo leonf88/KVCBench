@@ -107,5 +107,5 @@ set ylabel "Memory Footprint (GB)" #font "Helvetica,28"
 
 plot 'had.data' u ($1):(15936-$7)/1000 t "Hadoop"   w lp lt 1 lc 1  pt 1, \
      'dm.data'  u ($1):(15936-$7)/1000 t "DataMPI"  w lp lt 1 lc 3  pt 2, \
-     'spk.data' u ($1):(15936-$7)/1000 t "Spark"    w lp lt 1 lc 7  pt 3, \
+     'spk.data' u ($1):(15936-$7)/1000 t "Spark"    w lp lt 1 lc 7  pt 3
 reset

@@ -4,6 +4,7 @@
 # Author : Lu CHAO(me@chao.lu)
 # Date : 2014/04/22  
 # Modified by : Fan Liang
+# Naming format: <Dataset>_<Bench_Type>_<Platform>
 
 source basic.sh
 ldfunc
@@ -262,49 +263,267 @@ case $1 in
       do_text_wc_had $S_DIR $OUTPUT_HDFS 4
   ;;
 
-  # DataMPI Jobs
-  "Friendster_DM")
+  # DataMPI Terasort Jobs
+  "2G_TERA_DM")
+      S_DIR=/data/terasort/2G-tera
+      OUTPUT_HDFS=/output/tera/2G
+
+      do_terasort_dm $S_DIR $OUTPUT_HDFS 1 1
+  ;;
+  "10G_TERA_DM")
+      S_DIR=/data/terasort/10G-tera
+      OUTPUT_HDFS=/output/dm/tera
+
+      do_terasort_dm $S_DIR $OUTPUT_HDFS 4 4
+  ;;
+  "20G_TERA_DM")
+      S_DIR=/data/terasort/20G-tera
+      OUTPUT_HDFS=/output/dm/tera
+
+      do_terasort_dm $S_DIR $OUTPUT_HDFS 4 4
+  ;;
+  "40G_TERA_DM")
+      S_DIR=/data/terasort/40G-tera
+      OUTPUT_HDFS=/output/dm/tera
+
+      do_terasort_dm $S_DIR $OUTPUT_HDFS 4 4
+  ;;
+  "80G_TERA_DM")
+      S_DIR=/data/terasort/80G-tera
+      OUTPUT_HDFS=/output/dm/tera
+
+      do_terasort_dm $S_DIR $OUTPUT_HDFS 4 4
+  ;;
+  "160G_TERA_DM")
+      S_DIR=/data/terasort/160G-tera
+      OUTPUT_HDFS=/output/dm/tera
+
+      do_terasort_dm $S_DIR $OUTPUT_HDFS 4 4
+  ;;
+
+  # DataMPI Sort Jobs
+  "2G_ST_DM")
+      S_DIR=/data/text/2G-text
+      OUTPUT_HDFS=/output/st/dm/2G
+
+      do_text_sort_dm $S_DIR $OUTPUT_HDFS 1 1
+  ;;
+  "10G_ST_DM")
+      S_DIR=/data/text/10G-text
+      OUTPUT_HDFS=/output/dm/st
+
+      do_text_sort_dm $S_DIR $OUTPUT_HDFS 4 4
+  ;;
+  "20G_ST_DM")
+      S_DIR=/data/text/20G-text
+      OUTPUT_HDFS=/output/dm/st
+
+      do_text_sort_dm $S_DIR $OUTPUT_HDFS 4 4
+  ;;
+  "40G_ST_DM")
+      S_DIR=/data/text/40G-text
+      OUTPUT_HDFS=/output/dm/st
+
+      do_text_sort_dm $S_DIR $OUTPUT_HDFS 4 4
+  ;;
+  "80G_ST_DM")
+      S_DIR=/data/text/80G-text
+      OUTPUT_HDFS=/output/dm/st
+
+      do_text_sort_dm $S_DIR $OUTPUT_HDFS 4 4
+  ;;
+  "160G_ST_DM")
+      S_DIR=/data/text/160G-text
+      OUTPUT_HDFS=/output/dm/st
+
+      do_text_sort_dm $S_DIR $OUTPUT_HDFS 4 4
+  ;;
+
+  # DataMPI WordCount Jobs
+  "2G_WC_DM")
+      S_DIR=/data/text/2G-text
+      OUTPUT_HDFS=/output/wc/2G
+
+      do_text_wc_dm $S_DIR $OUTPUT_HDFS 1 1
+  ;;
+  "10G_WC_DM")
+      S_DIR=/data/text/10G-text
+      OUTPUT_HDFS=/output/dm/wc
+
+      do_text_wc_dm $S_DIR $OUTPUT_HDFS 4 4
+  ;;
+  "20G_WC_DM")
+      S_DIR=/data/text/20G-text
+      OUTPUT_HDFS=/output/dm/wc
+
+      do_text_wc_dm $S_DIR $OUTPUT_HDFS 4 4
+  ;;
+  "40G_WC_DM")
+      S_DIR=/data/text/40G-text
+      OUTPUT_HDFS=/output/dm/wc
+
+      do_text_wc_dm $S_DIR $OUTPUT_HDFS 4 4
+  ;;
+  "80G_WC_DM")
+      S_DIR=/data/text/80G-text
+      OUTPUT_HDFS=/output/dm/wc
+
+      do_text_wc_dm $S_DIR $OUTPUT_HDFS 4 4
+  ;;
+  "160G_WC_DM")
+      S_DIR=/data/text/160G-text
+      OUTPUT_HDFS=/output/dm/wc
+
+      do_text_wc_dm $S_DIR $OUTPUT_HDFS 4 4
+  ;;
+
+  # DataMPI PageRank Jobs
+  "1M_PR_DM_TEST")
+      S_DIR=/data/pagerank/1M
+      V_DIR=/data/pagerank/1M_dm_init_vector
+      M_TAR=/pagerank/mpid
+      let "N=2**20"
+
+      do_pagerank_dm "${S_DIR}" "${V_DIR}" "${M_TAR}" 1 1 ${N} 1
+  ;;
+  "Friendster_PR_DM")
+      S_DIR=/data/pagerank/com-friendster
+      V_DIR=/data/pagerank/com-friendster_dm_init_vector
+      M_TAR=/pagerank/mpid
+      N=65608366
+
+      do_pagerank_dm "${S_DIR}" "${V_DIR}" "${M_TAR}" 4 4 ${N} 10
+  ;;
+  "LiveJournal1_PR_DM")
+      S_DIR=/data/pagerank/soc-LiveJournal1
+      V_DIR=/data/pagerank/soc-LiveJournal1_dm_init_vector
+      M_TAR=/pagerank/mpid
+      N=4847571
+
+      do_pagerank_dm "${S_DIR}" "${V_DIR}" "${M_TAR}" 4 4 ${N} 10
+  ;;
+  "web-Google_PR_DM")
+      S_DIR=/data/pagerank/web-Google
+      V_DIR=/data/pagerank/web-Google_dm_init_vector
+      M_TAR=/pagerank/mpid
+      N=875713
+
+      do_pagerank_dm "${S_DIR}" "${V_DIR}" "${M_TAR}" 1 1 ${N} 10
+  ;;
+  "30M_PR_DM")
+      S_DIR=/data/pagerank/30M
+      V_DIR=/data/pagerank/30M_dm_init_vector
+      M_TAR=/pagerank/mpid
+      let "N=2**25"
+
+      do_pagerank_dm "${S_DIR}" "${V_DIR}" "${M_TAR}" 4 4 ${N} 10
+  ;;
+  "1M_PR_DM")
+      S_DIR=/data/pagerank/1M
+      V_DIR=/data/pagerank/1M_dm_init_vector
+      M_TAR=/pagerank/mpid
+      let "N=2**20"
+
+      do_pagerank_dm "${S_DIR}" "${V_DIR}" "${M_TAR}" 1 1 ${N} 10
+  ;;
+  "10M_PR_DM")
+      S_DIR=/data/pagerank/10M
+      V_DIR=/data/pagerank/10M_dm_init_vector
+      M_TAR=/pagerank/mpid
+      let "N=2**23"
+
+      do_pagerank_dm "${S_DIR}" "${V_DIR}" "${M_TAR}" 4 4 ${N} 10
+  ;;
+
+  # iDataMPI PageRank Jobs
+  "Friendster_PR_DM_NEW")
       S_DIR=/data/pagerank/com-friendster
       M_TAR=/pagerank/mpid
 
       new_pagerank "${S_DIR}" "${M_TAR}" "2" "14"
   ;;
 
-  "LiveJournal1_PR_DM")
+  "LiveJournal1_PR_DM_NEW")
       S_DIR=/data/pagerank/soc-LiveJournal1
       M_TAR=/pagerank/mpid
 
       new_pagerank "${S_DIR}" "${M_TAR}" "10" "14"
   ;;
 
-  "web-Google_PR_DM")
+  "web-Google_PR_DM_NEW")
       S_DIR=/data/pagerank/web-Google
       M_TAR=/pagerank/mpid
 
       new_pagerank "${S_DIR}" "${M_TAR}" "10" "14"
   ;;
 
-  "30M_PR_DM")
+  "30M_PR_DM_NEW")
       S_DIR=/data/pagerank/30M
       M_TAR=/pagerank/mpid
 
       new_pagerank "${S_DIR}" "${M_TAR}" "10" "14"
   ;;
 
-  "1M_PR_DM")
+  "1M_PR_DM_NEW")
       S_DIR=/data/pagerank/1M
       M_TAR=/pagerank/mpid
 
       new_pagerank "${S_DIR}" "${M_TAR}" "10" "14"
   ;;
 
-  "10M_PR_DM")
+  "10M_PR_DM_NEW")
       S_DIR=/data/pagerank/10M
       M_TAR=/pagerank/mpid
 
       new_pagerank "${S_DIR}" "${M_TAR}" "10" "14"
   ;;
-  "KM_10M_DM")
+
+  # DataMPI KMeans Jobs
+  "KDD04_KM_DM_TEST")
+      S_DIR=/data/kmeans/data_kddcup04/data
+      TARGET_PATH=/output/kmeans/kdd-dm
+      CENTER_NUMBER=25
+      ITER_COUNT=1
+
+      do_kmeans_dm "${S_DIR}" "${TARGET_PATH}" 1 1 "${CENTER_NUMBER}" "${ITER_COUNT}"
+  ;;
+
+  "10M_KM_DM")
+      S_DIR=/data/kmeans/10M/data
+      TARGET_PATH=/output/kmeans/kdd-dm
+      CENTER_NUMBER=25
+      ITER_COUNT=10
+
+      do_kmeans_dm "${S_DIR}" "${TARGET_PATH}" 4 4 "${CENTER_NUMBER}" "${ITER_COUNT}"
+  ;;
+  "30M_KM_DM")
+      S_DIR=/data/kmeans/30M/data
+      TARGET_PATH=/output/kmeans/kdd-dm
+      CENTER_NUMBER=25
+      ITER_COUNT=10
+
+      do_kmeans_dm "${S_DIR}" "${TARGET_PATH}" 4 4 "${CENTER_NUMBER}" "${ITER_COUNT}"
+  ;;
+  "1M_KM_DM")
+      S_DIR=/data/kmeans/1M/data
+      TARGET_PATH=/output/kmeans/kdd-dm
+      CENTER_NUMBER=25
+      ITER_COUNT=10
+
+      do_kmeans_dm "${S_DIR}" "${TARGET_PATH}" 4 4 "${CENTER_NUMBER}" "${ITER_COUNT}"
+  ;;
+
+  "KDD04_KM_DM")
+      S_DIR=/data/kmeans/data_kddcup04/data
+      TARGET_PATH=/output/kmeans/kdd-dm
+      CENTER_NUMBER=25
+      ITER_COUNT=10
+
+      do_kmeans_dm "${S_DIR}" "${TARGET_PATH}" 1 1 "${CENTER_NUMBER}" "${ITER_COUNT}"
+  ;;
+
+  # iDataMPI KMeans Jobs
+  "10M_KM_DM_NEW")
       S_DIR=/kmeans/data/10M
       CENTER_SOURCE=/kmeans/data/centers/centers.100d.25p
       CENTER_NUMBER=25
@@ -313,7 +532,7 @@ case $1 in
 
       new_kmeans "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
   ;;
-  "KM_30M_DM")
+  "30M_KM_DM_NEW")
       S_DIR=/kmeans/data/30M
       CENTER_SOURCE=/kmeans/data/centers/centers.100d.25p
       CENTER_NUMBER=25
@@ -322,7 +541,7 @@ case $1 in
 
       new_kmeans "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
   ;;
-  "KM_1M_DM")
+  "1M_KM_DM_NEW")
       S_DIR=/kmeans/data/1M
       CENTER_SOURCE=/kmeans/data/centers/centers.100d.25p
       CENTER_NUMBER=25
@@ -332,7 +551,7 @@ case $1 in
       new_kmeans "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
   ;;
 
-  "KM_KDD_DM")
+  "KDD04_KM_DM_NEW")
       S_DIR=/kmeans/data/data_kddcup04
       CENTER_SOURCE=/kmeans/data/centers/centers.kdd
       CENTER_NUMBER=25

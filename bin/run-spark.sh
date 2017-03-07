@@ -50,7 +50,7 @@ del_data /output
 #sleep 60
 
 export SPARKBENCH_PROPERTIES_FILES="$_TESTDIR/conf/bench-txt.conf" # for wc and st, pr
-export SPARKBENCH_PROPERTIES_FILES="$_TESTDIR/conf/bench-seq.conf" # for terasort
+export SPARKBENCH_PROPERTIES_FILES="$_TESTDIR/conf/bench-seq.conf" # for terasort, km
 
 bash $SPARK_HOME/sbin/start-all.sh
 bash ./runtest-test.sh

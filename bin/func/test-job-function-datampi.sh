@@ -48,16 +48,16 @@ _check_mpi_start()
 }
 
 ##  DataMPI jobs
-_do_mpid_func()
+_do_dm_func()
 {
     # need set TARGET_PATH, SOURCE_PATH, JOB_NAME, HADOOP_HOME, LOG_NAME, REPORT_NAME
 #   del_data ${TARGET_PATH}
-    isSrcExist=`${HADOOP_HOME}/bin/hadoop fs -ls ${SOURCE_PATH}`
-    if [ "$isSrcExist" = "" ]
-    then
-        echo "[FAIL] DataMPI $JOB_NAME `basename $SOURCE_PATH` MAPS $MAPS REDUCES $REDS. Doesn't have $SOURCE_PATH" | tee -a $REPORT_NAME
-        return 1
-    fi
+#    isSrcExist=`${HADOOP_HOME}/bin/hadoop fs -ls ${SOURCE_PATH}`
+#    if [ "$isSrcExist" = "" ]
+#    then
+#        echo "[FAIL] DataMPI $JOB_NAME `basename $SOURCE_PATH` MAPS $MAPS REDUCES $REDS. Doesn't have $SOURCE_PATH" | tee -a $REPORT_NAME
+#        return 1
+#    fi
 
     i=1
     for((;i!=0;i--)){
@@ -73,17 +73,17 @@ _do_mpid_func()
         	bash -c "${cmd}" 2>&1 | tee -a ${LOG_NAME} &
 			;;
 		esac
-        PId=$!  
-        if [ "`_check_mpi_start $startLine $PId`" = "0" ] 
-        then 
-            break 
+        PId=$!
+        if [ "`_check_mpi_start $startLine $PId`" = "0" ]
+        then
+            break
         fi
     }
 
     if [ "$i" != "0" ]
     then
         wait $PId
-        
+
         if [ "$?" != "0" -o "`check_log ${startLine}`" != "0" ]
         then
              echo "[FAIL] DataMPI $JOB_NAME `basename $SOURCE_PATH` MAPS $MAPS REDUCES $REDS. " | tee -a $REPORT_NAME
@@ -100,7 +100,7 @@ _do_mpid_func()
     startLine=0
 }
 
-do_tera_st_mpid()
+do_terasort_dm()
 {
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
 
@@ -108,36 +108,17 @@ do_tera_st_mpid()
     TARGET_PATH=${2}
     MAPS=$((${3} * ${HOSTS_NUM}))
     REDS=$((${4} * ${HOSTS_NUM}))
-    JOB_NAME="terast"
+    JOB_NAME="TeraSort"
 
     cmd="${MPI_D_HOME}/bin/mpidrun -f ${MPI_D_SLAVES} \
         -mode COM -O ${MAPS} -A ${REDS} \
-        -jar ${DATAMPI_EXAMPLE_JAR} mpid.examples.TeraSortOnHDFSDataLocal \
+        -jar ${DATAMPI_BENCH_JAR} microbench.TeraSortOnHDFSDataLocal \
         ${HDFS_CONF_CORE} ${SOURCE_PATH} ${TARGET_PATH}"
 
-    _do_mpid_func
+    _do_dm_func
 }
 
-do_text_wc_mpid_local()
-{
-    ##  use text data
-    HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
-
-    SOURCE_PATH=${1}
-    TARGET_PATH=${2}
-    MAPS=$((${3} * ${HOSTS_NUM}))
-    REDS=$MAPS
-    JOB_NAME="textwclocal"
-
-    cmd="${MPI_D_HOME}/bin/mpidrun -f ${MPI_D_SLAVES} \
-        -mode COM -O ${MAPS} -A ${REDS} \
-        -jar ${DATAMPI_EXAMPLE_JAR} mpid.examples.WordCountOnHDFSDataLocal \
-        ${HDFS_CONF_CORE} ${SOURCE_PATH} ${TARGET_PATH}"
-
-    _do_mpid_func
-}
-
-do_text_wc_mpid()
+do_text_wc_dm()
 {
     ##  use text data
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
@@ -149,31 +130,13 @@ do_text_wc_mpid()
 
     cmd="${MPI_D_HOME}/bin/mpidrun -f ${MPI_D_SLAVES} \
         -mode COM -O ${MAPS} -A 1 \
-        -jar ${DATAMPI_EXAMPLE_JAR} mpid.examples.WordCountOnHDFS \
+        -jar ${DATAMPI_BENCH_JAR} microbench.WordCountOnHDFSDataLocal \
         ${HDFS_CONF_CORE} ${SOURCE_PATH} ${TARGET_PATH}"
 
-    _do_mpid_func
+    _do_dm_func
 }
 
-do_text_sort_mpid()
-{
-    HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
-
-    SOURCE_PATH=${1}
-    TARGET_PATH=${2}
-    MAPS=$((${3} * ${HOSTS_NUM}))
-    REDS=$((${4} * ${HOSTS_NUM}))
-    JOB_NAME="textst"
-
-    cmd="${MPI_D_HOME}/bin/mpidrun -f ${MPI_D_SLAVES} \
-        -mode COM -O ${MAPS} -A ${REDS} \
-        -jar ${DATAMPI_EXAMPLE_JAR} mpid.examples.SortOnHDFS \
-        ${HDFS_CONF_CORE} ${SOURCE_PATH} ${TARGET_PATH}"
-
-    _do_mpid_func
-}
-
-do_text_sort_mpid_local()
+do_text_sort_dm()
 {
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
 
@@ -185,13 +148,13 @@ do_text_sort_mpid_local()
 
     cmd="${MPI_D_HOME}/bin/mpidrun -f ${MPI_D_SLAVES} \
         -mode COM -O ${MAPS} -A ${REDS} \
-        -jar ${DATAMPI_EXAMPLE_JAR} mpid.examples.SortOnHDFSDataLocal \
+        -jar ${DATAMPI_BENCH_JAR} microbench.SortOnHDFSDataLocal \
         ${HDFS_CONF_CORE} ${SOURCE_PATH} ${TARGET_PATH}"
 
-    _do_mpid_func
+    _do_dm_func
 }
 
-do_bytes_sort_mpid()
+do_bytes_sort_dm()
 {
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
 
@@ -203,13 +166,13 @@ do_bytes_sort_mpid()
 
     cmd="${MPI_D_HOME}/bin/mpidrun -f ${MPI_D_SLAVES} \
         -mode COM -O ${MAPS} -A ${REDS} \
-        -jar ${DATAMPI_EXAMPLE_JAR} mpid.examples.BytesSortOnHDFS \
+        -jar ${DATAMPI_BENCH_JAR} mpicrobench.BytesSortOnHDFS \
         ${HDFS_CONF_CORE} ${SOURCE_PATH} ${TARGET_PATH}"
 
-    _do_mpid_func
+    _do_dm_func
 }
 
-do_text_grep_mpid()
+do_text_grep_dm()
 {
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
 
@@ -221,32 +184,14 @@ do_text_grep_mpid()
 
     cmd="${MPI_D_HOME}/bin/mpidrun -f ${MPI_D_SLAVES} \
         -mode COM -O ${MAPS} -A ${REDS} \
-        -jar ${DATAMPI_EXAMPLE_JAR} mpid.examples.GrepOnHDFSDataLocal \
+        -jar ${DATAMPI_BENCH_JAR} mpicrobench.GrepOnHDFSDataLocal \
         ${HDFS_CONF_CORE} ${SOURCE_PATH} ${TARGET_PATH} princess"
 
-    _do_mpid_func
+    _do_dm_func
 
 }
 
-do_dmbdb_sort_mpid()
-{
-    HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
-
-    SOURCE_PATH=${1}
-    TARGET_PATH=${2}
-    MAPS=$((${3} * ${HOSTS_NUM}))
-    REDS=$((${4} * ${HOSTS_NUM}))
-    JOB_NAME="seqst"
-
-    cmd="${MPI_D_HOME}/bin/mpidrun -f ${MPI_D_SLAVES} \
-        -mode COM -O ${MAPS} -A ${REDS} \
-        -jar ${DATAMPI_EXAMPLE_JAR} dmb.Sort \
-        ${HDFS_CONF_CORE} ${SOURCE_PATH} ${TARGET_PATH} bytes"
-
-    _do_mpid_func
-}
-
-do_kmeans_mpid()
+do_kmeans_dm()
 {
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
 
@@ -262,8 +207,8 @@ do_kmeans_mpid()
     cmd="${MPI_D_HOME}/bin/mpidrun -f ${MPI_D_SLAVES} \
         -mode COM -O ${MAPS} -A ${REDS} \
         -jar ${DATAMPI_BENCH_JAR} \
-        dmb.kmeans.KmeansInit \
-        ${POINT_PATH} ${CENTERS_PATH} $KCENTERS"
+        mlbench.kmeans.KmeansInit \
+        ${HDFS_CONF_CORE} ${POINT_PATH} ${CENTERS_PATH} $KCENTERS"
 
     isSrcExist=`${HADOOP_HOME}/bin/hadoop fs -ls ${SOURCE_PATH}`
     if [ "$isSrcExist" = "" ]
@@ -287,8 +232,8 @@ do_kmeans_mpid()
         cmd="${MPI_D_HOME}/bin/mpidrun -f ${MPI_D_SLAVES} \
             -mode COM -O ${MAPS} -A ${REDS} \
             -jar ${DATAMPI_BENCH_JAR} \
-            dmb.kmeans.KmeansIter \
-            ${POINT_PATH} ${PREV_CENTERS_PATH} ${CENTERS_PATH} $KCENTERS"
+            mlbench.kmeans.KmeansIter \
+            ${HDFS_CONF_CORE} ${POINT_PATH} ${PREV_CENTERS_PATH} ${CENTERS_PATH} $KCENTERS"
 
         echo ${cmd} | tee -a ${LOG_NAME}
         ${cmd} 2>&1 | tee -a ${LOG_NAME}
@@ -300,8 +245,9 @@ do_kmeans_mpid()
 
     echo "[OK] DataMPI $JOB_NAME `basename $POINT_PATH` total cost $((t2-t1)) sec" | tee -a $REPORT_NAME
 }
+
 # $1 is edges , $2 is vecs, $3 is outputs, $4 is iters, $5 is maps ,$6 is reds
-do_pagerank_mpid()
+do_pagerank_dm_new()
 {
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
 
@@ -319,35 +265,63 @@ do_pagerank_mpid()
 	del_data $PRVEC_PATH
 	copy_data $VEC_PATH $PRVEC_PATH
 	cmd="f_pagerank"
-    _do_mpid_func
+    _do_dm_func
     del_data $TMP_PATH
 	del_data $PRVEC_PATH
 }
 
-run_pagerank()
+do_pagerank_dm()
 {
-    for i in `seq 1 $MAX_ITERS`;
+    HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
+
+    SOURCE_PATH=${1}
+    INIT_VEC_PATH=${2}
+    TARGET_PATH="${3}/pr_target_vec"
+	MAPS=$((${4} * ${HOSTS_NUM}))
+    REDS=$((${5} * ${HOSTS_NUM}))
+    VEC_NUM=${6}
+    MAX_ITER_NUM=${7}
+
+    VEC_PATH="${3}/pr_temp_vec"
+    MODEL_PATH="${3}/pr_temp_model"
+
+    del_data ${VEC_PATH%\/*}
+	${HADOOP_HOME}/bin/hadoop fs -mkdir ${VEC_PATH%\/*}
+    copy_data ${INIT_VEC_PATH} ${VEC_PATH}
+
+    for i in `seq 1 $MAX_ITER_NUM`;
     do
-	echo "ITER: loop $i"
-	echo "First Stage ......." 
-    "${MPI_D_HOME}/bin/mpidrun" \
-        -f ${MPI_D_SLAVES} -mode COM \
-        -O "${MAPS}" -A "${REDS}"  \
-        -jar $DATAMPI_BENCH_JAR dmb.web.pagerank.PagerankNaive \
-        "${HDFS_CONF_CORE}" "${SOURCE_PATH}" "${PRVEC_PATH}" "${TMP_PATH}"; 
-	echo "Second Stage ......"
-    "${MPI_D_HOME}/bin/mpidrun" \
-        -f ${MPI_D_SLAVES} -mode COM \
-        -O "${MAPS}" -A "${REDS}"  \
-        -jar $DATAMPI_BENCH_JAR dmb.web.pagerank.PagerankMerge \
-        "${HDFS_CONF_CORE}" "${TMP_PATH}" "${TARGET_PATH}" \
-        "${I}" "0.85" ; 
-    del_data ${PRVEC_PATH}; 
-    del_data ${TMP_PATH}; 
-    if [ ! $i = $MAX_ITERS ]
-    then 
-        move_data ${TARGET_PATH} ${PRVEC_PATH} 
-    fi 
+        echo "ITER: loop $i"
+        echo "First Stage ......."
+
+        del_data ${MODEL_PATH}
+
+        cmd="${MPI_D_HOME}/bin/mpidrun \
+            -f ${MPI_D_SLAVES} -mode COM \
+            -O ${MAPS} -A ${REDS}  \
+            -jar ${DATAMPI_BENCH_JAR} mlbench.pagerank.PagerankNaive \
+            ${HDFS_CONF_CORE} ${SOURCE_PATH} ${VEC_PATH} ${MODEL_PATH}"
+
+        _do_dm_func
+
+        echo "Second Stage ......"
+
+        del_data ${VEC_PATH}
+
+        cmd="${MPI_D_HOME}/bin/mpidrun \
+            -f ${MPI_D_SLAVES} -mode COM \
+            -O ${MAPS} -A ${REDS}  \
+            -jar ${DATAMPI_BENCH_JAR} mlbench.pagerank.PagerankMerge \
+            ${HDFS_CONF_CORE} ${MODEL_PATH} ${VEC_PATH} \
+            ${VEC_NUM} 0.85"
+
+        _do_dm_func
+
+        if [ $i -eq $MAX_ITER_NUM ]; then
+            echo "PageRank has reached the maxium iteration limits. Now we have to finish..."
+            move_data ${VEC_PATH} ${TARGET_PATH}
+            break
+        fi
     done
 }
 
@@ -365,11 +339,11 @@ new_pagerank(){
         mpid.iteration.examples.pagerank.PageRank \
         $SOURCE_PATH $ITER_COUNT $OUTPUT"
 
-	_do_mpid_func
+	_do_dm_func
 }
 
 new_kmeans(){
-	
+
     SOURCE_PATH=$1
 	CENTER_SOURCE=$2
     ITER_COUNT=$3
@@ -384,5 +358,5 @@ new_kmeans(){
         mpid.iteration.examples.Kmeans \
         $SOURCE_PATH $CENTER_SOURCE $CENTER_NUMBER $VEC_DIMENSION $ITER_COUNT"
 
-	_do_mpid_func
+	_do_dm_func
 }

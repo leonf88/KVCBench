@@ -12,6 +12,9 @@ Benchmark scripts for DataMPI, Hadoop, Spark, Flink, etc.
     cd spark-benchmarks
     mvn clean package assembly:single
 
+    cd dm-benchmarks
+    mvn clean package -Dmaven.test.skip=true
+
 ## Exception
 
 ### 1. Compile Spark with scala 2.11

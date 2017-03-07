@@ -13,11 +13,11 @@ JOB_LIST=(
 #  "10M_PR_HAD"
 #  "30M_PR_HAD"
 
-    "KDD04_KM_HAD"
+#    "KDD04_KM_HAD"
 #    "1M_KM_HAD_NEW"
 #    "10M_KM_HAD_NEW"
 #    "30M_KM_HAD_NEW"
-#    "60M_KM_HAD_NEW"
+    "60M_KM_HAD_NEW"
 
 #    "2G_TERA_HAD"
 #    "10G_TERA_HAD"

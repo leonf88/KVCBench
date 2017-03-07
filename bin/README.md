@@ -118,3 +118,66 @@
             /home/lf/workplace/BenchScripts/flink-benchmarks/target/flink-benchmarks-1.0-SNAPSHOT.jar \
             --partitions 7 \
             hdfs://172.22.1.21:9003//data/text/2G-text hdfs://172.22.1.21:9003//output/st
+
+## DataMPI Commands
+
+* TeraSort
+
+        /home/lf/workplace/BenchScripts/frameworks/datampi-batch/bin/mpidrun \
+            -f /home/lf/workplace/BenchScripts/frameworks/datampi-batch/conf/hostfile \
+            -mode COM -O 1 -A 1 \
+            -jar /home/lf/workplace/BenchScripts/dm-benchmarks/target/dm-benchmarks-1.0-SNAPSHOT.jar \
+            microbench.TeraSortOnHDFSDataLocal \
+            /home/lf/workplace/BenchScripts/frameworks/hadoop-2.7.3/etc/hadoop/core-site.xml \
+            /data/terasort/2G-tera /output/tera/2G
+
+* WordCount
+
+        /home/lf/workplace/BenchScripts/frameworks/datampi-batch/bin/mpidrun \
+            -f /home/lf/workplace/BenchScripts/frameworks/datampi-batch/conf/hostfile \
+            -mode COM -O 1 -A 1 \
+            -jar /home/lf/workplace/BenchScripts/dm-benchmarks/target/dm-benchmarks-1.0-SNAPSHOT.jar \
+            microbench.WordCountOnHDFSDataLocal \
+            /home/lf/workplace/BenchScripts/frameworks/hadoop-2.7.3/etc/hadoop/core-site.xml \
+            /data/text/2G-text /output/text/wc
+
+* KMeans
+
+    Initialize Centers
+
+        /home/lf/workplace/BenchScripts/frameworks/datampi-batch/bin/mpidrun \
+            -f /home/lf/workplace/BenchScripts/frameworks/datampi-batch/conf/hostfile \
+            -mode COM -O 1 -A 1 \
+            -jar /home/lf/workplace/BenchScripts/dm-benchmarks/target/dm-benchmarks-1.0-SNAPSHOT-jar-with-dependencies.jar \
+            mlbench.kmeans.KmeansInit \
+            /home/lf/workplace/BenchScripts/frameworks/hadoop-2.7.3/etc/hadoop/core-site.xml \
+            /data/kmeans/data_kddcup04/data /output/kmeans/kdd-dm/center0 25
+
+    Iteration
+
+        /home/lf/workplace/BenchScripts/frameworks/datampi-batch/bin/mpidrun \
+            -f /home/lf/workplace/BenchScripts/frameworks/datampi-batch/conf/hostfile \
+            -mode COM -O 1 -A 1 \
+            -jar /home/lf/workplace/BenchScripts/dm-benchmarks/target/dm-benchmarks-1.0-SNAPSHOT-jar-with-dependencies.jar \
+            mlbench.kmeans.KmeansIter \
+            /home/lf/workplace/BenchScripts/frameworks/hadoop-2.7.3/etc/hadoop/core-site.xml \
+            /data/kmeans/data_kddcup04/data /output/kmeans/kdd-dm/center0 /output/kmeans/kdd-dm/out1 25
+
+* PageRank
+
+    Initialize Vectors
+
+        DMB_JAR=/home/lf/workplace/BenchScripts/dm-benchmarks/target/dm-benchmarks-1.0-SNAPSHOT-jar-with-dependencies.jar
+        java -cp $DMB_JAR mlbench.pagerank.InitVector $((2**20))
+        hadoop fs -mkdir /data/pagerank/1M_dm_init_vector
+        hadoop fs -put pagerank_init_vector.temp /data/pagerank/1M_dm_init_vector
+
+    Iteration
+
+        /home/lf/workplace/BenchScripts/frameworks/datampi-batch/bin/mpidrun \
+            -f /home/lf/workplace/BenchScripts/frameworks/datampi-batch/conf/hostfile \
+            -mode COM -O 1 -A 1 \
+            -jar /home/lf/workplace/BenchScripts/dm-benchmarks/target/dm-benchmarks-1.0-SNAPSHOT-jar-with-dependencies.jar \
+            mlbench.pagerank.PagerankNaive \
+            /home/lf/workplace/BenchScripts/frameworks/hadoop-2.7.3/etc/hadoop/core-site.xml \
+            /data/pagerank/1M /pagerank/mpid/pr_temp_vec /pagerank/mpid/pr_temp_model

@@ -8,23 +8,23 @@ ldfunc
 JOB_LIST=(
 #    "2G_TERA_FLK"
 #    "10G_TERA_FLK"
-    "20G_TERA_FLK"
-    "40G_TERA_FLK"
-    "80G_TERA_FLK"
+#    "20G_TERA_FLK"
+#    "40G_TERA_FLK"
+#    "80G_TERA_FLK"
 #    "160G_TERA_FLK"
 
 #    "2G_WC_FLK"
 #    "10G_WC_FLK"
-    "20G_WC_FLK"
-    "40G_WC_FLK"
-    "80G_WC_FLK"
+#    "20G_WC_FLK"
+#    "40G_WC_FLK"
+#    "80G_WC_FLK"
 #    "160G_WC_FLK"
 
 #    "2G_ST_FLK"
 #    "10G_ST_FLK"
-    "20G_ST_FLK"
-    "40G_ST_FLK"
-    "80G_ST_FLK"
+#    "20G_ST_FLK"
+#    "40G_ST_FLK"
+#    "80G_ST_FLK"
 #    "160G_ST_FLK"
 )
 

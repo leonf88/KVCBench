@@ -18,6 +18,10 @@ PATH=$SCALA_HOME/bin:$PATH
 MAVEN_HOME=/home/lf/opt/apache-maven-3.3.9
 PATH=$MAVEN_HOME/bin:$PATH
 
+MPI_HOME=/home/lf/opt/mvapich2
+PATH=$MPI_HOME/bin:$PATH
+LD_LIBRARY_PATH=$MPI_HOME/lib:$LD_LIBRARY_PATH
+
 # PY_PATH=/home/lf/venv/tensorflow
 # PATH=$PY_PATH/bin:$PATH
 #
