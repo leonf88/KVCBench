@@ -10,6 +10,30 @@ source basic.sh
 ldfunc
 
 case $1 in
+  "256G_TERA_DM")
+      S_DIR=/data/terasort/256G-tera
+      OUTPUT_HDFS=/output/dm/tera
+
+      do_terasort_dm $S_DIR $OUTPUT_HDFS 1 1
+  ;;
+  "256G_TERA_HAD")
+      S_DIR=/data/terasort/256G-tera
+      OUTPUT_HDFS=/output/hadoop/tera
+
+      do_terasort_had $S_DIR $OUTPUT_HDFS 1
+  ;;
+  "128G_TERA_DM")
+      S_DIR=/data/terasort/128G-tera
+      OUTPUT_HDFS=/output/dm/tera
+
+      do_terasort_dm $S_DIR $OUTPUT_HDFS 1 1
+  ;;
+  "128G_TERA_HAD")
+      S_DIR=/data/terasort/128G-tera
+      OUTPUT_HDFS=/output/hadoop/tera
+
+      do_terasort_had $S_DIR $OUTPUT_HDFS 1
+  ;;
   "64G_TERA_DM")
       S_DIR=/data/terasort/64G-tera
       OUTPUT_HDFS=/output/dm/tera

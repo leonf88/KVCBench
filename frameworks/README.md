@@ -85,9 +85,9 @@ Request increase the limit
     Limit increase request 1
     Service: EC2 Instances
     Region: US West (Oregon)
-    Primary Instance Type: t2.small
+    Primary Instance Type: t2.large
     Limit name: Instance Limit
-    New limit value: 70
+    New limit value: 100
     ------------
     Use case description: Run experiments, need more instances to scale the test
 
@@ -114,3 +114,17 @@ Color Bash
     alias less='less --RAW-CONTROL-CHARS'
     export LS_OPTS='--color=auto'
     alias ls='ls ${LS_OPTS}'
+
+Prepare Configuration
+
+    cd bin/conf
+    sed -i 's/lf/ubuntu/' *
+    sed -i 's/172\.22\.1\.21/<IP>/' *
+    sed -i 's/\/home\/lf\/workplace/\/home\/ubuntu/' *
+
+    sed -i 's/172\.22\.1\.21/<IP>/' frameworks/hadoop-2.7.3/etc/hadoop/*
+
+    cd dm-benchmakrs
+    mvn clean package
+    for h in `cat ../bin/conf/slaves`;do ssh $h " mkdir -p /home/ubuntu/BenchScripts/dm-benchmarks/target"; scp target/dm-benchmarks-1.0-SNAPSHOT-jar-with-dependencies.jar $h:`pwd`/target;done
+
