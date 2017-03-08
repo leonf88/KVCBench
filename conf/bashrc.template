@@ -9,45 +9,23 @@ fi
 
 PATH=/usr/local/bin:$PATH
 
-JAVA_HOME=/home/lf/opt/jdk1.8.0_91
+ln -s $HOME/opt/jdk1.8.0_91 $HOME/opt/jdk
+JAVA_HOME=$HOME/opt/jdk
 PATH=$JAVA_HOME/bin:$PATH
 
-SCALA_HOME=/home/lf/opt/scala-2.11.8
+ln -s $HOME/opt/scala-2.11.8 $HOME/opt/scala
+SCALA_HOME=$HOME/opt/scala
 PATH=$SCALA_HOME/bin:$PATH
 
-MAVEN_HOME=/home/lf/opt/apache-maven-3.3.9
+ln -s $HOME/opt/apache-maven-3.3.9 $HOME/opt/maven
+MAVEN_HOME=$HOME/opt/maven
 PATH=$MAVEN_HOME/bin:$PATH
 
-MPI_HOME=/home/lf/opt/mvapich2
+ln -s $HOME/opt/mpich-3.1.4 $HOME/opt/mpi
+MPI_HOME=$HOME/opt/mpi
 PATH=$MPI_HOME/bin:$PATH
+
 LD_LIBRARY_PATH=$MPI_HOME/lib:$LD_LIBRARY_PATH
-
-# PY_PATH=/home/lf/venv/tensorflow
-# PATH=$PY_PATH/bin:$PATH
-#
-# NODEJS_HOME=/home/lf/opt/node-v4.5.0-linux-x64
-# PATH=$NODEJS_HOME/bin:$PATH
-#
-# GRADLE_HOME=/home/lf/opt/gradle-3.0
-# PATH=$GRADLE_HOME/bin:$PATH
-#
-# TEXLIVE_HOME=/usr/local/texlive/2016/bin/x86_64-linux
-# PATH=$TEXLIVE_HOME:$PATH
-#
-# export MPI_HOME=/home/lf/local/mpich2    #mpich2-1.4.1
-# #export MPI_HOME=/home/lf/local/openmpi  #openmpi-1.8.0
-# export PATH=$MPI_HOME/bin:$PATH
-# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MPI_HOME/lib
-#
-# # hydra
-# export HYDRA_HOST_FILE=/home/lf/.hydra_hosts
-#
-# # datampi-0.5.0
-# export DATAMPI_INSTALL=/home/lf/local/datampi
-# export PATH=$DATAMPI_INSTALL/bin:$PATH
-
-alias vi='emacsclient -t'
 
 export LD_LIBRARY_PATH
 export JAVA_HOME
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting

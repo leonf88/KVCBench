@@ -265,7 +265,7 @@ case $1 in
 
   # DataMPI Test
   "0_SLEEP_DM")
-      do_sleep_dm 4 4
+      do_sleep_dm 5 8 8
   ;;
   # DataMPI Terasort Jobs
   "2G_TERA_DM")

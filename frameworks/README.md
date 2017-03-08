@@ -35,38 +35,55 @@ Check the log and web page to make sure the HDFS is start correctly
 
 * Install mvapich (seems unstable)
 
-        ./configure --prefix=/home/lf/opt/mvapich2 --with-device=ch3:nemesis \
+        ./configure --prefix=$HOME/opt/mvapich2 --with-device=ch3:nemesis \
         	    CFLAGS=-fPIC --disable-f77 --disable-fc
         make -j4 && make install
 
-        rm -rf /home/lf/opt/mpi
-        ln -s /home/lf/opt/mvapich2 /home/lf/opt/mpi
-        MPI_HOME=/home/lf/opt/mpi
+        rm -rf $HOME/opt/mpi
+        ln -s $HOME/opt/mvapich2 $HOME/opt/mpi
+        MPI_HOME=$HOME/opt/mpi
         PATH=$MPI_HOME/bin:$PATH
         LD_LIBRARY_PATH=$MPI_HOME/lib:$LD_LIBRARY_PATH
         export LD_LIBRARY_PATH
 
 * Install mpich
 
-        ./configure --prefix=/home/lf/opt/mpich3 --with-device=ch3:nemesis \
+        ./configure --prefix=$HOME/opt/mpich3 --with-device=ch3:nemesis \
             --enable-romio --enable-nemesis-dbg-localoddeven --enable-fast=O0 \
             CFLAGS=-fPIC --disable-fortran
         make -j4 && make install
 
-        rm -rf /home/lf/opt/mpi
-        ln -s /home/lf/opt/mpich3 /home/lf/opt/mpi
-        MPI_HOME=/home/lf/opt/mpi
+        rm -rf $HOME/opt/mpi
+        ln -s $HOME/opt/mpich3 $HOME/opt/mpi
+        MPI_HOME=$HOME/opt/mpi
         PATH=$MPI_HOME/bin:$PATH
         LD_LIBRARY_PATH=$MPI_HOME/lib:$LD_LIBRARY_PATH
         export LD_LIBRARY_PATH
 
 * Install DataMPI
 
-        cmake -D CMAKE_INSTALL_PREFIX=/home/lf/workplace/BenchScripts/frameworks/datampi-batch \
+        cmake -D CMAKE_INSTALL_PREFIX=$HOME/workplace/BenchScripts/frameworks/datampi-batch \
        	    -D MPI_D_BUILD_DOCS=OFF -D MPI_D_BUILD_TESTS=OFF \
        	    -D MPI_D_BUILD_EXAMPLES=OFF -D MPI_D_BUILD_BENCHMARKS=OFF \
-       	    /home/lf/workplace/BenchScripts/frameworks/DataMPI
+       	    $HOME/workplace/BenchScripts/frameworks/DataMPI
 
         make install
 
 
+### Download Others
+
+    Those binaries should be install in `$HOME/opt`
+
+        wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz
+        wget http://downloads.lightbend.com/scala/2.11.8/scala-2.11.8.tgz
+        wget https://archive.apache.org/dist/maven/binaries/apache-maven-3.2.2-bin.tar.gz
+
+### AWS cluster setup
+
+    Ubuntu prepare
+
+        sudo apt-get install build-essential
+
+    Linux prepare
+
+        sudo yum groupinstall "Development Tools"

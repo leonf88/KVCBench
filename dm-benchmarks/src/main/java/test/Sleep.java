@@ -22,13 +22,19 @@ import java.util.HashMap;
 
 public class Sleep {
     public static void main(String[] args) throws IOException, InterruptedException {
+        int sleepSecond = 10;
+        if (args.length == 1) {
+            sleepSecond = Integer.parseInt(args[0]);
+        }
         try {
             HashMap<String, String> conf = new HashMap<String, String>();
             MPI_D.Init(args, MPI_D.Mode.Common, conf);
             if (MPI_D.COMM_BIPARTITE_O != null) {
-                Thread.sleep(1000 * 30);
+                System.out.println("O task sleep " + sleepSecond + " sec.");
+                Thread.sleep(1000 * sleepSecond);
             } else if (MPI_D.COMM_BIPARTITE_A != null) {
-                Thread.sleep(1000 * 30);
+                System.out.println("A task sleep " + sleepSecond + " sec.");
+                Thread.sleep(1000 * sleepSecond);
             }
             MPI_D.Finalize();
         } catch (MPI_D_Exception e) {

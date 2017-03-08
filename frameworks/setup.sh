@@ -6,11 +6,13 @@ FLINK_VERSION=${FLINK_VERSION:-"1.1.2"}
 SPARK_VERSION=${SPARK_VERSION:-"1.6.2"}
 HADOOP_VERSION=${HADOOP_VERSION:-"2.7.3"}
 MAHOUT_VERSION=${MAHOUT_VERSION:-"0.12.2"}
+MPICH_VERSION=${MPICH_VERSION:-"3.1.4"}
 
 HADOOP_DIR="hadoop-$HADOOP_VERSION"
 FLINK_DIR="flink-$FLINK_VERSION"
 SPARK_DIR="spark-$SPARK_VERSION-bin-hadoop2.6"
 MAHOUT_DIR="apache-mahout-distribution-${MAHOUT_VERSION}"
+MPICH_DIR="mpich-${MPICH_VERSION}"
 
 fetch_untar_file() {
   local FILE="download-cache/$1"
@@ -47,7 +49,8 @@ then
 
   # Fetch Flink
   FLINK_FILE="$FLINK_DIR-bin-hadoop27-scala_${SCALA_BIN_VERSION}.tgz"
-  fetch_untar_file "$FLINK_FILE" "$APACHE_MIRROR/flink/flink-$FLINK_VERSION/$FLINK_FILE"
+#  fetch_untar_file "$FLINK_FILE" "$APACHE_MIRROR/flink/flink-$FLINK_VERSION/$FLINK_FILE"
+  fetch_untar_file "$FLINK_FILE" "http://archive.apache.org/dist/flink/${FLINK_DIR}/${FLINK_FILE}"
 
   # Fetch Spark
   SPARK_FILE="$SPARK_DIR.tgz"
@@ -56,6 +59,10 @@ then
   # Fetch Mahout
   MAHOUT_FILE="$MAHOUT_DIR.tar.gz"
   fetch_untar_file "$MAHOUT_FILE" "$APACHE_MIRROR/mahout/$MAHOUT_VERSION/$MAHOUT_FILE"
+
+  # MPICH
+  MPICH_FILE="$MPICH_DIR.tar.gz"
+  fetch_untar_file "$MPICH_FILE" "http://www.mpich.org/static/downloads/${MPICH_VERSION}/${MPICH_FILE}"
 else
   # use source file to create the environment variables
   PATH=`pwd`/$HADOOP_DIR/bin:$PATH
@@ -64,4 +71,5 @@ else
   export PATH
   echo $PATH
 fi
+
 

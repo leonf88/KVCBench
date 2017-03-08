@@ -18,7 +18,7 @@
 
 * K-Means
 
-    Prepare the Sequence File
+    (Deprecation) Prepare the Sequence File (generate data from CSV, please see data-generator/README.md)
 
         /home/lf/workplace/BenchScripts/frameworks/apache-mahout-distribution-0.12.2/bin/mahout seqdirectory \
             -i /data/kmeans/data_kddcup04/raw \

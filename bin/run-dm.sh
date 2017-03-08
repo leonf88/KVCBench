@@ -49,7 +49,7 @@ for job in ${JOB_LIST[@]}; do
   echo $job >> _job_list
 done
 
-del_data /output
+#del_data /output
 #sleep 60
 
 bash ./runtest-test.sh

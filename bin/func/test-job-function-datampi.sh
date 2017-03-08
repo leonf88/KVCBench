@@ -103,12 +103,13 @@ _do_dm_func()
 do_sleep_dm()
 {
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
-    MAPS=$((${1} * ${HOSTS_NUM}))
-    REDS=$((${2} * ${HOSTS_NUM}))
+    SECOND=${1}
+    MAPS=$((${2} * ${HOSTS_NUM}))
+    REDS=$((${3} * ${HOSTS_NUM}))
 
     cmd="${MPI_D_HOME}/bin/mpidrun -f ${MPI_D_SLAVES} \
         -mode COM -O ${MAPS} -A ${REDS} \
-        -jar ${DATAMPI_BENCH_JAR} test.Sleep"
+        -jar ${DATAMPI_BENCH_JAR} test.Sleep ${SECOND}"
 
     _do_dm_func
 }
