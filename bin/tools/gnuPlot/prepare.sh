@@ -29,7 +29,7 @@ do
         echo $data_path
         [ ! -e "$data_path" ] && mkdir -p $data_path
 
-        tcost=`grep -Po '(?<=cost ).*(?= sec)' $dir_path/$sub_path/app_report_*.log`
+        tcost=`tail -n 1 $dir_path/$sub_path/app_report_*.log | grep -Po '(?<=cost ).*(?= sec)'`
         case $plat in
         "HAD")
             echo "$data $tcost" >> $data_path/had.data
@@ -42,6 +42,14 @@ do
         "FLK")
             echo "$data $tcost" >> $data_path/flk.data
             sort -n $data_path/flk.data -o $data_path/flk.data
+        ;;
+        "DM")
+            echo "$data $tcost" >> $data_path/dm.data
+            sort -n $data_path/dm.data -o $data_path/dm.data
+        ;;
+        "DMI")
+            echo "$data $tcost" >> $data_path/dmi.data
+            sort -n $data_path/dmi.data -o $data_path/dmi.data
         ;;
         esac
     done

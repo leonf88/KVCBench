@@ -8,15 +8,36 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>hadoop-benchmarks</artifactId>
+    <artifactId>dmi-benchmarks</artifactId>
     <packaging>jar</packaging>
 
+    <name>dmi-benchmarks</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <dependencies>
-        <!--<dependency>-->
-            <!--<groupId>org.apache.hadoop</groupId>-->
-            <!--<artifactId>hadoop-core</artifactId>-->
-            <!--<version>${hadoop.mr1.version}</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.datampi</groupId>
+            <artifactId>datampi-iter</artifactId>
+            <version>0.7.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/datampi-iter-0.1.0-SNAPSHOT.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.datampi</groupId>
+            <artifactId>mpi-core</artifactId>
+            <version>0.7.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/mpi.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
+            <version>${hadoop.mr2.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-mapreduce-client-core</artifactId>
@@ -24,7 +45,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-common</artifactId>
+            <artifactId>hadoop-mapreduce-client-common</artifactId>
             <version>${hadoop.mr2.version}</version>
         </dependency>
         <dependency>
@@ -33,4 +54,5 @@
             <version>${mahout.version}</version>
         </dependency>
     </dependencies>
+
 </project>

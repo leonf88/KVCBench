@@ -45,6 +45,12 @@ do
         "FLK_NEW")
             cp $dir_path/$sub_path/dstat.log $data_path/flk.data
         ;;
+        "DM")
+            cp $dir_path/$sub_path/dstat.log $data_path/dm.data
+        ;;
+        "DMI")
+            cp $dir_path/$sub_path/dstat.log $data_path/dmi.data
+        ;;
         esac
     done
 done

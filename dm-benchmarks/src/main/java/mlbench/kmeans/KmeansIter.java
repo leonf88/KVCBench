@@ -19,11 +19,9 @@ import mpid.core.MPI_D;
 import mpid.core.MPI_D_Exception;
 import mpid.core.util.MPI_D_Constants;
 import mpid.util.DataMPIUtil;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.FileSplit;
 import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapred.RecordReader;
@@ -36,7 +34,6 @@ import java.io.DataInputStream;
 import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,9 +62,8 @@ public class KmeansIter {
     }
 
     private static void initConf(HashMap<String, String> conf) {
-        conf.put(MPI_D_Constants.ReservedKeys.KEY_CLASS, Text.class.getName());
-        conf.put(MPI_D_Constants.ReservedKeys.VALUE_CLASS,
-                PointVector.class.getName());
+        conf.put(MPI_D_Constants.ReservedKeys.KEY_CLASS, IntWritable.class.getName());
+        conf.put(MPI_D_Constants.ReservedKeys.VALUE_CLASS, KmeansCenters.class.getName());
 
         if (maxUsedMemPercent != null) {
             conf.put(
@@ -121,18 +117,6 @@ public class KmeansIter {
         }
     }
 
-    public static DataInputStream readFromHDFSF(Path path) {
-        InputStream in = null;
-        try {
-            Configuration conf = new Configuration();
-            FileSystem fs = FileSystem.get(conf);
-            in = fs.open(path);
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-            System.exit(1);
-        }
-        return new DataInputStream(in);
-    }
 
     private static double[] format(String line) {
         String vals[] = line.split("\\s+");
@@ -143,32 +127,17 @@ public class KmeansIter {
         return fvals;
     }
 
-    private static PointVector getBelongPoint(VectorWritable v) throws MPI_D_Exception {
+    private static long getBelongPoint(VectorWritable v) throws MPI_D_Exception {
         long belong = -1;
         double min = Double.MAX_VALUE, val = -1;
         for (PointVector centerPoint : centers) {
-            val = centerPoint.getVector().getDistanceSquared(v.get());
+            val = centerPoint.getDenseVector().getDistanceSquared(v.get());
             if (val < min) {
-                belong = centerPoint.getStrClusterClass();
+                belong = centerPoint.getCluster();
                 min = val;
             }
         }
-        return new PointVector(belong, v);
-    }
-
-    private static PointVector getBelongPoint(String lineVal)
-            throws MPI_D_Exception {
-        double[] point = format(lineVal);
-        long belong = -1;
-        double min = Double.MAX_VALUE, val = -1;
-        for (PointVector centerPoint : centers) {
-            val = KmeansUtils.distance(centerPoint.getDoubleValue(), point);
-            if (val < min) {
-                belong = centerPoint.getStrClusterClass();
-                min = val;
-            }
-        }
-        return new PointVector(belong, point);
+        return belong;
     }
 
     /**
@@ -213,8 +182,8 @@ public class KmeansIter {
             }
             MPI_D.COMM_BIPARTITE_O.Barrier();
 
-            KmeansUtils.CenterTransfer transfer = new KmeansUtils.CenterTransfer(config, rank,
-                    size);
+            KmeansUtils.CenterTransfer transfer = new KmeansUtils.CenterTransfer(
+                    config, rank, size);
             transfer.broadcastCenters(centers);
 
             FileSplit[] inputs = DataMPIUtil.HDFSDataLocalLocator.getTaskInputs(
@@ -233,62 +202,62 @@ public class KmeansIter {
                 VectorWritable v = reader.createValue();
 
                 while (reader.next(k, v)) {
-                    PointVector p = getBelongPoint(v);
-                    int i = (int) p.getStrClusterClass();
-                    double[] vals = p.getDoubleValue();
-                    int len = vals.length;
-                    if (centerSum[i] == null) {
-                        centerSum[i] = new double[len];
+                    int centerBelong = (int) getBelongPoint(v);
+//                    int i = (int) p.getStrClusterClass();
+//                    double[] vals = p.getDoubleValue();
+                    int len = v.get().size();
+                    if (centerSum[centerBelong] == null) {
+                        centerSum[centerBelong] = new double[len];
                     }
                     for (int j = 0; j < len; j++) {
-                        centerSum[i][j] += vals[j];
+                        centerSum[centerBelong][j] += v.get().get(j);
                     }
-                    centerPNum[i]++;
+                    centerPNum[centerBelong]++;
                 }
                 reader.close();
             }
+
             for (int i = 0; i < centerPNum.length; i++) {
                 if (centerSum[i] == null && centerPNum[i] == 0) {
                     continue;
                 }
-                MPI_D.Send(new Text(Integer.toString(i)), new PointVector(
-                        centerPNum[i], centerSum[i]));
+                MPI_D.Send(new IntWritable(i), new KmeansCenters(centerPNum[i], centerSum[i]));
             }
         } else {
             centers.clear();
-            Text key = null, newKey = null;
-            PointVector point = null, newPoint = null;
+            IntWritable key = null, newKey = null;
+            KmeansCenters value = null, newValue = null;
             double sum[] = null;
             long count = 0;
             Object[] vals = MPI_D.Recv();
             while (vals != null) {
-                newKey = (Text) vals[0];
-                newPoint = (PointVector) vals[1];
-                if (key == null && point == null) {
-                    sum = new double[newPoint.getValueD().length];
+                newKey = (IntWritable) vals[0];
+                newValue = (KmeansCenters) vals[1];
+                if (key == null && value == null) {
+                    sum = new double[newValue.getVector().length];
                 } else if (!key.equals(newKey)) {
                     double[] centerVals = new double[sum.length];
                     for (int i = 0; i < centerVals.length; i++) {
                         centerVals[i] = (double) sum[i] / count;
                     }
                     PointVector oneCenter = new PointVector(
-                            Long.valueOf(key.toString()), centerVals);
+                            Integer.valueOf(key.toString()), centerVals);
                     centers.add(oneCenter);
-                    sum = new double[point.getValueD().length];
+                    sum = new double[value.getVector().length];
                     count = 0;
                 }
                 key = newKey;
-                point = newPoint;
-                KmeansUtils.accumulate(sum, newPoint.getDoubleValue());
-                count += Long.valueOf(newPoint.getStrClusterClass());
+                value = newValue;
+                KmeansUtils.accumulate(sum, newValue.getVector());
+                count += Long.valueOf(newValue.getPointSize());
                 vals = MPI_D.Recv();
             }
-            if (newKey != null && newPoint != null) {
+            if (newKey != null && newValue != null) {
                 double[] centerVals = new double[sum.length];
                 for (int i = 0; i < centerVals.length; i++) {
-                    centerVals[i] = (double) sum[i] / count;
+                    centerVals[i] = sum[i] / count;
                 }
-                PointVector oneCenter = new PointVector(Long.valueOf(key.toString()), centerVals);
+                PointVector oneCenter = new PointVector(key.get(), centerVals);
                 centers.add(oneCenter);
             }
 
@@ -296,17 +265,15 @@ public class KmeansIter {
                     new KmeansUtils.CenterTransfer(config, rank, size);
             transfer.gatherCentersByP2P(centers);
 
-            {
-                if (rank == 0) {
-                    OutputStream resOut = KmeansUtils.getOutputStream(outPath, config);
-                    DataOutput os = new DataOutputStream(resOut);
+            if (rank == 0) {
+                OutputStream resOut = KmeansUtils.getOutputStream(outPath, config);
+                DataOutput os = new DataOutputStream(resOut);
 
-                    for (PointVector centerPoint : centers) {
-                        os.write((centerPoint.toString() + "\n").getBytes());
-                    }
-                    resOut.flush();
-                    resOut.close();
+                for (PointVector centerPoint : centers) {
+                    os.write((centerPoint.toString() + "\n").getBytes());
                 }
+                resOut.flush();
+                resOut.close();
             }
         }
         MPI_D.Finalize();

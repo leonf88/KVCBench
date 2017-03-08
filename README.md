@@ -30,3 +30,13 @@ So, the solution is to compile the spark using 2.11.x scala libraries or use 2.1
     ./dev/change-scala-version.sh 2.11
     mvn -Pyarn -Phadoop-2.6 -Dscala-2.11 -DskipTests clean package
     ./make-distribution.sh --tgz  -Phadoop-2.6 -Pyarn -Pscala-2.11 -PskipTests
+
+### 2. HDFS Slow
+
+    17/03/07 18:47:24 WARN hdfs.DFSClient: Slow ReadProcessor read fields took 31013ms (threshold=30000ms); ack: seqno: 3312 status: SUCCESS status: SUCCESS status: SUCCESS downstreamAckTimeNanos: 2479577 4: "\000\000\000", targets: [172.22.1.22:50010, 172.22.1.26:50010, 172.22.1.24:50010]
+
+
+dfs.datanode.handler.count（加大）DN的服务线程数。这些线程仅用于接收请求，处理业务命令
+dfs.namenode.handler.count（加大）  NN的服务线程数。用于处理RPC请求
+dfs.namenode.avoid.read.stale.datanode（true）决定是否避开从脏DN上读数据。脏DN指在一个指定的时间间隔内没有收到心跳信息。脏DN将被移到可以读取(写入)节点列表的尾端。尝试开启
+dfs.namenode.avoid.write.stale.datanode（true）  和上面相似，是为了避免向脏DN写数据

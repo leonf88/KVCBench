@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.kvcomm.iterative</groupId>
+    <groupId>org.datampi.benchmark</groupId>
     <artifactId>kvc-perf-benchmark</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
@@ -15,6 +15,7 @@
         <module>spark-benchmarks</module>
         <module>hadoop-benchmarks</module>
         <module>autogen</module>
+        <module>dmi-benchmarks</module>
     </modules>
 
     <properties>

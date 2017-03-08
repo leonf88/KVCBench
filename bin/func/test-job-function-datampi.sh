@@ -100,6 +100,19 @@ _do_dm_func()
     startLine=0
 }
 
+do_sleep_dm()
+{
+    HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
+    MAPS=$((${1} * ${HOSTS_NUM}))
+    REDS=$((${2} * ${HOSTS_NUM}))
+
+    cmd="${MPI_D_HOME}/bin/mpidrun -f ${MPI_D_SLAVES} \
+        -mode COM -O ${MAPS} -A ${REDS} \
+        -jar ${DATAMPI_BENCH_JAR} test.Sleep"
+
+    _do_dm_func
+}
+
 do_terasort_dm()
 {
     HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
@@ -129,7 +142,7 @@ do_text_wc_dm()
     JOB_NAME="textwc"
 
     cmd="${MPI_D_HOME}/bin/mpidrun -f ${MPI_D_SLAVES} \
-        -mode COM -O ${MAPS} -A 1 \
+        -mode COM -O ${MAPS} -A ${MAPS} \
         -jar ${DATAMPI_BENCH_JAR} microbench.WordCountOnHDFSDataLocal \
         ${HDFS_CONF_CORE} ${SOURCE_PATH} ${TARGET_PATH}"
 
@@ -243,31 +256,7 @@ do_kmeans_dm()
 
     done
 
-    echo "[OK] DataMPI $JOB_NAME `basename $POINT_PATH` total cost $((t2-t1)) sec" | tee -a $REPORT_NAME
-}
-
-# $1 is edges , $2 is vecs, $3 is outputs, $4 is iters, $5 is maps ,$6 is reds
-do_pagerank_dm_new()
-{
-    HOSTS_NUM=`wc -l $_TESTDIR/conf/slaves | awk '{print $1}'`
-
-    SOURCE_PATH=${1}
-	VEC_PATH=${2}
-	PRVEC_PATH="pr_vector"
-	TMP_PATH="pr_tempmv"
-    TARGET_PATH=${3}
-	let "I=2**${4}"
-	MAX_ITERS=${5}
-	MAPS=$((${6} * ${HOSTS_NUM}))
-    REDS=$((${7} * ${HOSTS_NUM}))
-    JOB_NAME="pagerank"
-	del_data $TMP_PATH
-	del_data $PRVEC_PATH
-	copy_data $VEC_PATH $PRVEC_PATH
-	cmd="f_pagerank"
-    _do_dm_func
-    del_data $TMP_PATH
-	del_data $PRVEC_PATH
+    echo "[OK] DataMPI $JOB_NAME `basename $POINT_PATH` hosts $HOSTS_NUM app iteration $MAX_ITER_NUM, total cost $((t2-t1)) sec" | tee -a $REPORT_NAME
 }
 
 do_pagerank_dm()
@@ -289,6 +278,7 @@ do_pagerank_dm()
 	${HADOOP_HOME}/bin/hadoop fs -mkdir ${VEC_PATH%\/*}
     copy_data ${INIT_VEC_PATH} ${VEC_PATH}
 
+	ts_pr=`date +%s`
     for i in `seq 1 $MAX_ITER_NUM`;
     do
         echo "ITER: loop $i"
@@ -323,6 +313,10 @@ do_pagerank_dm()
             break
         fi
     done
+
+    ed_pr=`date +%s`
+    echo "[OK] DataMPI $JOB_NAME `basename $SOURCE_PATH` hosts $HOSTS_NUM app iteration $MAX_ITER_NUM, total cost $((ed_pr-ts_pr)) sec" | tee -a $REPORT_NAME
+
 }
 
 new_pagerank(){

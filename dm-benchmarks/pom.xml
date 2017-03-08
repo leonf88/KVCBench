@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>kvc-perf-benchmark</artifactId>
-        <groupId>org.kvcomm.iterative</groupId>
+        <groupId>org.datampi.benchmark</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -17,7 +17,7 @@
             <artifactId>datampi-core</artifactId>
             <version>0.7.0</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/datampi.jar</systemPath>
+            <systemPath>${basedir}/lib/datampi-core-0.7.0-SNAPSHOT.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.datampi</groupId>

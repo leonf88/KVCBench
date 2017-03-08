@@ -24,78 +24,78 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 public class PointVector implements Writable {
-    private long clusterClass;
-    private double[] valueD;
+    private int cluster;
+    private double[] vector;
     private Vector v;
 
     public PointVector() {
-        clusterClass = -1;
-        valueD = null;
+        cluster = -1;
+        vector = null;
     }
 
-    public PointVector(long clusterClass, VectorWritable vector) {
+    public PointVector(int cluster, VectorWritable vector) {
         super();
-        this.clusterClass = clusterClass;
+        this.cluster = cluster;
         int nsize = vector.get().size();
-        valueD = new double[nsize];
+        this.vector = new double[nsize];
         for (int i = 0; i < nsize; i++) {
-            valueD[i] = vector.get().get(i);
+            this.vector[i] = vector.get().get(i);
         }
     }
 
-    public Vector getVector() {
+    public Vector getDenseVector() {
         if (v == null) {
-            v = new DenseVector(valueD);
+            v = new DenseVector(vector);
         }
         return v;
     }
 
-    public PointVector(long clusterClass, double[] value) {
+    public PointVector(int cluster, double[] value) {
         super();
-        this.clusterClass = clusterClass;
-        valueD = value;
+        this.cluster = cluster;
+        vector = value;
     }
 
     public double[] getDoubleValue() {
-        return valueD;
+        return vector;
     }
 
-    public void setValue(double[] value) {
-        this.valueD = value;
+    public void setVector(double[] value) {
+        this.vector = value;
     }
 
-    public long getStrClusterClass() {
-        return clusterClass;
+    public void setVector(VectorWritable vector) {
+
     }
 
-    public void setClusterClass(int clusterClass) {
-        this.clusterClass = clusterClass;
+    public int getCluster() {
+        return cluster;
     }
 
-    public double[] getValueD() {
-        return valueD;
+    public void setCluster(int cluster) {
+        this.cluster = cluster;
     }
 
-    public void setValueD(double[] valueD) {
-        this.valueD = valueD;
+    public double[] getVector() {
+        return vector;
     }
 
     @Override
     public void readFields(DataInput in) throws IOException {
-        clusterClass = in.readLong();
+        cluster = in.readInt();
         int len = in.readInt();
-        valueD = new double[len];
+        vector = new double[len];
         for (int i = 0; i < len; i++) {
-            valueD[i] = in.readDouble();
+            vector[i] = in.readDouble();
         }
     }
 
     @Override
     public void write(DataOutput out) throws IOException {
-        out.writeLong(clusterClass);
-        out.writeInt(valueD.length);
-        for (int i = 0; i < valueD.length; i++) {
-            out.writeDouble(valueD[i]);
+        out.writeInt(cluster);
+        out.writeInt(vector.length);
+        for (int i = 0; i < vector.length; i++) {
+            out.writeDouble(vector[i]);
         }
     }
 
@@ -103,8 +103,8 @@ public class PointVector implements Writable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(clusterClass).append(":");
-        for (double val : valueD) {
+        sb.append(cluster).append(":");
+        for (double val : vector) {
             sb.append(val).append(" ");
         }
         return sb.toString();

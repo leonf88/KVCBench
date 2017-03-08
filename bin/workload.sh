@@ -263,6 +263,10 @@ case $1 in
       do_text_wc_had $S_DIR $OUTPUT_HDFS 4
   ;;
 
+  # DataMPI Test
+  "0_SLEEP_DM")
+      do_sleep_dm 4 4
+  ;;
   # DataMPI Terasort Jobs
   "2G_TERA_DM")
       S_DIR=/data/terasort/2G-tera
@@ -350,31 +354,31 @@ case $1 in
       S_DIR=/data/text/10G-text
       OUTPUT_HDFS=/output/dm/wc
 
-      do_text_wc_dm $S_DIR $OUTPUT_HDFS 4 4
+      do_text_wc_dm $S_DIR $OUTPUT_HDFS 5 5
   ;;
   "20G_WC_DM")
       S_DIR=/data/text/20G-text
       OUTPUT_HDFS=/output/dm/wc
 
-      do_text_wc_dm $S_DIR $OUTPUT_HDFS 4 4
+      do_text_wc_dm $S_DIR $OUTPUT_HDFS 5 5
   ;;
   "40G_WC_DM")
       S_DIR=/data/text/40G-text
       OUTPUT_HDFS=/output/dm/wc
 
-      do_text_wc_dm $S_DIR $OUTPUT_HDFS 4 4
+      do_text_wc_dm $S_DIR $OUTPUT_HDFS 5 5
   ;;
   "80G_WC_DM")
       S_DIR=/data/text/80G-text
       OUTPUT_HDFS=/output/dm/wc
 
-      do_text_wc_dm $S_DIR $OUTPUT_HDFS 4 4
+      do_text_wc_dm $S_DIR $OUTPUT_HDFS 5 5
   ;;
   "160G_WC_DM")
       S_DIR=/data/text/160G-text
       OUTPUT_HDFS=/output/dm/wc
 
-      do_text_wc_dm $S_DIR $OUTPUT_HDFS 4 4
+      do_text_wc_dm $S_DIR $OUTPUT_HDFS 5 5
   ;;
 
   # DataMPI PageRank Jobs
@@ -435,49 +439,6 @@ case $1 in
       do_pagerank_dm "${S_DIR}" "${V_DIR}" "${M_TAR}" 4 4 ${N} 10
   ;;
 
-  # iDataMPI PageRank Jobs
-  "Friendster_PR_DM_NEW")
-      S_DIR=/data/pagerank/com-friendster
-      M_TAR=/pagerank/mpid
-
-      new_pagerank "${S_DIR}" "${M_TAR}" "2" "14"
-  ;;
-
-  "LiveJournal1_PR_DM_NEW")
-      S_DIR=/data/pagerank/soc-LiveJournal1
-      M_TAR=/pagerank/mpid
-
-      new_pagerank "${S_DIR}" "${M_TAR}" "10" "14"
-  ;;
-
-  "web-Google_PR_DM_NEW")
-      S_DIR=/data/pagerank/web-Google
-      M_TAR=/pagerank/mpid
-
-      new_pagerank "${S_DIR}" "${M_TAR}" "10" "14"
-  ;;
-
-  "30M_PR_DM_NEW")
-      S_DIR=/data/pagerank/30M
-      M_TAR=/pagerank/mpid
-
-      new_pagerank "${S_DIR}" "${M_TAR}" "10" "14"
-  ;;
-
-  "1M_PR_DM_NEW")
-      S_DIR=/data/pagerank/1M
-      M_TAR=/pagerank/mpid
-
-      new_pagerank "${S_DIR}" "${M_TAR}" "10" "14"
-  ;;
-
-  "10M_PR_DM_NEW")
-      S_DIR=/data/pagerank/10M
-      M_TAR=/pagerank/mpid
-
-      new_pagerank "${S_DIR}" "${M_TAR}" "10" "14"
-  ;;
-
   # DataMPI KMeans Jobs
   "KDD04_KM_DM_TEST")
       S_DIR=/data/kmeans/data_kddcup04/data
@@ -490,7 +451,7 @@ case $1 in
 
   "10M_KM_DM")
       S_DIR=/data/kmeans/10M/data
-      TARGET_PATH=/output/kmeans/kdd-dm
+      TARGET_PATH=/output/kmeans/10M
       CENTER_NUMBER=25
       ITER_COUNT=10
 
@@ -498,7 +459,7 @@ case $1 in
   ;;
   "30M_KM_DM")
       S_DIR=/data/kmeans/30M/data
-      TARGET_PATH=/output/kmeans/kdd-dm
+      TARGET_PATH=/output/kmeans/30M
       CENTER_NUMBER=25
       ITER_COUNT=10
 
@@ -506,7 +467,7 @@ case $1 in
   ;;
   "1M_KM_DM")
       S_DIR=/data/kmeans/1M/data
-      TARGET_PATH=/output/kmeans/kdd-dm
+      TARGET_PATH=/output/kmeans/1M
       CENTER_NUMBER=25
       ITER_COUNT=10
 
@@ -515,50 +476,87 @@ case $1 in
 
   "KDD04_KM_DM")
       S_DIR=/data/kmeans/data_kddcup04/data
-      TARGET_PATH=/output/kmeans/kdd-dm
+      TARGET_PATH=/output/kmeans/kdd
       CENTER_NUMBER=25
       ITER_COUNT=10
 
       do_kmeans_dm "${S_DIR}" "${TARGET_PATH}" 1 1 "${CENTER_NUMBER}" "${ITER_COUNT}"
   ;;
 
+  # iDataMPI PageRank Jobs
+  "Friendster_PR_DMI")
+      S_DIR=/data/pagerank/com-friendster
+      M_TAR=/pagerank/mpid
+
+      do_pagerank_dmi "${S_DIR}" "${M_TAR}" "2" "14"
+  ;;
+  "LiveJournal1_PR_DMI")
+      S_DIR=/data/pagerank/soc-LiveJournal1
+      M_TAR=/pagerank/mpid
+
+      do_pagerank_dmi "${S_DIR}" "${M_TAR}" "10" "14"
+  ;;
+  "web-Google_PR_DMI")
+      S_DIR=/data/pagerank/web-Google
+      M_TAR=/pagerank/mpid
+
+      do_pagerank_dmi "${S_DIR}" "${M_TAR}" "10" "14"
+  ;;
+  "30M_PR_DMI")
+      S_DIR=/data/pagerank/30M
+      M_TAR=/pagerank/mpid
+
+      do_pagerank_dmi "${S_DIR}" "${M_TAR}" "10" "14"
+  ;;
+  "1M_PR_DMI")
+      S_DIR=/data/pagerank/1M
+      M_TAR=/pagerank/mpid
+
+      do_pagerank_dmi "${S_DIR}" "${M_TAR}" "10" "14"
+  ;;
+  "10M_PR_DMI")
+      S_DIR=/data/pagerank/10M
+      M_TAR=/pagerank/mpid
+
+      do_pagerank_dmi "${S_DIR}" "${M_TAR}" "10" "14"
+  ;;
+
   # iDataMPI KMeans Jobs
-  "10M_KM_DM_NEW")
+  "10M_KM_DMI")
       S_DIR=/kmeans/data/10M
       CENTER_SOURCE=/kmeans/data/centers/centers.100d.25p
       CENTER_NUMBER=25
       VEC_DIMENSION=100
       ITER_COUNT=10
 
-      new_kmeans "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
+      do_kmeans_dmi "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
   ;;
-  "30M_KM_DM_NEW")
+  "30M_KM_DMI")
       S_DIR=/kmeans/data/30M
       CENTER_SOURCE=/kmeans/data/centers/centers.100d.25p
       CENTER_NUMBER=25
       VEC_DIMENSION=100
       ITER_COUNT=10
 
-      new_kmeans "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
+      do_kmeans_dmi "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
   ;;
-  "1M_KM_DM_NEW")
+  "1M_KM_DMI")
       S_DIR=/kmeans/data/1M
       CENTER_SOURCE=/kmeans/data/centers/centers.100d.25p
       CENTER_NUMBER=25
       VEC_DIMENSION=100
       ITER_COUNT=10
 
-      new_kmeans "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
+      do_kmeans_dmi "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
   ;;
-
-  "KDD04_KM_DM_NEW")
+  "KDD04_KM_DMI")
       S_DIR=/kmeans/data/data_kddcup04
       CENTER_SOURCE=/kmeans/data/centers/centers.kdd
       CENTER_NUMBER=25
       VEC_DIMENSION=74
       ITER_COUNT=10
 
-      new_kmeans "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
+      do_kmeans_dmi "${S_DIR}" "${CENTER_SOURCE}" "$ITER_COUNT" "14" "$CENTER_NUMBER" "$VEC_DIMENSION"
   ;;
 
 # Spark PageRank Jobs

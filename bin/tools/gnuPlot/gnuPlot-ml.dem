@@ -24,4 +24,5 @@ set xtics font ",24" rotate by -20
 
 plot 'had.data' u 2:xticlabels(1) t "Hadoop"    fill pattern 3 lt 1 lc 1, \
      'spk.data' u 2:xticlabels(1) t "Spark"     fill pattern 5 lt 1 lc 3, \
-     'dm.data'  u 2:xticlabels(1) t "DataMPI"   fill pattern 9 lt 1 lc 9
+     'dm.data'  u 2:xticlabels(1) t "DataMPI"   fill pattern 7 lt 1 lc 7, \
+     'dmi.data' u 2:xticlabels(1) t "iDataMPI"  fill pattern 9 lt 1 lc 9

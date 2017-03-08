@@ -3,12 +3,12 @@
 set terminal postscript eps color linewidth 2 "Helvetica" 28 size 6,4
 set output "cpu_usage.eps"
 
-set key right top reverse Left maxrows 3 maxcols 2 font ",17" spacing 1.2 width -2 samplen 2 box
+set key right top reverse Left maxrows 4 maxcols 2 font ",17" spacing 1.2 width -2 samplen 2 box
 set grid ls 3 lc rgb "gray" lt 20
 
 set xrange [0:]
 
-set yrange [0:120]
+set yrange [0:140]
 
 set lmargin 9
 set rmargin 2
@@ -22,7 +22,7 @@ set ylabel "CPU Utilization (%)"
 plot 'had.data' u ($1):2 t "Hadoop Total Used"  w lp lt 1 lc 1  pt 1, \
      'dm.data'  u ($1):2 t "DataMPI Total Used" w lp lt 1 lc 3  pt 2, \
      'spk.data' u ($1):2 t "Spark Total Used"   w lp lt 1 lc 7  pt 3, \
-     'flk.data' u ($1):2 t "Flink Total Used"   w lp lt 1 lc 9  pt 4, \
+     'flk.data' u ($1):2 t "Flink Total Used"   w lp lt 1 lc rgb '#778899' pt 4, \
      'had.data' u ($1):3 t "Hadoop Wait IO"     w lp lt 2 lc 12 pt 11, \
      'dm.data'  u ($1):3 t "DataMPI Wait IO"    w lp lt 2 lc 14 pt 12, \
      'spk.data' u ($1):3 t "Spark Wait IO"      w lp lt 2 lc 16 pt 13, \
@@ -33,11 +33,11 @@ reset
 
 set terminal postscript eps color linewidth 2 "Helvetica" 28 size 6,4
 set output "net_usage.eps"
-set key right top reverse Left maxrows 3 maxcols 2 font ",17" spacing 1.20 width 0 samplen 2 box
+set key right top reverse Left maxrows 4 maxcols 2 font ",17" spacing 1.20 width 0 samplen 2 box
 
 set xrange [0:]
 
-set yrange [0:120]
+set yrange [0:130]
 set grid ls 3 lc rgb "gray" lt 20
 
 set lmargin 9
@@ -52,7 +52,7 @@ set ylabel "Network Bandwidth (MB/sec)"
 plot 'had.data' u ($1):($11/1000) t "Hadoop Send"   w lp lt 1 lc 1  pt 1, \
      'dm.data'  u ($1):($11/1000) t "DataMPI Send"  w lp lt 1 lc 3  pt 2, \
      'spk.data' u ($1):($11/1000) t "Spark Send"    w lp lt 1 lc 7  pt 3, \
-     'flk.data' u ($1):($11/1000) t "Flink Send"    w lp lt 1 lc 9  pt 4, \
+     'flk.data' u ($1):($11/1000) t "Flink Send"    w lp lt 1 lc rgb '#778899' pt 4, \
      'had.data' u ($1):($10/1000) t "Hadoop Recv"   w lp lt 2 lc 12 pt 11, \
      'dm.data'  u ($1):($10/1000) t "DataMPI Recv"  w lp lt 2 lc 14 pt 12, \
      'spk.data' u ($1):($10/1000) t "Spark Recv"    w lp lt 2 lc 16 pt 13, \
@@ -67,7 +67,7 @@ set output "dsk_io.eps"
 set xrange [0:]
 set yrange [0:160]
 
-set key right top reverse Left maxrows 3 maxcols 2 font ",17" spacing 1.20 width 0 samplen 2 box
+set key right top reverse Left maxrows 4 maxcols 2 font ",17" spacing 1.20 width 0 samplen 2 box
 set grid ls 3 lc rgb "gray" lt 20
 
 set lmargin 9
@@ -83,7 +83,7 @@ set ylabel "Disk Bandwidth (MB/sec)" #font "Helvetica,28"
 plot 'had.data' u ($1):9 t "Hadoop Wt"  w lp lt 1 lc 1  pt 1,  \
      'dm.data'  u ($1):9 t "DataMPI Wt" w lp lt 1 lc 3  pt 2,  \
      'spk.data' u ($1):9 t "Spark Wt"   w lp lt 1 lc 7  pt 3,  \
-     'flk.data' u ($1):9 t "Flink Wt"   w lp lt 1 lc 9  pt 4,  \
+     'flk.data' u ($1):9 t "Flink Wt"   w lp lt 1 lc rgb '#778899' pt 4,  \
      'had.data' u ($1):8 t "Hadoop Rd"  w lp lt 2 lc 12 pt 11, \
      'dm.data'  u ($1):8 t "DataMPI Rd" w lp lt 2 lc 14 pt 12, \
      'spk.data' u ($1):8 t "Spark Rd"   w lp lt 2 lc 16 pt 13, \
@@ -94,7 +94,7 @@ reset
 
 set terminal postscript eps color linewidth 2 "Helvetica" 28 size 6,4
 set output "mem_usage.eps"
-set key right top reverse Left maxrows 1 maxcols 3 font ",17" spacing 1.20 width 0 samplen 2 box
+set key right top reverse Left maxrows 1 maxcols 4 font ",17" spacing 1.20 width 0 samplen 2 box
 
 set xrange [0:]
 
@@ -114,5 +114,5 @@ set ylabel "Memory Footprint (GB)" #font "Helvetica,28"
 plot 'had.data' u ($1):(15936-$7)/1000 t "Hadoop"   w lp lt 1 lc 1  pt 1, \
      'dm.data'  u ($1):(15936-$7)/1000 t "DataMPI"  w lp lt 1 lc 3  pt 2, \
      'spk.data' u ($1):(15936-$7)/1000 t "Spark"    w lp lt 1 lc 7  pt 3, \
-     'flk.data' u ($1):(15936-$7)/1000 t "Flink"    w lp lt 1 lc 9  pt 4
+     'flk.data' u ($1):(15936-$7)/1000 t "Flink"    w lp lt 1 lc rgb '#778899' pt 4
 reset
