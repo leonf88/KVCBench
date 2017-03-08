@@ -28,8 +28,6 @@ for n in `cat conf/slaves`;do
   cnt=$((cnt+1))
 done
 
-USER=lf
-GROUP=lf
 DSTAT_SLEEP=0
 
 # Some basic functions for job execution

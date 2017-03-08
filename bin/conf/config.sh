@@ -3,6 +3,9 @@
 CUR_DIR=`dirname $0`
 CUR_DIR=`cd "$CUR_DIR"; pwd`
 
+USER=lf
+GROUP=lf
+
 export LOADED_CONFIG=true
 
 MPI_D_SLAVES=$CUR_DIR/slaves

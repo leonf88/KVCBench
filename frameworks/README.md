@@ -72,18 +72,38 @@ Check the log and web page to make sure the HDFS is start correctly
 
 ### Download Others
 
-    Those binaries should be install in `$HOME/opt`
+Those binaries should be install in `$HOME/opt`
 
-        wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz
-        wget http://downloads.lightbend.com/scala/2.11.8/scala-2.11.8.tgz
-        wget https://archive.apache.org/dist/maven/binaries/apache-maven-3.2.2-bin.tar.gz
+    wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz
+    wget http://downloads.lightbend.com/scala/2.11.8/scala-2.11.8.tgz
+    wget https://archive.apache.org/dist/maven/binaries/apache-maven-3.2.2-bin.tar.gz
 
 ### AWS cluster setup
 
-    Ubuntu prepare
+Request increase the limit
 
-        sudo apt-get install build-essential
+    Limit increase request 1
+    Service: EC2 Instances
+    Region: US West (Oregon)
+    Primary Instance Type: t2.small
+    Limit name: Instance Limit
+    New limit value: 70
+    ------------
+    Use case description: Run experiments, need more instances to scale the test
 
-    Linux prepare
+Ubuntu prepare
 
-        sudo yum groupinstall "Development Tools"
+    sudo apt-get install build-essential wget dstat
+
+Linux prepare
+
+    sudo yum groupinstall "Development Tools"
+
+Update Network Security
+
+
+| Type | Protocol | Port Range | Source |
+| --- | --- | --- | --- |
+| All TCP | TCP | 0 - 65535 | 172.31.0.0/16 |
+| SSH | TCP | 22 | 0.0.0.0/0 |
+| All UDP | TCP | 0 - 65535 | 172.31.0.0/16 |

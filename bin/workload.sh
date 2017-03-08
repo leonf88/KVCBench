@@ -10,6 +10,12 @@ source basic.sh
 ldfunc
 
 case $1 in
+  "64G_TERA_HAD")
+      S_DIR=/data/terasort/64G-tera
+      OUTPUT_HDFS=/output/hadoop/tera
+
+      do_terasort_had $S_DIR $OUTPUT_HDFS 1
+  ;;
   "test_mpid")
       S_DIR=tiny
       M_TAR=tiny-mpid
@@ -186,6 +192,7 @@ case $1 in
 
       do_terasort_had $S_DIR $OUTPUT_HDFS 4
   ;;
+
 
   # Hadoop Sort Jobs
   "2G_ST_HAD")
