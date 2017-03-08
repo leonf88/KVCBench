@@ -62,10 +62,10 @@ Check the log and web page to make sure the HDFS is start correctly
 
 * Install DataMPI
 
-        cmake -D CMAKE_INSTALL_PREFIX=$HOME/workplace/BenchScripts/frameworks/datampi-batch \
+        cmake -D CMAKE_INSTALL_PREFIX=$HOME/BenchScripts/frameworks/datampi-batch \
        	    -D MPI_D_BUILD_DOCS=OFF -D MPI_D_BUILD_TESTS=OFF \
        	    -D MPI_D_BUILD_EXAMPLES=OFF -D MPI_D_BUILD_BENCHMARKS=OFF \
-       	    $HOME/workplace/BenchScripts/frameworks/DataMPI
+       	    $HOME/BenchScripts/frameworks/DataMPI
 
         make install
 
@@ -107,3 +107,10 @@ Update Network Security
 | All TCP | TCP | 0 - 65535 | 172.31.0.0/16 |
 | SSH | TCP | 22 | 0.0.0.0/0 |
 | All UDP | TCP | 0 - 65535 | 172.31.0.0/16 |
+
+
+Color Bash
+
+    alias less='less --RAW-CONTROL-CHARS'
+    export LS_OPTS='--color=auto'
+    alias ls='ls ${LS_OPTS}'

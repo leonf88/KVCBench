@@ -42,7 +42,7 @@ _do_hadoop_func()
     then
         echo "[OK] Hadoop ${JOB_NAME} `basename $SOURCE_PATH` cost $((t2-t1)) sec" | tee -a $REPORT_NAME
     else
-        echo "[FAIL] Hadoop ${JOB_NAME} `basename $SOURCE_PATH`" | tee -a $REPORT_NAME
+        echo "[FAIL] Hadoop ${JOB_NAME} `basename $SOURCE_PATH` cost $((t2-t1)) sec" | tee -a $REPORT_NAME
         del_data ${TARGET_PATH}
     fi
     del_data "${SOURCE_PATH}/_*"
