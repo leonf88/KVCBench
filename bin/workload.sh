@@ -10,6 +10,12 @@ source basic.sh
 ldfunc
 
 case $1 in
+  "64G_TERA_DM")
+      S_DIR=/data/terasort/64G-tera
+      OUTPUT_HDFS=/output/dm/tera
+
+      do_terasort_dm $S_DIR $OUTPUT_HDFS 1 1
+  ;;
   "64G_TERA_HAD")
       S_DIR=/data/terasort/64G-tera
       OUTPUT_HDFS=/output/hadoop/tera
