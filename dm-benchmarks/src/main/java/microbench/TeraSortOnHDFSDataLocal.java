@@ -299,7 +299,7 @@ public class TeraSortOnHDFSDataLocal {
 		public void configure(MPI_D_Context context) throws MPI_D_Exception {
 			try {
 				JobConf conf = context.getJobConf();
-				conf.set(DFS_REPLICATION, "1");
+//				conf.set(DFS_REPLICATION, "1");
 				Intracomm comm = MPI_D.COMM_BIPARTITE_O != null ? MPI_D.COMM_BIPARTITE_O : MPI_D.COMM_BIPARTITE_A;
 
 				if (comm.Rank() == 0) {

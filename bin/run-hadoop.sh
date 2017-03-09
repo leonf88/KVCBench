@@ -17,7 +17,7 @@ JOB_LIST=(
 #    "1M_KM_HAD_NEW"
 #    "10M_KM_HAD_NEW"
 #    "30M_KM_HAD_NEW"
-    "60M_KM_HAD_NEW"
+#    "60M_KM_HAD_NEW"
 
 #    "2G_TERA_HAD"
 #    "10G_TERA_HAD"

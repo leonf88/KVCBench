@@ -25,7 +25,7 @@ JOB_LIST=(
 #    "10G_TERA_DM"
 #    "20G_TERA_DM"
 #    "40G_TERA_DM"
-    "80G_TERA_DM"
+#    "80G_TERA_DM"
 #    "160G_TERA_DM"
 
 #    "0_SLEEP_DM"

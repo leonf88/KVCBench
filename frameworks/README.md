@@ -93,7 +93,7 @@ Request increase the limit
 
 Ubuntu prepare
 
-    sudo apt-get install build-essential wget dstat
+    sudo apt-get install -y build-essential wget dstat
 
 Linux prepare
 
@@ -118,7 +118,7 @@ Color Bash
 Prepare Configuration
 
     cd bin/conf
-    sed -i 's/lf/ubuntu/' *
+    sed -i 's/lf/ubuntu/' config.sh
     sed -i 's/172\.22\.1\.21/<IP>/' *
     sed -i 's/\/home\/lf\/workplace/\/home\/ubuntu/' *
 
@@ -128,3 +128,29 @@ Prepare Configuration
     mvn clean package
     for h in `cat ../bin/conf/slaves`;do ssh $h " mkdir -p /home/ubuntu/BenchScripts/dm-benchmarks/target"; scp target/dm-benchmarks-1.0-SNAPSHOT-jar-with-dependencies.jar $h:`pwd`/target;done
 
+    for h in `cat /home/ubuntu/BenchScripts/bin/s`;do ssh $h " mkdir -p /home/ubuntu/BenchScripts/dm-benchmarks/target"; scp target/dm-benchmarks-1.0-SNAPSHOT-jar-with-dependencies.jar $h:`pwd`/target;done
+
+STEPs:
+
+    ssh-keygen -f "/home/ubuntu/.ssh/known_hosts" -R localhost
+
+    pushd bin/conf
+    sed -i 's/lf/ubuntu/' config.sh
+    sed -i 's/172\.22\.1\.21/172\.31\.14\.132/' config.sh
+    sed -i 's/\/home\/ubuntu\/workplace/\/home\/ubuntu/' config.sh
+
+    vim slaves
+    popd
+
+    pushd frameworks/hadoop-2.7.3
+    cp ../../bin/conf/slaves etc/hadoop/
+    sed -i 's/172\.31\.33\.174/172\.31\.14\.132/' etc/hadoop/*xml
+    for h in `cat etc/hadoop/slaves`;do scp -o "StrictHostKeyChecking no" -r -q etc $h:`pwd`;done
+    bin/hadoop namenode -format
+    sbin/start-dfs.sh
+    popd
+
+    pushd frameworks/datampi-batch
+    cp ../../bin/conf/slaves conf/hostfile
+    for h in `cat conf/hostfile`;do scp -r -q conf $h:`pwd`;done
+    popd

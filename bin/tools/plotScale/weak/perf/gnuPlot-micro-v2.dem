@@ -1,0 +1,30 @@
+set terminal postscript eps color linewidth 2 "Helvetica" 28 size 6,4
+set output "gnuPlot.eps"
+
+set bmargin 4
+set tmargin 2
+set rmargin 2
+set lmargin 9
+
+set yrange [0:800]
+
+set ylabel "Job Execution Time (s)" offset 1.5, 0
+set xlabel "# of instances"
+
+set key left reverse Left height 0.5 spacing 1.2 font ",24"
+set key autotitle columnheader
+set grid ls 3 lc rgb "gray" lt 20
+
+set style data histogram
+set style histogram clustered gap 1
+set style fill transparent solid 0.8 border
+set boxwidth 0.8
+
+set xtics font ",24" #rotate by -20
+
+it=2
+plot 'all.data' using 2:xtic(1) t col fill pattern 3 lt 1 lc 1, \
+     ''         using 3:xtic(1) t col fill pattern 9 lt 1 lc 9, \
+     for[i=1:(it-1):1] '' using ($0 - 1):2+i*1:(gprintf("%.1f%%", ((column(2) - column(3))/column(2)) * 100)) \
+     with labels font ",24" center offset first (1+(i-(it-1) / 3.0) / (it)), character 0.5 notitle
+
